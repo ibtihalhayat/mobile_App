@@ -3,6 +3,7 @@
 //import 'dart:html';
 
 import 'package:flutter/material.dart';
+import 'authentification.dart';
 
 void main() {
   runApp(MyApp());
@@ -70,9 +71,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   minWidth: 190,
                   height:45,
                   child: RaisedButton(
-                      onPressed: (){
-                        print('OK');
-                      },
+                      onPressed: authentification,
                       color: Colors.red,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(18.0),
@@ -87,16 +86,16 @@ class _MyHomePageState extends State<MyHomePage> {
                 )
               ],
             ),
-            /*child: new Text(
-                'Cette application met à votre disposition l’ensemble des cours magistrales ainsi que des Travaux dirigés et des Travaux Pratiques consacrés aux étudiants du 2ème année du cycle d’ingénierie en informatique. Espérant qu’elle vous aidera durant votre cursus scolaire.',
-                style: new TextStyle(
-                  fontSize: 25
-                ),
-              textAlign: TextAlign.justify,
-            ),*/
           )
         ],
       )
     );
   }
+
+  void authentification(){
+    Navigator.push(context, new MaterialPageRoute(builder: (BuildContext context){
+      return new Authentification('c le message');
+    }));
+  }
+
 }
