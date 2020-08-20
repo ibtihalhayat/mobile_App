@@ -1,3 +1,7 @@
+//import 'dart:html';
+
+//import 'dart:html';
+
 import 'package:flutter/material.dart';
 
 void main() {
@@ -13,6 +17,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
+      debugShowCheckedModeBanner: false,
       home: MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
@@ -32,18 +37,66 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(''),
-            Text(''),
-          ],
-        ),
-      ),
+      body:new Stack(
+        children:<Widget> [
+          new Container(
+            decoration: new BoxDecoration(
+              image: new DecorationImage(
+                image: new AssetImage('images/background.png'),
+                fit: BoxFit.cover)
+            ),
+          ),
+          new Center(
+            child: new Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children:<Widget> [
+                new Text(
+                  '   Cette application met à votre disposition l’ensemble des cours magistraux, ainsi que des Travaux dirigés et des Travaux Pratiques consacrés aux étudiants du 2ème année du cycle d’ingénierie en informatique.',
+                  style: new TextStyle(
+                      fontSize: 25
+                  ),
+                  textAlign: TextAlign.justify,
+                ),
+                new Text('    Espérant qu’elle vous aidera durant votre cursus scolaire.',
+                  style: new TextStyle(
+                      fontSize: 25
+                  ),
+                  textAlign: TextAlign.justify,),
+                new Text(''),
+                new Text(''),
+                new Text(''),
+                new Text(''),
+                new ButtonTheme(
+                  minWidth: 190,
+                  height:45,
+                  child: RaisedButton(
+                      onPressed: (){
+                        print('OK');
+                      },
+                      color: Colors.red,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(18.0),
+                      ),
+                      child: new Text(
+                          'Commencer',
+                        style: TextStyle(
+                          fontSize: 20
+                        ),
+                      )
+                  ),
+                )
+              ],
+            ),
+            /*child: new Text(
+                'Cette application met à votre disposition l’ensemble des cours magistrales ainsi que des Travaux dirigés et des Travaux Pratiques consacrés aux étudiants du 2ème année du cycle d’ingénierie en informatique. Espérant qu’elle vous aidera durant votre cursus scolaire.',
+                style: new TextStyle(
+                  fontSize: 25
+                ),
+              textAlign: TextAlign.justify,
+            ),*/
+          )
+        ],
+      )
     );
   }
 }
