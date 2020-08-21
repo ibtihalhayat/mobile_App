@@ -1,15 +1,15 @@
-//import 'dart:js';
+
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-//import 'Accueil.dart';
+import 'package:flutter/gestures.dart';
+import 'package:mobile_app/inscription.dart';
+import 'Accueil.dart';
+import 'inscription.dart';
 
 class Auth extends StatelessWidget {
 
-  String message;
-  Auth(String message){
-    this.message = message;
-  }
 
   @override
   Widget build(BuildContext context){
@@ -55,7 +55,7 @@ class Auth extends StatelessWidget {
                     padding: EdgeInsets.all(5.0),
                     child: TextField(
                       // decoration: new InputDecoration(hintText: "adresse mail"),
-                      textAlign: TextAlign.center,
+                      textAlign: TextAlign.start,
                       /*onChanged: (String string){},
                       // onSubmitted: (String string){},*/
                       decoration: new InputDecoration(
@@ -86,7 +86,7 @@ class Auth extends StatelessWidget {
                               )
                           ),
                           child: TextField(
-                            textAlign: TextAlign.center,
+                            textAlign: TextAlign.start,
                             obscureText: true,
                             // onChanged: (String string){},
                             //onSubmitted: (String string){},
@@ -110,28 +110,60 @@ class Auth extends StatelessWidget {
                         minWidth: 190,
                         height:45,
                         child : RaisedButton(
-                            onPressed: (){print('OKKKK');},
-                            color: Colors.red,
+                            onPressed: (){
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      Accueil(),),
+                              );
+                            },
+                            color: Colors.blueGrey,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(18.0),
                             ),
                             child: new Text(
                               'Se Connecter',
                               style: TextStyle(
-                                  fontSize: 20
+                                  fontSize: 20,
+                                color: Colors.white
                               ),
                             )
                         ),
                       )
                   ),
                   new Container(
-                      padding: EdgeInsets.fromLTRB(15.0, 150.0, 20.0, 0.0),
+                      padding: EdgeInsets.fromLTRB(15.0, 130.0, 20.0, 0.0),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10.0),
                           color: Colors.transparent
                       ),
                       child: RichText(
                         text: TextSpan(
+                          children: [
+                            TextSpan(text: "Vous n'avez pas de compte ?",
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 15
+                              ),),
+                            TextSpan(text: 'Inscrivez-vous.',
+                            recognizer: TapGestureRecognizer()..onTap = () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      Inscription(),),
+                              );
+                            },
+                                style: TextStyle(
+                                    color: Colors.blueGrey,
+                                    fontSize: 18,
+                                    fontStyle: FontStyle.italic,
+                                    fontWeight: FontWeight.bold
+                                )
+                            )
+                          ]
+                        ),
+                      )
+                    /*    text: TextSpan(
                             text: "Vous n'avez pas de compte ?",
                             style: TextStyle(
                                 color: Colors.black,
@@ -139,7 +171,15 @@ class Auth extends StatelessWidget {
                             ),
                             children:<TextSpan> [
                               TextSpan(
-                                  text: "Inscrivez-vous.",
+                                  text: 'Inscrivez-vous.',
+                                  recognizer: new TapGestureRecognizer()..onTap = () {
+                                    print('TTTTTTTTTTTT');
+                                  /*  Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            Inscription(),),
+                                    );*/
+                                  },
                                   style: TextStyle(
                                       color: Colors.red,
                                       fontSize: 17,
@@ -148,7 +188,7 @@ class Auth extends StatelessWidget {
                               )
                             ]
                         ),
-                      )
+                      )*/
                   )
             ]
           ),
