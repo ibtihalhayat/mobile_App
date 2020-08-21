@@ -15,7 +15,18 @@ class Authentification extends StatelessWidget {
         appBar: new AppBar(
           backgroundColor: Color(0xFFd7e8ef).withOpacity(1),
           elevation: 0.0,
-          leading: new Icon(Icons.arrow_back_ios),
+          /*leading: Builder(
+            builder: (BuildContext context){
+              return IconButton(
+                icon: const Icon(Icons.arrow_back_ios),
+                //onPressed: accueil,
+              );
+            },
+          ),*/
+          /*leading: new Icon(Icons.arrow_back_ios),
+          iconTheme: IconThemeData(
+            color: Colors.black,
+          ),*/
         ),
       body: new Stack(
         children:<Widget> [
@@ -28,7 +39,7 @@ class Authentification extends StatelessWidget {
             ),
           ),
          new Container(
-           padding: EdgeInsets.fromLTRB(20.0, 200.0, 20.0, 10.0),
+           padding: EdgeInsets.fromLTRB(20.0, 170.0, 20.0, 10.0),
            decoration: BoxDecoration(
              borderRadius: BorderRadius.circular(10.0),
              color: Colors.transparent
@@ -46,8 +57,8 @@ class Authentification extends StatelessWidget {
                  ),
                  child: TextField(
                    textAlign: TextAlign.center,
-                   onChanged: (String string){},
-                   onSubmitted: (String string){},
+                   //onChanged: (String string){},
+                  // onSubmitted: (String string){},
                    decoration: new InputDecoration.collapsed(
                        hintText: "adresse mail",
                        border: InputBorder.none,
@@ -59,7 +70,7 @@ class Authentification extends StatelessWidget {
            ),
          ),
           new Container(
-            padding: EdgeInsets.fromLTRB(20.0, 290.0, 20.0, 10.0),
+            padding: EdgeInsets.fromLTRB(20.0, 260.0, 20.0, 10.0),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10.0),
                 color: Colors.transparent
@@ -77,8 +88,8 @@ class Authentification extends StatelessWidget {
                   ),
                   child: TextField(
                     textAlign: TextAlign.center,
-                    onChanged: (String string){},
-                    onSubmitted: (String string){},
+                   // onChanged: (String string){},
+                    //onSubmitted: (String string){},
                     decoration: new InputDecoration.collapsed(
                         hintText: "mot de passe",
                         border: InputBorder.none,
@@ -90,7 +101,7 @@ class Authentification extends StatelessWidget {
             ),
           ),
           new Container(
-            padding: EdgeInsets.fromLTRB(115.0, 450.0, 20.0, 10.0),
+            padding: EdgeInsets.fromLTRB(115.0, 430.0, 20.0, 10.0),
             decoration: BoxDecoration(
                borderRadius: BorderRadius.circular(10.0),
                 color: Colors.transparent
@@ -99,12 +110,13 @@ class Authentification extends StatelessWidget {
                   minWidth: 190,
                    height:45,
                 child : RaisedButton(
-                onPressed: (){print('OKKK');},
-                color: Colors.red,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(18.0),
-                ),
-                child: new Text(
+                   onPressed: (){
+                     print('vous avez cliqué');},
+                    color: Colors.red,
+                   shape: RoundedRectangleBorder(
+                     borderRadius: BorderRadius.circular(18.0),
+                   ),
+                 child: new Text(
                   'Se Connecter',
                   style: TextStyle(
                       fontSize: 20
@@ -112,9 +124,50 @@ class Authentification extends StatelessWidget {
                 )
             ),
             )
+          ),
+          new Container(
+            padding: EdgeInsets.fromLTRB(45.0, 550.0, 20.0, 10.0),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.0),
+                color: Colors.transparent
+            ),
+            child: RichText(
+              text: TextSpan(
+                text: "Vous n'avez pas de compte ?",
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 17
+                ),
+                 children:<TextSpan> [
+                   TextSpan(
+                     text: "Inscrivez-vous.",
+                     style: TextStyle(
+                       color: Colors.red,
+                       fontSize: 18,
+                       fontWeight: FontWeight.bold
+                     )
+                   )
+                 ]
+              ),
+            )
+            /*
+            new Text(
+                'Vous n\'avez pas de compte? Inscrivez-vous',
+                style: new TextStyle(
+                  fontSize: 17.5
+                ),
+            ),
+            */
           )
         ],
       )
     );
   }
+
+  /*void accueil(){
+    Navigator.push(context, new MaterialPageRoute(builder: (BuildContext context){
+      return new MyHomePage();
+    }));
+  }*/
+
 }
