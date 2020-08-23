@@ -5,8 +5,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'auth.dart';
 
+
+
 class MainScreen extends StatelessWidget {
 
+  String _email , _password ;
 
   @override
   Widget build(BuildContext context) {
@@ -61,8 +64,8 @@ class MainScreen extends StatelessWidget {
                           onPressed: (){
                             Navigator.of(context).push(
                               MaterialPageRoute(
-                                  builder: (context) =>
-                              Auth(),),
+                                  builder: (context) => Auth(),
+                              ),
                             );
                           },
                           color: Colors.blueGrey,

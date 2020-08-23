@@ -1,5 +1,6 @@
 
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -8,8 +9,17 @@ import 'package:mobile_app/inscription.dart';
 import 'Accueil.dart';
 import 'inscription.dart';
 
-class Auth extends StatelessWidget {
 
+
+class Auth extends StatefulWidget {
+  @override
+  _AuthState createState() => _AuthState();
+}
+
+class _AuthState extends State<Auth> {
+  String _email , _password ;
+
+  var _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context){
@@ -41,22 +51,32 @@ class Auth extends StatelessWidget {
           SingleChildScrollView(
             child: new Container(
               color: Colors.transparent,
-              child: new Column(
-                children: <Widget>[
-               new Container(
-                padding: EdgeInsets.fromLTRB(20.0, 170.0, 20.0, 10.0),
-                decoration: BoxDecoration(
+              child : Form(
+                key: _formKey,
+               child: new Column(
+                 children: <Widget>[
+                new Container(
+                  padding: EdgeInsets.fromLTRB(20.0, 130.0, 20.0, 10.0),
+                  decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10.0),
                   color: Colors.transparent
                  ),
-                child: Column(
-                 children:<Widget> [
+                 child: Column(
+                  children:<Widget> [
                   Container(
                     padding: EdgeInsets.all(5.0),
-                    child: TextField(
+                    child: TextFormField(
                       // decoration: new InputDecoration(hintText: "adresse mail"),
                       textAlign: TextAlign.start,
-                      /*onChanged: (String string){},
+                      keyboardType: TextInputType.emailAddress,
+                      onSaved: (item){
+                        setState((){
+                          _email = item;
+                        });
+                      },
+                      validator: (item){
+                        return item.contains("@") ? null : "Entrez une adresse mail valide";
+                      },
                       // onSubmitted: (String string){},*/
                       decoration: new InputDecoration(
                           hintText: "adresse mail",
@@ -85,10 +105,17 @@ class Auth extends StatelessWidget {
                                   )
                               )
                           ),
-                          child: TextField(
+                          child: TextFormField(
                             textAlign: TextAlign.start,
                             obscureText: true,
-                            // onChanged: (String string){},
+                            onSaved: (item){
+                              setState((){
+                                _password = item;
+                              });
+                            },
+                            validator: (item){
+                              return item.length>5 ? null : "Le mot de passe doit contenir au moins 6 caractères";
+                            },
                             //onSubmitted: (String string){},
                             decoration: new InputDecoration(
                                 hintText: "mot de passe",
@@ -110,13 +137,15 @@ class Auth extends StatelessWidget {
                         minWidth: 190,
                         height:45,
                         child : RaisedButton(
-                            onPressed: (){
+                          onPressed: signIn,
+                           /* onPressed: (){
+
                               Navigator.of(context).push(
                                 MaterialPageRoute(
                                   builder: (context) =>
                                       Accueil(),),
                               );
-                            },
+                            },*/
                             color: Colors.blueGrey,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(18.0),
@@ -132,7 +161,7 @@ class Auth extends StatelessWidget {
                       )
                   ),
                   new Container(
-                      padding: EdgeInsets.fromLTRB(15.0, 130.0, 20.0, 0.0),
+                      padding: EdgeInsets.fromLTRB(15.0, 110.0, 20.0, 0.0),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10.0),
                           color: Colors.transparent
@@ -192,23 +221,52 @@ class Auth extends StatelessWidget {
                   )
             ]
           ),
+              ),
     ),
 
 
           )
         ],
       ),
-      
+
     );
   }
 
-/*void accueil(){
-  /*  Navigator.push(context, new MaterialPageRoute(builder: (BuildContext context){
-      return new Accueil('msg');
-    }));*/
-  Navigator.push(context , MaterialPageRoute(builder: (context) =>Accueil('vlll')),
-  );
-  }*/
+  Future<void> signIn()async {
+    final formState = _formKey.currentState;
+    if(formState.validate()) {
+      formState.save();
+      try{
+        await FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password); // FirebaseUser
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>Accueil()));
+      }catch(e){
+        print(e.message);
+      }
+    }
+      /*
+      FirebaseAuth.instance.
+        createUserWithEmailAndPassword(email: _email, password: _password).then((user) {
+          setState(() {
+
+          });
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) =>
+                  Accueil(),
+            )
+        );
+      }
+      ).catchError((onError){
+        setState(() {
+
+        });
+
+      });
+
+      */
+
+  }
+
 
 
 }

@@ -1,6 +1,18 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_app/Accueil.dart';
 
-class Inscription extends StatelessWidget{
+class Inscription extends StatefulWidget{
+
+  @override
+  _InscriptionState createState() => _InscriptionState();
+}
+
+class _InscriptionState extends State<Inscription> {
+  String _email , _password ;
+
+  var _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
 
@@ -18,9 +30,11 @@ class Inscription extends StatelessWidget{
           SingleChildScrollView(
             child: new Container(
               color: Colors.transparent,
-              child: new Column(
+              child : Form(
+                 key: _formKey,
+               child: new Column(
                   children: <Widget>[
-                    new Container(
+                    /*new Container(
                       padding: EdgeInsets.fromLTRB(20.0, 50.0, 20.0, 10.0),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10.0),
@@ -71,7 +85,7 @@ class Inscription extends StatelessWidget{
                           )
                         ],
                       ),
-                    ),
+                    ),*/
                     new Container(
                       padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 10.0),
                       decoration: BoxDecoration(
@@ -83,11 +97,20 @@ class Inscription extends StatelessWidget{
                           Container(
                             margin: EdgeInsets.only(left: 20.0,right: 20.0),
                             padding: EdgeInsets.all(5.0),
-                            child: TextField(
+                            child: TextFormField(
                               // decoration: new InputDecoration(hintText: "adresse mail"),
                               textAlign: TextAlign.start,
+                              keyboardType: TextInputType.emailAddress,
+                              onSaved: (item){
+                                setState((){
+                                  _email = item;
+                                });
+                              },
+                              validator: (item){
+                                return item.contains("@") ? null : "Entrez une adresse mail valide";
+                              },
                               /*onChanged: (String string){},
-                      // onSubmitted: (String string){},*/
+                              // onSubmitted: (String string){},*/
                               decoration: new InputDecoration(
                                   hintText: "Adresse Mail",
                                   //  border: InputBorder.none,
@@ -116,9 +139,17 @@ class Inscription extends StatelessWidget{
                                     )
                                 )
                             ),
-                            child: TextField(
+                            child: TextFormField(
                               textAlign: TextAlign.start,
                               obscureText: true,
+                              onSaved: (item){
+                                setState((){
+                                  _password = item;
+                                });
+                              },
+                              validator: (item){
+                                return item.length>5 ? null : "Le mot de passe doit contenir au moins 6 caractères";
+                              },
                               // onChanged: (String string){},
                               //onSubmitted: (String string){},
                               decoration: new InputDecoration(
@@ -132,7 +163,7 @@ class Inscription extends StatelessWidget{
                       ),
                     ),
                     new Container(
-                        padding: EdgeInsets.fromLTRB(210.0, 150.0, 20.0, 5.0),
+                        padding: EdgeInsets.fromLTRB(190.0, 150.0, 20.0, 5.0),
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10.0),
                             color: Colors.transparent
@@ -141,9 +172,7 @@ class Inscription extends StatelessWidget{
                           minWidth: 150,
                           height:45,
                           child : RaisedButton(
-                              onPressed: (){
-                                print('S\'inscrire');
-                              },
+                              onPressed: signUp,
                               color: Colors.blueGrey,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(18.0),
@@ -161,6 +190,7 @@ class Inscription extends StatelessWidget{
                   ]
               ),
             ),
+            ),
 
 
           )
@@ -170,4 +200,17 @@ class Inscription extends StatelessWidget{
     );
   }
 
+  Future<void> signUp()async {
+    final formState = _formKey.currentState;
+    if (formState.validate()) {
+      formState.save();
+      try {
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+            email: _email, password: _password); // FirebaseUser
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>Accueil()));
+      } catch (e) {
+        print(e.message);
+      }
+    }
+  }
 }
