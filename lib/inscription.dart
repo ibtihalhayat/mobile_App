@@ -9,7 +9,7 @@ class Inscription extends StatefulWidget{
 }
 
 class _InscriptionState extends State<Inscription> {
-  String _email , _password ;
+  String _email , _password , _nom , _prenom ;
 
   var _formKey = GlobalKey<FormState>();
 
@@ -34,7 +34,7 @@ class _InscriptionState extends State<Inscription> {
                  key: _formKey,
                child: new Column(
                   children: <Widget>[
-                    /*new Container(
+                    new Container(
                       padding: EdgeInsets.fromLTRB(20.0, 50.0, 20.0, 10.0),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10.0),
@@ -45,15 +45,23 @@ class _InscriptionState extends State<Inscription> {
                           Container(
                             margin: EdgeInsets.only(left: 20.0,right: 20.0),
                             padding: EdgeInsets.all(5.0),
-                            child: TextField(
+                            child: TextFormField(
                               // decoration: new InputDecoration(hintText: "adresse mail"),
                               textAlign: TextAlign.start,
+                              onSaved: (item){
+                                setState((){
+                                  _nom = item;
+                                });
+                              },
+                              validator: (item){
+                                return item==null ? "Veuillez remplir ce champ" : null;
+                              },
                               /*onChanged: (String string){},
                       // onSubmitted: (String string){},*/
                               decoration: new InputDecoration(
                                   hintText: "Nom",
                                   //  border: InputBorder.none,
-                                  hintStyle: TextStyle(color: Colors.black38)
+                                  hintStyle: TextStyle(color: Colors.black)
                               ),
                             ),
                           )
@@ -71,21 +79,29 @@ class _InscriptionState extends State<Inscription> {
                           Container(
                             margin: EdgeInsets.only(left: 20.0,right: 20.0),
                             padding: EdgeInsets.all(5.0),
-                            child: TextField(
+                            child: TextFormField(
                               // decoration: new InputDecoration(hintText: "adresse mail"),
                               textAlign: TextAlign.start,
+                              onSaved: (item){
+                                setState((){
+                                  _prenom = item;
+                                });
+                              },
+                              validator: (item){
+                                return item!=null ? null : "Veuillez remplir ce champ";
+                              },
                               /*onChanged: (String string){},
                       // onSubmitted: (String string){},*/
                               decoration: new InputDecoration(
                                   hintText: "Prenom",
                                   //  border: InputBorder.none,
-                                  hintStyle: TextStyle(color: Colors.black38)
+                                  hintStyle: TextStyle(color: Colors.black)
                               ),
                             ),
                           )
                         ],
                       ),
-                    ),*/
+                    ),
                     new Container(
                       padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 10.0),
                       decoration: BoxDecoration(
@@ -114,7 +130,7 @@ class _InscriptionState extends State<Inscription> {
                               decoration: new InputDecoration(
                                   hintText: "Adresse Mail",
                                   //  border: InputBorder.none,
-                                  hintStyle: TextStyle(color: Colors.black38)
+                                  hintStyle: TextStyle(color: Colors.black)
                               ),
                             ),
                           )
@@ -155,8 +171,9 @@ class _InscriptionState extends State<Inscription> {
                               decoration: new InputDecoration(
                                   hintText: "mot de passe",
                                   border: InputBorder.none,
-                                  hintStyle: TextStyle(color: Colors.black38)
+                                  hintStyle: TextStyle(color: Colors.black)
                               ),
+
                             ),
                           ),
                         ],
@@ -173,7 +190,7 @@ class _InscriptionState extends State<Inscription> {
                           height:45,
                           child : RaisedButton(
                               onPressed: signUp,
-                              color: Colors.blueGrey,
+                              color: Colors.red,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(18.0),
                               ),
@@ -181,7 +198,7 @@ class _InscriptionState extends State<Inscription> {
                                 'S\'inscrire',
                                 style: TextStyle(
                                     fontSize: 20,
-                                  color: Colors.white
+                                  color: Colors.black
                                 ),
                               )
                           ),
@@ -213,4 +230,9 @@ class _InscriptionState extends State<Inscription> {
       }
     }
   }
+
+ /* String champVide(String string) {
+
+  }*/
+
 }

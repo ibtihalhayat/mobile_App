@@ -68,7 +68,7 @@ class MainScreen extends StatelessWidget {
                               ),
                             );
                           },
-                          color: Colors.blueGrey,
+                          color: Colors.red,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(18.0),
                           ),
@@ -76,7 +76,7 @@ class MainScreen extends StatelessWidget {
                             'Commencer',
                             style: TextStyle(
                                 fontSize: 20,
-                              color: Colors.white
+                              color: Colors.black
                             ),
                           )
                       ),

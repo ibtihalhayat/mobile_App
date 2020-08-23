@@ -81,7 +81,7 @@ class _AuthState extends State<Auth> {
                       decoration: new InputDecoration(
                           hintText: "adresse mail",
                           //  border: InputBorder.none,
-                          hintStyle: TextStyle(color: Colors.black38)
+                          hintStyle: TextStyle(color: Colors.black)
                       ),
                      ),
                    )
@@ -120,7 +120,7 @@ class _AuthState extends State<Auth> {
                             decoration: new InputDecoration(
                                 hintText: "mot de passe",
                                 border: InputBorder.none,
-                                hintStyle: TextStyle(color: Colors.black38)
+                                hintStyle: TextStyle(color: Colors.black)
                             ),
                           ),
                         ),
@@ -146,7 +146,7 @@ class _AuthState extends State<Auth> {
                                       Accueil(),),
                               );
                             },*/
-                            color: Colors.blueGrey,
+                            color: Colors.red,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(18.0),
                             ),
@@ -154,14 +154,14 @@ class _AuthState extends State<Auth> {
                               'Se Connecter',
                               style: TextStyle(
                                   fontSize: 20,
-                                color: Colors.white
+                                color: Colors.black
                               ),
                             )
                         ),
                       )
                   ),
                   new Container(
-                      padding: EdgeInsets.fromLTRB(15.0, 110.0, 20.0, 0.0),
+                      padding: EdgeInsets.fromLTRB(15.0, 190.0, 20.0, 0.0),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10.0),
                           color: Colors.transparent
@@ -183,7 +183,7 @@ class _AuthState extends State<Auth> {
                               );
                             },
                                 style: TextStyle(
-                                    color: Colors.blueGrey,
+                                    color: Colors.red,
                                     fontSize: 18,
                                     fontStyle: FontStyle.italic,
                                     fontWeight: FontWeight.bold
@@ -240,7 +240,25 @@ class _AuthState extends State<Auth> {
         await FirebaseAuth.instance.signInWithEmailAndPassword(email: _email, password: _password); // FirebaseUser
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>Accueil()));
       }catch(e){
-        print(e.message);
+        return showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext context) {
+            return new SimpleDialog(
+              title: Text('Erreur'),
+              children:<Widget> [
+                new Text(e.message),
+                new FlatButton(
+                    onPressed: (){
+                      Navigator.pop(context);
+                    },
+                    child: Text('Ok')
+                )
+
+              ],
+            );
+          }
+        );
       }
     }
       /*
