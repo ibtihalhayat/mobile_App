@@ -8,6 +8,8 @@ import 'package:flutter/gestures.dart';
 import 'package:mobile_app/inscription.dart';
 import 'Accueil.dart';
 import 'inscription.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import '';
 
 
 
@@ -16,10 +18,21 @@ class Auth extends StatefulWidget {
   _AuthState createState() => _AuthState();
 }
 
+final FirebaseAuth _auth = FirebaseAuth.instance;
+final GoogleSignIn _googleSignIn = new GoogleSignIn();
+FirebaseUser _user;
+
 class _AuthState extends State<Auth> {
   String _email , _password ;
 
   var _formKey = GlobalKey<FormState>();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    isSignIn = false;
+  }
+
 
   @override
   Widget build(BuildContext context){
@@ -81,7 +94,14 @@ class _AuthState extends State<Auth> {
                       decoration: new InputDecoration(
                           hintText: "adresse mail",
                           //  border: InputBorder.none,
-                          hintStyle: TextStyle(color: Colors.black)
+                          hintStyle: TextStyle(color: Colors.black),
+                          prefixIcon: Padding(
+                            child: IconTheme(
+                              data: IconThemeData(color: Colors.red),
+                              child: Icon(Icons.email),
+                            ),
+                            padding: EdgeInsets.only(left: 25, right: 10),
+                          )
                       ),
                      ),
                    )
@@ -120,7 +140,14 @@ class _AuthState extends State<Auth> {
                             decoration: new InputDecoration(
                                 hintText: "mot de passe",
                                 border: InputBorder.none,
-                                hintStyle: TextStyle(color: Colors.black)
+                                hintStyle: TextStyle(color: Colors.black),
+                                prefixIcon: Padding(
+                                  child: IconTheme(
+                                    data: IconThemeData(color: Colors.red),
+                                    child: Icon(Icons.lock_outline)
+                                  ),
+                                  padding: EdgeInsets.only(left: 25, right: 10),
+                                )
                             ),
                           ),
                         ),
@@ -161,9 +188,11 @@ class _AuthState extends State<Auth> {
                       )
                   ),
                   new Container(
-                      padding: EdgeInsets.fromLTRB(15.0, 190.0, 20.0, 0.0),
+                      padding: EdgeInsets.fromLTRB(15.0, 110.0, 20.0, 0.0),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10.0),
+
+
                           color: Colors.transparent
                       ),
                       child: RichText(
@@ -175,13 +204,17 @@ class _AuthState extends State<Auth> {
                                   fontSize: 15
                               ),),
                             TextSpan(text: 'Inscrivez-vous.',
-                            recognizer: TapGestureRecognizer()..onTap = () {
+                                recognizer: TapGestureRecognizer()..onTap = handleSignIn,
+                                /*     recognizer: TapGestureRecognizer()..onTap = () {
                               Navigator.of(context).push(
                                 MaterialPageRoute(
                                   builder: (context) =>
                                       Inscription(),),
                               );
-                            },
+
+                            }
+                            ,
+                         */
                                 style: TextStyle(
                                     color: Colors.red,
                                     fontSize: 18,
@@ -231,6 +264,32 @@ class _AuthState extends State<Auth> {
 
     );
   }
+
+  bool isSignIn = false;
+
+  Future<void> handleSignIn() async {
+    final GoogleSignInAccount googleSignInAccount = await _googleSignIn.signIn();
+    final GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount.authentication;
+    final AuthCredential credential = GoogleAuthProvider.getCredential(idToken : googleSignInAuthentication.idToken , accessToken: googleSignInAuthentication.accessToken);
+
+    UserCredential result = (await _auth.signInWithCredential(credential)); //AuthResult
+    _user = result.user;
+    setState(() {
+      isSignIn = true;
+    });
+
+   // final FirebaseUser user = await(firebaseAuth.signInWithCredential(credential)).user;
+  }
+
+  Future<void> googleSignOut() async {
+    await _auth.signOut().then((onValue){
+      _googleSignIn.signOut();
+      setState(() {
+        isSignIn = false;
+      });
+    });
+  }
+
 
   Future<void> signIn()async {
     final formState = _formKey.currentState;
@@ -284,6 +343,8 @@ class _AuthState extends State<Auth> {
       */
 
   }
+
+
 
 
 
