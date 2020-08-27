@@ -1,15 +1,17 @@
 
 
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_app/Accueil.dart';
 import 'auth.dart';
 
 
 
 class MainScreen extends StatelessWidget {
 
-  String _email , _password ;
+  String email , password ;
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +64,18 @@ class MainScreen extends StatelessWidget {
                       height:45,
                       child: RaisedButton(
                           onPressed: (){
-                            Navigator.of(context).push(
+      /*                      return FutureBuilder<FirebaseUser>(
+                              future: FirebaseAuth.instance.currentUser(),
+                              builder: (context, snapshot){
+                                if(snapshot.hasData){
+                                  FirebaseUser user = snapshot.data;
+                                  return Accueil();
+                                }else{
+                                  return Auth();
+                                }
+                              },
+                            );*/
+                           Navigator.of(context).push(
                               MaterialPageRoute(
                                   builder: (context) => Auth(),
                               ),

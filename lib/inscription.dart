@@ -9,7 +9,8 @@ class Inscription extends StatefulWidget{
 }
 
 class _InscriptionState extends State<Inscription> {
-  String _email , _password , _nom , _prenom ;
+  String email , password; // , nom , prenom ;
+  FirebaseAuth auth = FirebaseAuth.instance;
 
   var _formKey = GlobalKey<FormState>();
 
@@ -34,6 +35,7 @@ class _InscriptionState extends State<Inscription> {
                  key: _formKey,
                child: new Column(
                   children: <Widget>[
+  /*
                     new Container(
                       padding: EdgeInsets.fromLTRB(20.0, 50.0, 20.0, 10.0),
                       decoration: BoxDecoration(
@@ -50,7 +52,7 @@ class _InscriptionState extends State<Inscription> {
                               textAlign: TextAlign.start,
                               onSaved: (item){
                                 setState((){
-                                  _nom = item;
+                                  nom = item;
                                 });
                               },
                               validator: (item){
@@ -84,7 +86,7 @@ class _InscriptionState extends State<Inscription> {
                               textAlign: TextAlign.start,
                               onSaved: (item){
                                 setState((){
-                                  _prenom = item;
+                                  prenom = item;
                                 });
                               },
                               validator: (item){
@@ -102,6 +104,7 @@ class _InscriptionState extends State<Inscription> {
                         ],
                       ),
                     ),
+ */
                     new Container(
                       padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 10.0),
                       decoration: BoxDecoration(
@@ -119,7 +122,7 @@ class _InscriptionState extends State<Inscription> {
                               keyboardType: TextInputType.emailAddress,
                               onSaved: (item){
                                 setState((){
-                                  _email = item;
+                                  email = item;
                                 });
                               },
                               validator: (item){
@@ -160,7 +163,7 @@ class _InscriptionState extends State<Inscription> {
                               obscureText: true,
                               onSaved: (item){
                                 setState((){
-                                  _password = item;
+                                  password = item;
                                 });
                               },
                               validator: (item){
@@ -189,7 +192,13 @@ class _InscriptionState extends State<Inscription> {
                           minWidth: 150,
                           height:45,
                           child : RaisedButton(
-                              onPressed: signUp,
+                              onPressed: () =>signUpMail().whenComplete(() =>
+                                  Navigator.of(context).pushReplacement(
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          Accueil(),),
+                                  )
+                              ),
                               color: Colors.red,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(18.0),
@@ -217,22 +226,74 @@ class _InscriptionState extends State<Inscription> {
     );
   }
 
-  Future<void> signUp()async {
+  Future<void> signUpMail()async {
     final formState = _formKey.currentState;
     if (formState.validate()) {
       formState.save();
       try {
-        await FirebaseAuth.instance.createUserWithEmailAndPassword(
-            email: _email, password: _password); // FirebaseUser
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>Accueil()));
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password); // FirebaseUser
       } catch (e) {
-        print(e.message);
+        return showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (BuildContext context) {
+              return new SimpleDialog(
+                title: Text('Erreur'),
+                children:<Widget> [
+                  new Text(e.message),
+                  new FlatButton(
+                      onPressed: (){
+                        Navigator.pop(context);
+                      },
+                      child: Text('Ok')
+                  )
+
+                ],
+              );
+            }
+        );
       }
     }
   }
 
- /* String champVide(String string) {
+
+
+/*  Future<bool> signUpMail(String email, String password)async {
+    final formState = _formKey.currentState;
+    if(formState.validate()) {
+      formState.save();
+      try{
+        AuthResult result = await auth.createUserWithEmailAndPassword(email: email, password: password); // FirebaseUser
+        FirebaseUser user = result.user;
+        return Future.value(true);
+        //    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>Accueil()));
+      }catch(e){
+        return showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (BuildContext context) {
+              return new SimpleDialog(
+                title: Text('Erreur'),
+                children:<Widget> [
+                  new Text(e.message),
+                  new FlatButton(
+                      onPressed: (){
+                        Navigator.pop(context);
+                      },
+                      child: Text('Ok')
+                  )
+
+                ],
+              );
+            }
+        );
+      }
+    }
+
 
   }*/
+
+
+
 
 }
