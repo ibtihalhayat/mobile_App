@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_app/Accueil.dart';
 import 'auth.dart';
+import 'package:mobile_app/auth_service.dart';
 
 
 
@@ -75,7 +76,7 @@ class MainScreen extends StatelessWidget {
                                 }
                               },
                             );*/
-                           Navigator.of(context).push(
+                           Navigator.of(context).pushReplacement(
                               MaterialPageRoute(
                                   builder: (context) => Auth(),
                               ),
@@ -105,14 +106,10 @@ class MainScreen extends StatelessWidget {
 
   }
 
-  /*  void authentification(){
-      Navigator.push(context,
-                MaterialPageRoute(builder: (BuildContext context){
-                  return new Auth();
-      }));
-    }*/
+
 
 }
+
 
 
 

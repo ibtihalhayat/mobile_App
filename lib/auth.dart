@@ -165,13 +165,9 @@ class _AuthState extends State<Auth> {
                         minWidth: 190,
                         height:45,
                         child : RaisedButton(
-                          onPressed: () =>signInMail(email,password).whenComplete(() =>
-                              Navigator.of(context).pushReplacement(
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      Accueil(),),
-                              )
-                          ),
+                          onPressed: () {
+                           signInMail(email,password) ;
+                          },
                            /* onPressed: (){
 
                               Navigator.of(context).push(
@@ -205,13 +201,7 @@ class _AuthState extends State<Auth> {
                          minWidth: 190,
                          height:45,
                          child : RaisedButton(
-                             onPressed: () => signInGoogle().whenComplete(() =>
-                                 Navigator.of(context).push(
-                                   MaterialPageRoute(
-                                     builder: (context) =>
-                                         Accueil(),),
-                                 )
-                             ),
+                             onPressed: () => signInGoogle(),
                              /* onPressed: (){
 
                               Navigator.of(context).push(
@@ -321,7 +311,12 @@ class _AuthState extends State<Auth> {
       AuthResult result = await auth.signInWithCredential(credential); // to add user to firebase
       FirebaseUser user = await auth.currentUser();
       print(user.uid);
-      return Future.value(true);
+      Future.value(true);
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) =>
+              Accueil(),),
+      );
     }
 
 
@@ -370,8 +365,8 @@ class _AuthState extends State<Auth> {
       try{
         AuthResult result = await auth.signInWithEmailAndPassword(email: email, password: password); // FirebaseUser
         FirebaseUser user = result.user;
-        return Future.value(true);
-    //    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>Accueil()));
+        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>Accueil(),),);
+       // return Future.value(true);
       }catch(e){
         return showDialog(
           context: context,
@@ -394,6 +389,7 @@ class _AuthState extends State<Auth> {
         );
       }
     }
+
       /*
       FirebaseAuth.instance.
         createUserWithEmailAndPassword(email: _email, password: _password).then((user) {

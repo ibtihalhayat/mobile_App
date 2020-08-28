@@ -9,7 +9,7 @@ class Inscription extends StatefulWidget{
 }
 
 class _InscriptionState extends State<Inscription> {
-  String email , password; // , nom , prenom ;
+  String email , password, nom;// , prenom ;
   FirebaseAuth auth = FirebaseAuth.instance;
 
   var _formKey = GlobalKey<FormState>();
@@ -69,7 +69,7 @@ class _InscriptionState extends State<Inscription> {
                           )
                         ],
                       ),
-                    ),
+                    ),*/
                     new Container(
                       padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 10.0),
                       decoration: BoxDecoration(
@@ -86,7 +86,7 @@ class _InscriptionState extends State<Inscription> {
                               textAlign: TextAlign.start,
                               onSaved: (item){
                                 setState((){
-                                  prenom = item;
+                                  nom = item;
                                 });
                               },
                               validator: (item){
@@ -95,7 +95,7 @@ class _InscriptionState extends State<Inscription> {
                               /*onChanged: (String string){},
                       // onSubmitted: (String string){},*/
                               decoration: new InputDecoration(
-                                  hintText: "Prenom",
+                                  hintText: "Nom",
                                   //  border: InputBorder.none,
                                   hintStyle: TextStyle(color: Colors.black)
                               ),
@@ -104,7 +104,7 @@ class _InscriptionState extends State<Inscription> {
                         ],
                       ),
                     ),
- */
+
                     new Container(
                       padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 10.0),
                       decoration: BoxDecoration(
@@ -192,13 +192,18 @@ class _InscriptionState extends State<Inscription> {
                           minWidth: 150,
                           height:45,
                           child : RaisedButton(
-                              onPressed: () =>signUpMail().whenComplete(() =>
+                              onPressed: () {if(signUpMail()==true){Navigator.of(context).pushReplacement(
+                                 MaterialPageRoute(
+                                    builder: (context) =>
+                                          Accueil(),),
+                                              );}}
+                      /*        =>signUpMail().whenComplete(() =>
                                   Navigator.of(context).pushReplacement(
                                     MaterialPageRoute(
                                       builder: (context) =>
                                           Accueil(),),
                                   )
-                              ),
+                              )*/,
                               color: Colors.red,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(18.0),
