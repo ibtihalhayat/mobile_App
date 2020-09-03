@@ -72,6 +72,7 @@ class MainScreen extends StatelessWidget {
                                   FirebaseUser user = snapshot.data;
                                   return Accueil();
                                 }else{
+
                                   return Auth();
                                 }
                               },

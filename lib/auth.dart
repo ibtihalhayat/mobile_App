@@ -1,15 +1,21 @@
 
 
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_ui/flutter_firebase_ui.dart';
+import 'package:firebase_ui/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:mobile_app/inscription.dart';
+import 'package:mobile_app/outils/database.dart';
 import 'Accueil.dart';
 import 'inscription.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:http/http.dart' as http;
 
 
 class Auth extends StatefulWidget {
@@ -23,16 +29,24 @@ final googleSignIn = GoogleSignIn();
 FirebaseUser _user;
 
 class _AuthState extends State<Auth> {
+  
+  FirebaseAuth _auth = FirebaseAuth.instance;
+  StreamSubscription<FirebaseUser> _listener;
+  FirebaseUser _currentUser;
   String email , password ;
-
   bool isSignIn = false;
-
   var _formKey = GlobalKey<FormState>();
+
+
+  
+  
   @override
   void initState() {
     super.initState();
     isSignIn = false;
+    checkCurrentUser();
   }
+
 
 
   @override
@@ -70,7 +84,7 @@ class _AuthState extends State<Auth> {
                child: new Column(
                  children: <Widget>[
                 new Container(
-                  padding: EdgeInsets.fromLTRB(20.0, 130.0, 20.0, 10.0),
+                  padding: EdgeInsets.fromLTRB(20.0, 90.0, 20.0, 10.0),
                   decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10.0),
                   color: Colors.transparent
@@ -156,7 +170,7 @@ class _AuthState extends State<Auth> {
                     ),
                   ),
                   new Container(
-                      padding: EdgeInsets.fromLTRB(35.0, 60.0, 20.0, 10.0),
+                      padding: EdgeInsets.fromLTRB(35.0, 40.0, 20.0, 10.0),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10.0),
                           color: Colors.transparent
@@ -198,7 +212,7 @@ class _AuthState extends State<Auth> {
 
                        ),
                        child: new ButtonTheme(
-                         minWidth: 190,
+                         minWidth: 200,
                          height:45,
                          child : RaisedButton(
                              onPressed: () => signInGoogle(),
@@ -224,8 +238,36 @@ class _AuthState extends State<Auth> {
                          ),
                        )
                    ),
+                   new Container(
+                       padding: EdgeInsets.fromLTRB(35.0, 5.0, 20.0, 10.0),
+                       decoration: BoxDecoration(
+                         borderRadius: BorderRadius.circular(10.0),
+                         color: Colors.transparent,
+
+                       ),
+                       child: new ButtonTheme(
+                         minWidth: 190,
+                         height:45,
+                         child : RaisedButton(
+                              onPressed: (){
+                                signInFacebook();
+                              },
+                             color: Colors.blueGrey,
+                             shape: RoundedRectangleBorder(
+                               borderRadius: BorderRadius.circular(18.0),
+                             ),
+                             child: new Text(
+                               'Se Connecter avec Facebook',
+                               style: TextStyle(
+                                   fontSize: 20,
+                                   color: Colors.black
+                               ),
+                             )
+                         ),
+                       )
+                   ),
                   new Container(
-                      padding: EdgeInsets.fromLTRB(15.0, 50.0, 20.0, 0.0),
+                      padding: EdgeInsets.fromLTRB(15.0, 55.0, 20.0, 0.0),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10.0),
 
@@ -246,7 +288,7 @@ class _AuthState extends State<Auth> {
                               Navigator.of(context).push(
                                 MaterialPageRoute(
                                   builder: (context) =>
-                                      Inscription(),),
+                                      UserForm(),),
                               );
 
                             }
@@ -319,44 +361,9 @@ class _AuthState extends State<Auth> {
       );
     }
 
-
-/*    final GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount.authentication;
-    final AuthCredential credential = GoogleAuthProvider.getCredential(idToken : googleSignInAuthentication.idToken , accessToken: googleSignInAuthentication.accessToken);
-
-    UserCredential result = (await _auth.signInWithCredential(credential)); //AuthResult
-    _user = result.user;
-    setState(() {
-      isSignIn = true;
-    });
-    Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (context) =>
-              Accueil(),),);
-
-   // final FirebaseUser user = await(firebaseAuth.signInWithCredential(credential)).user;
-*/
+    
   }
-
-/*  Future<bool> googleSignOut() async {
-    FirebaseUser user = await auth.currentUser();
-    if(user.providerData[1].providerId == 'google.com'){
-    await googleSignIn.disconnect();
-  }
-    await auth.signOut();
-    return Future.value(true);
-/*    await auth.signOut().then((onValue){
-      googleSignIn.signOut();
-      setState(() {
-        isSignIn = false;
-      });
-    }
-    );
-*/
-  }
-
-*/
-
-
+  
 
   Future<bool> signInMail(String email, String password)async {
     final formState = _formKey.currentState;
@@ -390,31 +397,66 @@ class _AuthState extends State<Auth> {
       }
     }
 
-      /*
-      FirebaseAuth.instance.
-        createUserWithEmailAndPassword(email: _email, password: _password).then((user) {
-          setState(() {
-
-          });
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) =>
-                  Accueil(),
-            )
-        );
-      }
-      ).catchError((onError){
-        setState(() {
-
-        });
-
-      });
-
-      */
-
   }
 
 
+  Future<void> signInFacebook() async{
+    try{
+      FacebookLogin facebookLogin = new FacebookLogin();
+      final result = await facebookLogin.logIn(['email','public_profile']);
+      final token = result.accessToken.token;
+      final graphResponse = await http.get('https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email&access_token=${token}');
+      print(graphResponse.body);
+
+      if(result.status == FacebookLoginStatus.loggedIn){
+        final AuthCredential credential = FacebookAuthProvider.getCredential(accessToken: result.accessToken.token,);
+        _auth.signInWithCredential(credential);
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) =>
+                Accueil(),),
+        );
+      }
+    }catch(e){
+      return showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext context) {
+            return new SimpleDialog(
+              title: Text('Erreur'),
+              children:<Widget> [
+                new Text(e.message),
+                new FlatButton(
+                    onPressed: (){
+                      Navigator.pop(context);
+                    },
+                    child: Text('Ok')
+                )
+
+              ],
+            );
+          }
+      );
+    }
+
+
+  }
+
+  @override
+  void dispose() {
+    _listener.cancel();
+    super.dispose();
+  }
+
+  void checkCurrentUser() async{
+    _currentUser = await _auth.currentUser();
+    _currentUser?.getIdToken(refresh: true);
+    _listener = _auth.onAuthStateChanged.listen((FirebaseUser user) {
+      setState(() {
+        _currentUser = user;
+      });
+    });
+  }
 
 
 

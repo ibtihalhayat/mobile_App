@@ -1,21 +1,40 @@
-import 'package:firebase_auth/firebase_auth.dart';
+/*import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_app/Accueil.dart';
+import 'package:mobile_app/models/user.dart';
+import 'package:mobile_app/outils/database.dart';
+import 'package:mobile_app/bloc/user_bloc.dart';
+import 'package:mobile_app/db/database_provider.dart';
+import 'package:mobile_app/events/add_user.dart';
 
 class Inscription extends StatefulWidget{
+  final User user;
+  final int userIndex;
+
+  Inscription({this.user, this.userIndex});
 
   @override
   _InscriptionState createState() => _InscriptionState();
 }
 
 class _InscriptionState extends State<Inscription> {
-  String email , password, nom;// , prenom ;
+  String _email , _password, _nom , _prenom ;
+  int _tel;
   FirebaseAuth auth = FirebaseAuth.instance;
 
   var _formKey = GlobalKey<FormState>();
 
+//  DatabaseHelper databaseHelper = DatabaseHelper();
+//  List<User> userList;
+//  int count = 0 ;
+
   @override
   Widget build(BuildContext context) {
+ /*   if(userList == null){
+      userList = List<User>();
+      updateListView();
+    }*/
+
 
     return new Scaffold(
       resizeToAvoidBottomInset: true,
@@ -35,41 +54,6 @@ class _InscriptionState extends State<Inscription> {
                  key: _formKey,
                child: new Column(
                   children: <Widget>[
-  /*
-                    new Container(
-                      padding: EdgeInsets.fromLTRB(20.0, 50.0, 20.0, 10.0),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10.0),
-                          color: Colors.transparent
-                      ),
-                      child: Column(
-                        children:<Widget> [
-                          Container(
-                            margin: EdgeInsets.only(left: 20.0,right: 20.0),
-                            padding: EdgeInsets.all(5.0),
-                            child: TextFormField(
-                              // decoration: new InputDecoration(hintText: "adresse mail"),
-                              textAlign: TextAlign.start,
-                              onSaved: (item){
-                                setState((){
-                                  nom = item;
-                                });
-                              },
-                              validator: (item){
-                                return item==null ? "Veuillez remplir ce champ" : null;
-                              },
-                              /*onChanged: (String string){},
-                      // onSubmitted: (String string){},*/
-                              decoration: new InputDecoration(
-                                  hintText: "Nom",
-                                  //  border: InputBorder.none,
-                                  hintStyle: TextStyle(color: Colors.black)
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),*/
                     new Container(
                       padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 10.0),
                       decoration: BoxDecoration(
@@ -86,7 +70,7 @@ class _InscriptionState extends State<Inscription> {
                               textAlign: TextAlign.start,
                               onSaved: (item){
                                 setState((){
-                                  nom = item;
+                                  _nom = item;
                                 });
                               },
                               validator: (item){
@@ -104,7 +88,37 @@ class _InscriptionState extends State<Inscription> {
                         ],
                       ),
                     ),
-
+                    new Container(
+                      padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 10.0),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.0),
+                          color: Colors.transparent
+                      ),
+                      child: Column(
+                        children:<Widget> [
+                          Container(
+                            margin: EdgeInsets.only(left: 20.0,right: 20.0),
+                            padding: EdgeInsets.all(5.0),
+                            child: TextFormField(
+                              textAlign: TextAlign.start,
+                              onSaved: (item){
+                                setState((){
+                                  _prenom = item;
+                                });
+                              },
+                              validator: (item){
+                                return item!=null ? null : "Veuillez remplir ce champ";
+                              },
+                              decoration: new InputDecoration(
+                                  hintText: "Prenom",
+                                  //  border: InputBorder.none,
+                                  hintStyle: TextStyle(color: Colors.black)
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
                     new Container(
                       padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 10.0),
                       decoration: BoxDecoration(
@@ -122,7 +136,7 @@ class _InscriptionState extends State<Inscription> {
                               keyboardType: TextInputType.emailAddress,
                               onSaved: (item){
                                 setState((){
-                                  email = item;
+                                  _email = item;
                                 });
                               },
                               validator: (item){
@@ -163,7 +177,7 @@ class _InscriptionState extends State<Inscription> {
                               obscureText: true,
                               onSaved: (item){
                                 setState((){
-                                  password = item;
+                                  _password = item;
                                 });
                               },
                               validator: (item){
@@ -183,6 +197,40 @@ class _InscriptionState extends State<Inscription> {
                       ),
                     ),
                     new Container(
+                      padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 10.0),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.0),
+                          color: Colors.transparent
+                      ),
+                      child: Column(
+                        children:<Widget> [
+                          Container(
+                            margin: EdgeInsets.only(left: 20.0,right: 20.0),
+                            padding: EdgeInsets.all(5.0),
+                            child: TextFormField(
+                              // decoration: new InputDecoration(hintText: "adresse mail"),
+                              textAlign: TextAlign.start,
+                              onSaved: (item){
+                                setState((){
+                                  _tel = int.parse(item);
+                                });
+                              },
+                              validator: (item){
+                                return item!=null ? null : "Veuillez remplir ce champ";
+                              },
+                              /*onChanged: (String string){},
+                      // onSubmitted: (String string){},*/
+                              decoration: new InputDecoration(
+                                  hintText: "Nom",
+                                  //  border: InputBorder.none,
+                                  hintStyle: TextStyle(color: Colors.black)
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    new Container(
                         padding: EdgeInsets.fromLTRB(190.0, 150.0, 20.0, 5.0),
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10.0),
@@ -192,11 +240,20 @@ class _InscriptionState extends State<Inscription> {
                           minWidth: 150,
                           height:45,
                           child : RaisedButton(
-                              onPressed: () {if(signUpMail()==true){Navigator.of(context).pushReplacement(
+                              onPressed: () {
+                           /*     var newDBUser = User(nom: nom, prenom: prenom, email: email, password: password, tel: tel);
+                                DBProvider.db.newUser(newDBUser);
+                                Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        Accueil(),),
+                                );*/
+                               if(signUpMail()==true){Navigator.of(context).pushReplacement(
                                  MaterialPageRoute(
                                     builder: (context) =>
                                           Accueil(),),
-                                              );}}
+                                              );}
+                              }
                       /*        =>signUpMail().whenComplete(() =>
                                   Navigator.of(context).pushReplacement(
                                     MaterialPageRoute(
@@ -231,12 +288,19 @@ class _InscriptionState extends State<Inscription> {
     );
   }
 
+/*  void updateListView() {
+    final Future<Database> dbFuture = databaseHelper.initializeDatabase();
+    dbFuture.then((database) {
+      Future<List<User>> userListFuture = databaseHelper.getUserList();
+    });
+  }*/
+
   Future<void> signUpMail()async {
     final formState = _formKey.currentState;
     if (formState.validate()) {
       formState.save();
       try {
-        await FirebaseAuth.instance.createUserWithEmailAndPassword(email: email, password: password); // FirebaseUser
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(email: _email, password: _password); // FirebaseUser
       } catch (e) {
         return showDialog(
             context: context,
@@ -301,4 +365,214 @@ class _InscriptionState extends State<Inscription> {
 
 
 
+}*/
+
+
+
+import 'package:mobile_app/bloc/user_bloc.dart';
+import 'package:mobile_app/db/database_provider.dart';
+import 'package:mobile_app/events/add_user.dart';
+import 'package:mobile_app/models/user.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'user_list.dart';
+
+class UserForm extends StatefulWidget {
+  final User user;
+  final int userIndex;
+
+  UserForm({this.user, this.userIndex});
+
+  @override
+  State<StatefulWidget> createState() {
+    return UserFormState();
+  }
+}
+
+class UserFormState extends State<UserForm> {
+  String _nom;
+  String _prenom;
+  String _email;
+  String _password;
+  String _tel;
+
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+
+  Widget _buildNom() {
+    return TextFormField(
+      initialValue: _nom,
+      decoration: InputDecoration(labelText: 'Nom'),
+      maxLength: 15,
+      style: TextStyle(fontSize: 18),
+      validator: (String value) {
+        if (value.isEmpty) {
+          return 'Name is Required';
+        }
+
+        return null;
+      },
+      onSaved: (String value) {
+        _nom = value;
+      },
+    );
+  }
+
+  Widget _buildPrenom() {
+    return TextFormField(
+      initialValue: _prenom,
+      decoration: InputDecoration(labelText: 'Prenom'),
+      style: TextStyle(fontSize: 18),
+      validator: (String value) {
+        int calories = int.tryParse(value);
+
+
+        return null;
+      },
+      onSaved: (String value) {
+        _prenom = value;
+      },
+    );
+  }
+
+  Widget _buildEmail() {
+    return TextFormField(
+      initialValue: _email,
+      decoration: InputDecoration(labelText: 'Email'),
+      maxLength: 15,
+      style: TextStyle(fontSize: 18),
+      validator: (String value) {
+        if (value.isEmpty) {
+          return 'Email is Required';
+        }
+
+        return null;
+      },
+      onSaved: (String value) {
+        _email = value;
+      },
+    );
+  }
+
+  Widget _buildPassword() {
+    return TextFormField(
+      initialValue: _password,
+      decoration: InputDecoration(labelText: 'Password'),
+      maxLength: 15,
+      style: TextStyle(fontSize: 18),
+      validator: (String value) {
+        if (value.isEmpty) {
+          return 'Password is Required';
+        }
+
+        return null;
+      },
+      onSaved: (String value) {
+        _password = value;
+      },
+    );
+  }
+
+  Widget _buildTel() {
+    return TextFormField(
+      initialValue: _tel.toString(),
+  //    keyboardType: TextInputType.number,
+      decoration: InputDecoration(labelText: 'Tel'),
+      maxLength: 15,
+      style: TextStyle(fontSize: 18),
+      validator: (String value) {
+        if (value.isEmpty) {
+          return 'Tel is Required';
+        }
+
+        return null;
+      },
+      onSaved: (String value) {
+        _tel = value ;
+      },
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.user != null) {
+      _nom = widget.user.nom;
+      _prenom = widget.user.prenom;
+      _email = widget.user.email;
+      _password = widget.user.password;
+      _tel = widget.user.tel;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text("User Form")),
+      body: Container(
+        margin: EdgeInsets.all(24),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              _buildNom(),
+              _buildPrenom(),
+              _buildEmail(),
+              _buildPassword(),
+              _buildTel(),
+              SizedBox(height: 16),
+              SizedBox(height: 20),
+              widget.user == null
+                  ? RaisedButton(
+                child: Text(
+                  'Submit',
+                  style: TextStyle(color: Colors.blue, fontSize: 16),
+                ),
+                onPressed: () {
+                  if (!_formKey.currentState.validate()) {
+                    return;
+                  }
+
+                  _formKey.currentState.save();
+
+                  User user = User(
+                      nom: _nom,
+                      prenom: _prenom,
+                      email: _email,
+                      password: _password,
+                      tel: _tel);
+
+                  DatabaseProvider.db.insert(user).then(
+                        (storedUser) => BlocProvider.of<UserBloc>(context).add(
+                      AddUser(storedUser),
+                    ),
+                  );
+
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          UserList(),),
+                  );
+                },
+              )
+                  : Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  RaisedButton(
+                    child: Text(
+                      "Cancel",
+                      style: TextStyle(color: Colors.red, fontSize: 16),
+                    ),
+                    onPressed: () => Navigator.pop(context),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }
