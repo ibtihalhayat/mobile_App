@@ -1,4 +1,55 @@
-import 'dart:convert';
+import 'package:mobile_app/db/database_provider.dart';
+
+class User {
+  int id;
+  String nom;
+  String prenom;
+  String email;
+  String password;
+  String tel;
+
+  User({this.id, this.nom,this.prenom ,this.email, this.password, this.tel});
+
+  Map<String, dynamic> toMap() {
+    var map = <String, dynamic>{
+      DatabaseProvider.COLUMN_NOM: nom,
+      DatabaseProvider.COLUMN_PRENOM: prenom,
+      DatabaseProvider.COLUMN_EMAIL: email,
+      DatabaseProvider.COLUMN_PASSWORD: password,
+      DatabaseProvider.COLUMN_TEL: tel,
+    };
+
+    if (id != null) {
+      map[DatabaseProvider.COLUMN_ID] = id;
+    }
+
+    return map;
+  }
+
+  User.fromMap(Map<String, dynamic> map) {
+    id = map[DatabaseProvider.COLUMN_ID];
+    nom = map[DatabaseProvider.COLUMN_NOM];
+    prenom = map[DatabaseProvider.COLUMN_PRENOM];
+    email = map[DatabaseProvider.COLUMN_EMAIL];
+    password = map[DatabaseProvider.COLUMN_PASSWORD];
+    tel = map[DatabaseProvider.COLUMN_TEL];
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*import 'dart:convert';
 import 'package:mobile_app/db/database_provider.dart';
 
 //User userFromMapObject(String str) => User.fromMapObject(json.decode(str));
@@ -74,4 +125,4 @@ class User {
     return map;
   }
 
-}
+}*/

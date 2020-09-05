@@ -9,6 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
+import 'package:mobile_app/acc.dart';
 import 'package:mobile_app/inscription.dart';
 import 'package:mobile_app/outils/database.dart';
 import 'Accueil.dart';
@@ -182,7 +183,7 @@ class _AuthState extends State<Auth> {
                           onPressed: () {
                            signInMail(email,password) ;
                           },
-                           /* onPressed: (){
+                            /*onPressed: (){
 
                               Navigator.of(context).push(
                                 MaterialPageRoute(
@@ -374,15 +375,15 @@ class _AuthState extends State<Auth> {
         FirebaseUser user = result.user;
         Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>Accueil(),),);
        // return Future.value(true);
-      }catch(e){
-        return showDialog(
+      }catch(e){print(e.message);}
+       /* return showDialog(
           context: context,
           barrierDismissible: false,
           builder: (BuildContext context) {
             return new SimpleDialog(
               title: Text('Erreur'),
               children:<Widget> [
-                new Text(e.message),
+                new Text(e.message!=null?e.message:''),
                 new FlatButton(
                     onPressed: (){
                       Navigator.pop(context);
@@ -394,7 +395,7 @@ class _AuthState extends State<Auth> {
             );
           }
         );
-      }
+      }*/
     }
 
   }
@@ -417,8 +418,8 @@ class _AuthState extends State<Auth> {
                 Accueil(),),
         );
       }
-    }catch(e){
-      return showDialog(
+    }catch(e){print(e.message);}
+     /* return showDialog(
           context: context,
           barrierDismissible: false,
           builder: (BuildContext context) {
@@ -437,7 +438,7 @@ class _AuthState extends State<Auth> {
             );
           }
       );
-    }
+    }*/
 
 
   }

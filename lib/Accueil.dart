@@ -1,8 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile_app/MainScreen.dart';
 import 'package:mobile_app/profil.dart';
 import 'package:mobile_app/acc.dart';
+import 'package:mobile_app/user_list.dart';
 
 class Accueil extends StatefulWidget{
 
@@ -17,6 +16,7 @@ class _AccueilState extends State<Accueil> {
   int selectedIndex = 0;
   PageController _pageController = PageController();
   List<Widget> _screens = [
+    Acc(),
     UserList(),
     Profil()
   ];
@@ -35,8 +35,13 @@ class _AccueilState extends State<Accueil> {
         onTap: _onTappedItem,
         items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            title: Text('Accueil'),
+              icon: Icon(Icons.list),
+              title: Text('Accueil'),
+              backgroundColor : Colors.blueGrey
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.list),
+            title: Text('Utilisateurs'),
             backgroundColor : Colors.blueGrey
           ),
           BottomNavigationBarItem(

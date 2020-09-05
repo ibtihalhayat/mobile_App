@@ -1,6 +1,7 @@
 import 'package:mobile_app/db/database_provider.dart';
 import 'package:mobile_app/events/delete_user.dart';
 import 'package:mobile_app/events/set_users.dart';
+import 'package:mobile_app/events/update_user.dart';
 import 'package:mobile_app/inscription.dart';
 import 'package:mobile_app/models/user.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +27,7 @@ class _UserListState extends State<UserList> {
     );
   }
 
-  showFoodDialog(BuildContext context, User user, int index) {
+  showUserDialog(BuildContext context, User user, int index) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -62,24 +63,23 @@ class _UserListState extends State<UserList> {
 
   @override
   Widget build(BuildContext context) {
-    print("Building entire food list scaffold");
+    print("Building entire user list scaffold");
     return Scaffold(
-      appBar: AppBar(title: Text("UserList")),
       body: Container(
         child: BlocConsumer<UserBloc, List<User>>(
           builder: (context, userList) {
             return ListView.separated(
               itemBuilder: (BuildContext context, int index) {
-                print("foodList: $userList");
+                print("userList: $userList");
 
                 User user = userList[index];
                 return ListTile(
                     title: Text(user.nom, style: TextStyle(fontSize: 30)),
                     subtitle: Text(
-                      "Calories: ${user.prenom}\nVegan: ${user.email}",
+                      "Prenom: ${user.prenom}\nEmail: ${user.email}\nPassword: ${user.password}\nTel: ${user.tel}",
                       style: TextStyle(fontSize: 20),
                     ),
-                    onTap: () => showFoodDialog(context, user, index));
+                    onTap: () => showUserDialog(context, user, index));
               },
               itemCount: userList.length,
               separatorBuilder: (BuildContext context, int index) => Divider(color: Colors.black),

@@ -1,91 +1,28 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:mobile_app/outils/database.dart';
 import 'package:mobile_app/db/database_provider.dart';
 import 'package:mobile_app/events/delete_user.dart';
 import 'package:mobile_app/events/set_users.dart';
 import 'package:mobile_app/inscription.dart';
 import 'package:mobile_app/models/user.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:mobile_app/bloc/user_bloc.dart';
 
-class UserList extends StatefulWidget {
-  const UserList({Key key}) : super(key: key);
+import 'bloc/user_bloc.dart';
+
+class Acc extends StatefulWidget {
+  const Acc({Key key}) : super(key: key);
 
   @override
-  _UserListState createState() => _UserListState();
+  _AccState createState() => _AccState();
 }
 
-class _UserListState extends State<UserList> {
-  @override
-  void initState() {
-    super.initState();
-    DatabaseProvider.db.getUsers().then(
-          (userList) {
-        BlocProvider.of<UserBloc>(context).add(SetUsers(userList));
-      },
-    );
-  }
-
-  showUserDialog(BuildContext context, User user, int index) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text(user.nom),
-        content: Text("ID ${user.id}"),
-        actions: <Widget>[
-          FlatButton(
-            onPressed: () => DatabaseProvider.db.delete(user.id).then((_) {
-              BlocProvider.of<UserBloc>(context).add(
-                DeleteUser(index),
-              );
-              Navigator.pop(context);
-            }),
-            child: Text("Delete"),
-          ),
-          FlatButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text("Cancel"),
-          ),
-        ],
-      ),
-    );
-  }
+class _AccState extends State<Acc> {
 
   @override
   Widget build(BuildContext context) {
-    print("Building entire user list scaffold");
     return Scaffold(
-      body: Container(
-        child: BlocConsumer<UserBloc, List<User>>(
-          builder: (context, userList) {
-            return ListView.separated(
-              itemBuilder: (BuildContext context, int index) {
-                print("userList: $userList");
-
-                User user = userList[index];
-                return ListTile(
-                    title: Text(user.nom, style: TextStyle(fontSize: 30)),
-                    subtitle: Text(
-                      "Prenom: ${user.prenom}\nEmail: ${user.email}\nPassword: ${user.password}\nTel: ${user.tel}",
-                      style: TextStyle(fontSize: 20),
-                    ),
-                    onTap: () => showUserDialog(context, user, index));
-              },
-              itemCount: userList.length,
-              separatorBuilder: (BuildContext context, int index) => Divider(color: Colors.black),
-            );
-          },
-          listener: (BuildContext context, userList) {},
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () => Navigator.push(
-          context,
-          MaterialPageRoute(builder: (BuildContext context) => UserForm()),
-        ),
-      ),
+      body: Text('c\'est l\'accueil'),
     );
   }
+
 }
+
