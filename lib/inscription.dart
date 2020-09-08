@@ -1,4 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart';
+/*import 'package:firebase_auth/firebase_auth.dart';
 import 'package:mobile_app/Accueil.dart';
 import 'package:mobile_app/bloc/user_bloc.dart';
 import 'package:mobile_app/db/database_provider.dart';
@@ -261,13 +261,9 @@ class UserFormState extends State<UserForm> {
                                   if (!_formKey.currentState.validate()) {
                                     return;
                                   }
-
                                   _formKey.currentState.save();
 
-
-
                                   signUpMail();
-
                                 },
                                 color: Colors.red,
                                 shape: RoundedRectangleBorder(
@@ -386,7 +382,7 @@ class UserFormState extends State<UserForm> {
   }
 
 
-}
+}*/
 
 
 

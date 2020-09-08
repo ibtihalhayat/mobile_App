@@ -1,4 +1,4 @@
-import 'user_event.dart';
+/*import 'user_event.dart';
 
 class DeleteUser extends UserEvent {
   int userIndex;
@@ -6,4 +6,4 @@ class DeleteUser extends UserEvent {
   DeleteUser(int index) {
     userIndex = index;
   }
-}
+}*/

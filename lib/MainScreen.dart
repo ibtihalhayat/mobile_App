@@ -6,7 +6,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_app/Accueil.dart';
 import 'auth.dart';
-import 'package:mobile_app/auth_service.dart';
 
 
 

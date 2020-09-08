@@ -1,4 +1,4 @@
-import 'package:mobile_app/models/user.dart';
+/*import 'package:mobile_app/models/user.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sqflite/sqlite_api.dart';
@@ -95,7 +95,7 @@ class DatabaseProvider {
       whereArgs: [user.id],
     );
   }
-}
+}*/
 
 
 

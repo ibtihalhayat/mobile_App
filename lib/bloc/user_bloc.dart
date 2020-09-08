@@ -1,4 +1,4 @@
-import 'package:mobile_app/events/add_user.dart';
+/*import 'package:mobile_app/events/add_user.dart';
 import 'package:mobile_app/events/delete_user.dart';
 import 'package:mobile_app/events/user_event.dart';
 import 'package:mobile_app/events/set_users.dart';
@@ -31,6 +31,8 @@ class UserBloc extends Bloc<UserEvent, List<User>> {
     }
   }
 }
+
+*/
 
 
 

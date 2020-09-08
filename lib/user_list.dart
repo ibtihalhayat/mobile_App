@@ -1,4 +1,4 @@
-import 'package:mobile_app/db/database_provider.dart';
+/*import 'package:mobile_app/db/database_provider.dart';
 import 'package:mobile_app/events/delete_user.dart';
 import 'package:mobile_app/events/set_users.dart';
 import 'package:mobile_app/events/update_user.dart';
@@ -98,3 +98,4 @@ class _UserListState extends State<UserList> {
     );
   }
 }
+*/

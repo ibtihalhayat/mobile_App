@@ -1,4 +1,4 @@
-import 'package:mobile_app/db/database_provider.dart';
+/*import 'package:mobile_app/db/database_provider.dart';
 
 class User {
   int id;
@@ -34,7 +34,7 @@ class User {
     password = map[DatabaseProvider.COLUMN_PASSWORD];
     tel = map[DatabaseProvider.COLUMN_TEL];
   }
-}
+}*/
 
 
 

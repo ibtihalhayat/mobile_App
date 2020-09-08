@@ -11,7 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:mobile_app/acc.dart';
 import 'package:mobile_app/inscription.dart';
-import 'package:mobile_app/outils/database.dart';
+import 'package:mobile_app/inscription_module.dart';
+import 'package:mobile_app/student_page.dart';
 import 'Accueil.dart';
 import 'inscription.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -289,7 +290,7 @@ class _AuthState extends State<Auth> {
                               Navigator.of(context).push(
                                 MaterialPageRoute(
                                   builder: (context) =>
-                                      UserForm(),),
+                                      StudentPage(),),
                               );
 
                             }
@@ -298,6 +299,25 @@ class _AuthState extends State<Auth> {
                                 style: TextStyle(
                                     color: Colors.red,
                                     fontSize: 18,
+                                    fontStyle: FontStyle.italic,
+                                    fontWeight: FontWeight.bold
+                                )
+                            ),
+                            TextSpan(text: 'Ajouter module.',
+                                //  recognizer: TapGestureRecognizer()..onTap = handleSignIn,
+                                recognizer: TapGestureRecognizer()..onTap = () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          ModulePage(),),
+                                  );
+
+                                }
+                                ,
+
+                                style: TextStyle(
+                                    color: Colors.red,
+                                    fontSize: 15,
                                     fontStyle: FontStyle.italic,
                                     fontWeight: FontWeight.bold
                                 )

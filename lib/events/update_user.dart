@@ -1,4 +1,4 @@
-import 'package:mobile_app/models/user.dart';
+/*import 'package:mobile_app/models/user.dart';
 
 import 'user_event.dart';
 
@@ -10,4 +10,4 @@ class UpdateUser extends UserEvent {
     newUser = user;
     userIndex = index;
   }
-}
+}*/

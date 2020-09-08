@@ -1,4 +1,4 @@
-import 'package:mobile_app/models/user.dart';
+/*import 'package:mobile_app/models/user.dart';
 
 import 'user_event.dart';
 
@@ -8,4 +8,4 @@ class AddUser extends UserEvent {
   AddUser(User user) {
     newUser = user;
   }
-}
+}*/
