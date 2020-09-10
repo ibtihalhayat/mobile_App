@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_app/module_list.dart';
+import 'package:mobile_app/liste_utilisateurs.dart';
 import 'package:mobile_app/profil.dart';
 import 'package:mobile_app/acc.dart';
 import 'package:mobile_app/user_list.dart';
@@ -18,8 +18,7 @@ class _AccueilState extends State<Accueil> {
   PageController _pageController = PageController();
   List<Widget> _screens = [
     Acc(),
-    //UserList(),
-//    ModuleList(),
+    UserList(),
     Profil()
   ];
 
@@ -42,15 +41,10 @@ class _AccueilState extends State<Accueil> {
               backgroundColor : Colors.blueGrey
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.list),
-            title: Text('Utilisateurs'),
-            backgroundColor : Colors.blueGrey
-          ),
-        /*  BottomNavigationBarItem(
               icon: Icon(Icons.list),
-              title: Text('Modules'),
+              title: Text('Users'),
               backgroundColor : Colors.blueGrey
-          ),*/
+          ),
           BottomNavigationBarItem(
               icon: Icon(Icons.account_circle),
               title: Text('Profil'),

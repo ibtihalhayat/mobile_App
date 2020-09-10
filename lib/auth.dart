@@ -11,8 +11,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:mobile_app/acc.dart';
 import 'package:mobile_app/inscription.dart';
-import 'package:mobile_app/inscription_module.dart';
-import 'package:mobile_app/student_page.dart';
+import 'package:mobile_app/models/note.dart';
+import 'package:mobile_app/screens/note_detail.dart';
+import 'package:mobile_app/screens/note_list.dart';
+import 'package:sqflite/sqflite.dart';
 import 'Accueil.dart';
 import 'inscription.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -287,12 +289,14 @@ class _AuthState extends State<Auth> {
                             TextSpan(text: 'Inscrivez-vous.',
                               //  recognizer: TapGestureRecognizer()..onTap = handleSignIn,
                                      recognizer: TapGestureRecognizer()..onTap = () {
-                              Navigator.of(context).push(
+                       /*       Navigator.of(context).push(
                                 MaterialPageRoute(
                                   builder: (context) =>
-                                      StudentPage(),),
-                              );
+                                      NoteList(),),
+                              );*/
 
+                                       debugPrint('FAB clicked');
+                                       navigateToDetail(Note('', '', '','', '', '', 2), 'Add Note');
                             }
                             ,
 
@@ -303,7 +307,7 @@ class _AuthState extends State<Auth> {
                                     fontWeight: FontWeight.bold
                                 )
                             ),
-                            TextSpan(text: 'Ajouter module.',
+/*                            TextSpan(text: 'Ajouter module.',
                                 //  recognizer: TapGestureRecognizer()..onTap = handleSignIn,
                                 recognizer: TapGestureRecognizer()..onTap = () {
                                   Navigator.of(context).push(
@@ -321,7 +325,7 @@ class _AuthState extends State<Auth> {
                                     fontStyle: FontStyle.italic,
                                     fontWeight: FontWeight.bold
                                 )
-                            )
+                            )*/
                           ]
                         ),
                       )
@@ -364,6 +368,15 @@ class _AuthState extends State<Auth> {
 
     );
   }
+
+
+  void navigateToDetail(Note note, String title) async {
+    bool result = await Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return NoteDetail(note, title);
+    }));
+
+  }
+
 
 
   Future<bool> signInGoogle() async {

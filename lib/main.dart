@@ -2,8 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mobile_app/MainScreen.dart';
-import 'package:mobile_app/bloc/module_bloc.dart';
-import 'package:mobile_app/bloc/user_bloc.dart';
 import 'MainScreen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
