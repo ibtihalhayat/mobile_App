@@ -1,4 +1,4 @@
-class Note {
+class User {
 
   int _id;
   String _nom;
@@ -10,9 +10,9 @@ class Note {
   int _priority;
 
 
-  Note(this._nom, this._prenom, this._email, this._password,this._tel,  this._date, this._priority);
+  User(this._nom, this._prenom, this._email, this._password,this._tel,  this._date, this._priority);
 
-  Note.withId(this._id, this._nom, this._prenom, this._email, this._password,this._tel,  this._date, this._priority);
+  User.withId(this._id, this._nom, this._prenom, this._email, this._password,this._tel,  this._date, this._priority);
 
   int get id => _id;
 
@@ -91,7 +91,7 @@ class Note {
   }
 
   // Extract a Note object from a Map object
-  Note.fromMapObject(Map<String, dynamic> map) {
+  User.fromMapObject(Map<String, dynamic> map) {
     this._id = map['id'];
     this._nom = map['nom'];
     this._prenom = map['prenom'];

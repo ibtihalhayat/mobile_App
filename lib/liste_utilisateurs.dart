@@ -1,8 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:mobile_app/models/note.dart';
+import 'package:mobile_app/models/user.dart';
+import 'package:mobile_app/screens/user_detail.dart';
 import 'package:mobile_app/utils/database_helper.dart';
-import 'package:mobile_app/screens/note_detail.dart';
+import 'package:mobile_app/screens/user_detail.dart';
 import 'package:sqflite/sqflite.dart';
 
 
@@ -18,23 +19,23 @@ class UserList extends StatefulWidget {
 class UserListState extends State<UserList> {
 
   DatabaseHelper databaseHelper = DatabaseHelper();
-  List<Note> noteList;
+  List<User> userList;
   int count = 0;
 
   @override
   Widget build(BuildContext context) {
 
-    if (noteList == null) {
-      noteList = List<Note>();
+    if (userList == null) {
+      userList = List<User>();
       updateListView();
     }
 
     return Scaffold(
-      body: getNoteListView(),
+      body: getUserListView(),
     );
   }
 
-  ListView getNoteListView() {
+  ListView getUserListView() {
 
     TextStyle titleStyle = Theme.of(context).textTheme.subhead;
 
@@ -47,25 +48,25 @@ class UserListState extends State<UserList> {
           child: ListTile(
 
             leading: CircleAvatar(
-              backgroundColor: getPriorityColor(this.noteList[position].priority),
-              child: getPriorityIcon(this.noteList[position].priority),
+              backgroundColor: getPriorityColor(this.userList[position].priority),
+              child: getPriorityIcon(this.userList[position].priority),
             ),
 
-            title: Text(this.noteList[position].email, style: titleStyle,),
-            subtitle: Text(this.noteList[position].password, style: titleStyle,),
+            title: Text(this.userList[position].email, style: titleStyle,),
+            subtitle: Text(this.userList[position].password, style: titleStyle,),
 
 
             trailing: GestureDetector(
               child: Icon(Icons.delete, color: Colors.grey,),
               onTap: () {
-                _delete(context, noteList[position]);
+                _delete(context, userList[position]);
               },
             ),
 
 
             onTap: () {
               debugPrint("ListTile Tapped");
-              navigateToDetail(this.noteList[position],'Edit Note');
+              navigateToDetail(this.userList[position],'Edit Note');
             },
 
           ),
@@ -104,9 +105,9 @@ class UserListState extends State<UserList> {
     }
   }
 
-  void _delete(BuildContext context, Note note) async {
+  void _delete(BuildContext context, User user) async {
 
-    int result = await databaseHelper.deleteNote(note.id);
+    int result = await databaseHelper.deleteUser(user.id);
     if (result != 0) {
       _showSnackBar(context, 'Note Deleted Successfully');
       updateListView();
@@ -119,9 +120,9 @@ class UserListState extends State<UserList> {
     Scaffold.of(context).showSnackBar(snackBar);
   }
 
-  void navigateToDetail(Note note, String title) async {
+  void navigateToDetail(User user, String title) async {
     bool result = await Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return NoteDetail(note, title);
+      return UserDetail(user, title);
     }));
 
     if (result == true) {
@@ -134,11 +135,11 @@ class UserListState extends State<UserList> {
     final Future<Database> dbFuture = databaseHelper.initializeDatabase();
     dbFuture.then((database) {
 
-      Future<List<Note>> noteListFuture = databaseHelper.getNoteList();
-      noteListFuture.then((noteList) {
+      Future<List<User>> userListFuture = databaseHelper.getUserList();
+      userListFuture.then((userList) {
         setState(() {
-          this.noteList = noteList;
-          this.count = noteList.length;
+          this.userList = userList;
+          this.count = userList.length;
         });
       });
     });

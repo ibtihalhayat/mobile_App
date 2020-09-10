@@ -3,7 +3,7 @@ import 'package:mobile_app/events/delete_user.dart';
 import 'package:mobile_app/events/set_users.dart';
 import 'package:mobile_app/events/update_user.dart';
 import 'package:mobile_app/inscription.dart';
-import 'package:mobile_app/models/user.dart';
+import 'package:mobile_app/models/user_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

@@ -1,32 +1,32 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:mobile_app/Accueil.dart';
-import 'package:mobile_app/models/note.dart';
+import 'package:mobile_app/models/user.dart';
 import 'package:mobile_app/utils/database_helper.dart';
 import 'package:intl/intl.dart';
 
-class NoteDetail extends StatefulWidget {
+class UserDetail extends StatefulWidget {
 
   final String appBarTitle;
-  final Note note;
+  final User user;
 
-  NoteDetail(this. note, this.appBarTitle);
+  UserDetail(this. user, this.appBarTitle);
 
   @override
   State<StatefulWidget> createState() {
 
-    return NoteDetailState(this.note, this.appBarTitle);
+    return UserDetailState(this.user, this.appBarTitle);
   }
 }
 
-class NoteDetailState extends State<NoteDetail> {
+class UserDetailState extends State<UserDetail> {
 
   static var _priorities = ['High', 'Low'];
 
   DatabaseHelper helper = DatabaseHelper();
 
   String appBarTitle;
-  Note note;
+  User user;
 
   TextEditingController nomController = TextEditingController();
   TextEditingController prenomController = TextEditingController();
@@ -34,18 +34,18 @@ class NoteDetailState extends State<NoteDetail> {
   TextEditingController passwordController = TextEditingController();
   TextEditingController telController = TextEditingController();
 
-  NoteDetailState(this.note, this.appBarTitle);
+  UserDetailState(this.user, this.appBarTitle);
 
   @override
   Widget build(BuildContext context) {
 
     TextStyle textStyle = Theme.of(context).textTheme.title;
 
-    nomController.text = note.nom;
-    prenomController.text = note.prenom;
-    emailController.text = note.email;
-    passwordController.text = note.password;
-    telController.text = note.tel;
+    nomController.text = user.nom;
+    prenomController.text = user.prenom;
+    emailController.text = user.email;
+    passwordController.text = user.password;
+    telController.text = user.tel;
 
     return WillPopScope(
 
@@ -83,7 +83,7 @@ class NoteDetailState extends State<NoteDetail> {
 
                       style: textStyle,
 
-                      value: getPriorityAsString(note.priority),
+                      value: getPriorityAsString(user.priority),
 
                       onChanged: (valueSelectedByUser) {
                         setState(() {
@@ -259,10 +259,10 @@ class NoteDetailState extends State<NoteDetail> {
   void updatePriorityAsInt(String value) {
     switch (value) {
       case 'High':
-        note.priority = 1;
+        user.priority = 1;
         break;
       case 'Low':
-        note.priority = 2;
+        user.priority = 2;
         break;
     }
   }
@@ -283,24 +283,24 @@ class NoteDetailState extends State<NoteDetail> {
 
   // Update the title of Note object
   void updateNom(){
-    note.nom = nomController.text;
+    user.nom = nomController.text;
   }
 
   void updatePrenom(){
-    note.prenom = prenomController.text;
+    user.prenom = prenomController.text;
   }
 
   // Update the description of Note object
   void updateEmail() {
-    note.email = emailController.text;
+    user.email = emailController.text;
   }
 
   void updatePassword() {
-    note.password = passwordController.text;
+    user.password = passwordController.text;
   }
 
   void updateTel() {
-    note.tel = telController.text;
+    user.tel = telController.text;
   }
 
   // Save data to database
@@ -308,12 +308,12 @@ class NoteDetailState extends State<NoteDetail> {
 
     //moveToLastScreen();
 
-    note.date = DateFormat.yMMMd().format(DateTime.now());
+    user.date = DateFormat.yMMMd().format(DateTime.now());
     int result;
-    if (note.id != null) {  // Case 1: Update operation
-      result = await helper.updateNote(note);
+    if (user.id != null) {  // Case 1: Update operation
+      result = await helper.updateUser(user);
     } else { // Case 2: Insert Operation
-      result = await helper.insertNote(note);
+      result = await helper.insertUser(user);
     }
 
     if (result != 0) {  // Success
@@ -330,13 +330,13 @@ class NoteDetailState extends State<NoteDetail> {
 
     // Case 1: If user is trying to delete the NEW NOTE i.e. he has come to
     // the detail page by pressing the FAB of NoteList page.
-    if (note.id == null) {
+    if (user.id == null) {
       _showAlertDialog('Status', 'No Note was deleted');
       return;
     }
 
     // Case 2: User is trying to delete the old note that already has a valid ID.
-    int result = await helper.deleteNote(note.id);
+    int result = await helper.deleteUser(user.id);
     if (result != 0) {
       _showAlertDialog('Status', 'Note Deleted Successfully');
     } else {

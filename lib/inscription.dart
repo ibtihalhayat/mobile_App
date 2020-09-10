@@ -4,7 +4,7 @@ import 'package:mobile_app/bloc/user_bloc.dart';
 import 'package:mobile_app/db/database_provider.dart';
 import 'package:mobile_app/events/add_user.dart';
 import 'package:mobile_app/events/update_user.dart';
-import 'package:mobile_app/models/user.dart';
+import 'package:mobile_app/models/user_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -403,7 +403,7 @@ class UserFormState extends State<UserForm> {
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_app/Accueil.dart';
-import 'package:mobile_app/models/user.dart';
+import 'package:mobile_app/models/user_detail.dart';
 import 'package:mobile_app/outils/database.dart';
 import 'package:mobile_app/bloc/user_bloc.dart';
 import 'package:mobile_app/db/database_provider.dart';

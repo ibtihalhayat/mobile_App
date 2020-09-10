@@ -11,9 +11,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:mobile_app/acc.dart';
 import 'package:mobile_app/inscription.dart';
-import 'package:mobile_app/models/note.dart';
-import 'package:mobile_app/screens/note_detail.dart';
-import 'package:mobile_app/screens/note_list.dart';
+import 'package:mobile_app/models/user.dart';
+import 'package:mobile_app/screens/user_detail.dart';
+import 'package:mobile_app/screens/user_list.dart';
 import 'package:sqflite/sqflite.dart';
 import 'Accueil.dart';
 import 'inscription.dart';
@@ -296,7 +296,7 @@ class _AuthState extends State<Auth> {
                               );*/
 
                                        debugPrint('FAB clicked');
-                                       navigateToDetail(Note('', '', '','', '', '', 2), 'Add Note');
+                                       navigateToDetail(User('', '', '','', '', '', 2), 'Add Note');
                             }
                             ,
 
@@ -370,9 +370,9 @@ class _AuthState extends State<Auth> {
   }
 
 
-  void navigateToDetail(Note note, String title) async {
+  void navigateToDetail(User user, String title) async {
     bool result = await Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return NoteDetail(note, title);
+      return UserDetail(user, title);
     }));
 
   }
