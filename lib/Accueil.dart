@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_app/liste_utilisateurs.dart';
 import 'package:mobile_app/profil.dart';
 import 'package:mobile_app/acc.dart';
+import 'package:mobile_app/screens/module_list.dart';
 import 'package:mobile_app/user_list.dart';
 
 class Accueil extends StatefulWidget{
@@ -19,6 +20,7 @@ class _AccueilState extends State<Accueil> {
   List<Widget> _screens = [
     Acc(),
     UserList(),
+    ModuleList(),
     Profil()
   ];
 
@@ -43,6 +45,11 @@ class _AccueilState extends State<Accueil> {
           BottomNavigationBarItem(
               icon: Icon(Icons.list),
               title: Text('Users'),
+              backgroundColor : Colors.blueGrey
+          ),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.list),
+              title: Text('Modules'),
               backgroundColor : Colors.blueGrey
           ),
           BottomNavigationBarItem(

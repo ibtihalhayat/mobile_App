@@ -11,7 +11,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'package:mobile_app/acc.dart';
 import 'package:mobile_app/inscription.dart';
+import 'package:mobile_app/models/module.dart';
 import 'package:mobile_app/models/user.dart';
+import 'package:mobile_app/screens/module_detail.dart';
 import 'package:mobile_app/screens/user_detail.dart';
 import 'package:mobile_app/screens/user_list.dart';
 import 'package:sqflite/sqflite.dart';
@@ -307,15 +309,11 @@ class _AuthState extends State<Auth> {
                                     fontWeight: FontWeight.bold
                                 )
                             ),
-/*                            TextSpan(text: 'Ajouter module.',
+                            TextSpan(text: 'Ajouter module.',
                                 //  recognizer: TapGestureRecognizer()..onTap = handleSignIn,
                                 recognizer: TapGestureRecognizer()..onTap = () {
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          ModulePage(),),
-                                  );
-
+                                  debugPrint('FAB clicked');
+                                  navigateToDetailm(Module('', '', '', 2), 'Add Module');
                                 }
                                 ,
 
@@ -325,7 +323,7 @@ class _AuthState extends State<Auth> {
                                     fontStyle: FontStyle.italic,
                                     fontWeight: FontWeight.bold
                                 )
-                            )*/
+                            )
                           ]
                         ),
                       )
@@ -373,6 +371,12 @@ class _AuthState extends State<Auth> {
   void navigateToDetail(User user, String title) async {
     bool result = await Navigator.push(context, MaterialPageRoute(builder: (context) {
       return UserDetail(user, title);
+    }));
+
+  }
+  void navigateToDetailm(Module module, String title) async {
+    bool result = await Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return ModuleDetail(module, title);
     }));
 
   }

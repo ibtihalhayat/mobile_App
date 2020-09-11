@@ -335,13 +335,6 @@ class UserFormState extends State<UserForm> {
 
 
   Future<void> signUpMail() async {
-    User user = User(
-      nom: _nom,
-      prenom: _prenom,
-      email: _email,
-      password: _password,
-      tel: _tel,
-    );
 
     final formState = _formKey.currentState;
     if (formState.validate()) {
@@ -349,13 +342,6 @@ class UserFormState extends State<UserForm> {
       try {
         await FirebaseAuth.instance.createUserWithEmailAndPassword(
             email: _email, password: _password);
-
-        DatabaseProvider.db.insert(user).then(
-              (storedUser) =>
-              BlocProvider.of<UserBloc>(context).add(
-                AddUser(storedUser),
-              ),
-        );
         Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>Accueil(),),);// FirebaseUser
       } catch (e) {
         return showDialog(
@@ -382,7 +368,7 @@ class UserFormState extends State<UserForm> {
   }
 
 
-}*/
+}
 
 
 
@@ -394,7 +380,8 @@ class UserFormState extends State<UserForm> {
 
 
 
-/*
+
+
 
 
 
@@ -744,26 +731,27 @@ class _InscriptionState extends State<Inscription> {
   }
 
 
-/*  Future<bool> signUpMail(String email, String password)async {
+  Future<bool> signUpMail(String email, String password)async {
     final formState = _formKey.currentState;
-    if(formState.validate()) {
+    if (formState.validate()) {
       formState.save();
-      try{
-        AuthResult result = await auth.createUserWithEmailAndPassword(email: email, password: password); // FirebaseUser
+      try {
+        AuthResult result = await auth.createUserWithEmailAndPassword(
+            email: email, password: password); // FirebaseUser
         FirebaseUser user = result.user;
         return Future.value(true);
         //    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>Accueil()));
-      }catch(e){
+      } catch (e) {
         return showDialog(
             context: context,
             barrierDismissible: false,
             builder: (BuildContext context) {
               return new SimpleDialog(
                 title: Text('Erreur'),
-                children:<Widget> [
+                children: <Widget>[
                   new Text(e.message),
                   new FlatButton(
-                      onPressed: (){
+                      onPressed: () {
                         Navigator.pop(context);
                       },
                       child: Text('Ok')
@@ -775,7 +763,6 @@ class _InscriptionState extends State<Inscription> {
         );
       }
     }
-
-
-  }*/
+  }
+}
 */
