@@ -31,9 +31,10 @@ class UserListState extends State<UserList> {
 
     return Scaffold(
 
-      appBar: AppBar(
-        title: Text('Users'),
-      ),
+      appBar: new AppBar(
+        title: Text('Utilisateurs'),
+        backgroundColor: Color(0xFFd7e8ef).withOpacity(1),
+        elevation: 0.0,),
 
       body: getUserListView(),
 

@@ -22,6 +22,7 @@ import 'inscription.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_recaptcha_v2/flutter_recaptcha_v2.dart';
 
 
 class Auth extends StatefulWidget {
@@ -58,7 +59,6 @@ class _AuthState extends State<Auth> {
   @override
   Widget build(BuildContext context){
     return new Scaffold(
-      resizeToAvoidBottomInset: true,
        // resizeToAvoidBottomPadding: false,
       //  backgroundColor: Colors.transparent,
         appBar: new AppBar(

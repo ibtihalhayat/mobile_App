@@ -29,9 +29,6 @@ class _AccueilState extends State<Accueil> {
   Widget build(BuildContext context) {
 
     return new Scaffold(
-      appBar: new AppBar(
-        backgroundColor: Colors.blueGrey,
-      ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: selectedIndex,
         selectedFontSize: 16,
@@ -44,7 +41,7 @@ class _AccueilState extends State<Accueil> {
           ),
           BottomNavigationBarItem(
               icon: Icon(Icons.list),
-              title: Text('Users'),
+              title: Text('Utilisateurs'),
               backgroundColor : Colors.blueGrey
           ),
           BottomNavigationBarItem(

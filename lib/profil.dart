@@ -17,19 +17,98 @@ class Profil extends StatelessWidget{
   Widget build(BuildContext context) {
 
     return new Scaffold(
-      body: Center(
-        child: new RaisedButton(
-            onPressed:(){
-              googleSignOut().whenComplete(() =>
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>Auth()))
-              );
-              facebookSignOut().whenComplete(() =>
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>Auth()))
-              );
+        appBar: new AppBar(
+        backgroundColor: Color(0xFFd7e8ef).withOpacity(1),
+        elevation: 0.0,),
+      body: Stack(
+        children:<Widget>[
+          new Container(
+            decoration: new BoxDecoration(image: new DecorationImage(image: new AssetImage("images/background.png"), fit: BoxFit.fill)),
+          ),
+          new Container(
+            padding: EdgeInsets.fromLTRB(20.0, 110.0, 20.0, 10.0),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.0),
+                color: Colors.transparent
+            ),
+              child: new ButtonTheme(
+                minWidth: 400,
+                height:45,
+                child : RaisedButton(
+                    onPressed: () {
+                    },
+                    //color: Colors.red,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(18.0),
+                    ),
+                    child: new Text(
+                      'Changer l\'adresse mail',
+                      style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.black
+                      ),
+                    )
+                ),
+              )
+          ),
+          new Container(
+              padding: EdgeInsets.fromLTRB(20.0, 180.0, 20.0, 10.0),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10.0),
+                  color: Colors.transparent
+              ),
+              child: new ButtonTheme(
+                minWidth: 400,
+                height:45,
+                child : RaisedButton(
+                    onPressed: () {
+                    },
+                    //color: Colors.red,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(18.0),
+                    ),
+                    child: new Text(
+                      'Changer le mot de passe',
+                      style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.black
+                      ),
+                    )
+                ),
+              )
+          ),
+          Container(
+            padding: EdgeInsets.fromLTRB(200.0, 350.0, 20.0, 10.0),
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.0),
+                color: Colors.transparent
+            ),
+            child: ButtonTheme(
+              minWidth: 200,
+              height:45,
+              child: new RaisedButton(
+                color: Colors.red,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(18.0),
+                ),
+                  onPressed:(){
+                    googleSignOut().whenComplete(() =>
+                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>Auth()))
+                    );
+                    facebookSignOut().whenComplete(() =>
+                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>Auth()))
+                    );
 
-            },
-         child: Text('Se Deconnecter'),
-        ),
+                  },
+               child: Text('Se Deconnecter',
+                 style: TextStyle(
+                     fontSize: 20,
+                     color: Colors.black
+                 ),),
+              ),
+            ),
+          ),
+        ]
       ),
     );
   }

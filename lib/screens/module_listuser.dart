@@ -1,21 +1,22 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:mobile_app/models/module.dart';
+import 'package:mobile_app/sommaire.dart';
 import 'package:mobile_app/utils/database_helper.dart';
 import 'package:mobile_app/screens/module_detail.dart';
 import 'package:sqflite/sqflite.dart';
 
 
-class ModuleList extends StatefulWidget {
+class ModuleListUser extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
 
-    return ModuleListState();
+    return ModuleListUserState();
   }
 }
 
-class ModuleListState extends State<ModuleList> {
+class ModuleListUserState extends State<ModuleListUser> {
 
   DatabaseHelper databaseHelper = DatabaseHelper();
   List<Module> moduleList;
@@ -30,48 +31,51 @@ class ModuleListState extends State<ModuleList> {
     }
 
     return Scaffold(
-      appBar: new AppBar(
-        title: Text('Modules'),
-        backgroundColor: Color(0xFFd7e8ef).withOpacity(1),
-        elevation: 0.0,),
-      body: getModuleListView(),
+
+      body: Stack(
+          children:<Widget> [
+            new Container(
+              decoration: new BoxDecoration(image: new DecorationImage(image: new AssetImage("images/background.png"), fit: BoxFit.fill)),
+            ),
+          Container(child: getModuleListView())
+    ]
+    ),
     );
   }
 
   ListView getModuleListView() {
 
-    TextStyle titleStyle = Theme.of(context).textTheme.subhead;
+    //TextStyle titleStyle = Theme.of(context).textTheme.subhead;
 
     return ListView.builder(
       itemCount: countm,
       itemBuilder: (BuildContext context, int position) {
-        return Card(
-          color: Colors.white,
-          elevation: 2.0,
-          child: ListTile(
-
-            leading: CircleAvatar(
-              backgroundColor: getPriorityColor(this.moduleList[position].prioritym),
-              child: getPriorityIcon(this.moduleList[position].prioritym),
+        return Container(
+          height: 70,
+          child: Card(
+            color: Colors.blueGrey,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(18.0),
             ),
+            //elevation: 2.0,
+            child: ListTile(
 
-            title: Text(this.moduleList[position].nomm, style: titleStyle,),
-            subtitle: Text(this.moduleList[position].nbchapitres, style: titleStyle,),
+              leading: CircleAvatar(
+                backgroundColor: getPriorityColor(this.moduleList[position].prioritym),
+                child: getPriorityIcon(this.moduleList[position].prioritym),
+              ),
 
+              title: Text(this.moduleList[position].nomm, style: TextStyle(fontSize: 26,color: Colors.black),),
 
-            trailing: GestureDetector(
-              child: Icon(Icons.delete, color: Colors.grey,),
               onTap: () {
-                _delete(context, moduleList[position]);
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        Sommaire(),),
+                );
               },
+
             ),
-
-
-            onTap: () {
-              debugPrint("ListTile Tapped");
-              navigateToDetailm(this.moduleList[position],'Edit Module');
-            },
-
           ),
         );
       },
@@ -108,30 +112,6 @@ class ModuleListState extends State<ModuleList> {
     }
   }
 
-  void _delete(BuildContext context, Module module) async {
-
-    int result = await databaseHelper.deleteModule(module.idm);
-    if (result != 0) {
-      _showSnackBar(context, 'Module Deleted Successfully');
-      updateListView();
-    }
-  }
-
-  void _showSnackBar(BuildContext context, String message) {
-
-    final snackBar = SnackBar(content: Text(message));
-    Scaffold.of(context).showSnackBar(snackBar);
-  }
-
-  void navigateToDetailm(Module module, String title) async {
-    bool result = await Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return ModuleDetail(module, title);
-    }));
-
-    if (result == true) {
-      updateListView();
-    }
-  }
 
   void updateListView() {
 
