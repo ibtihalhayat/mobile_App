@@ -141,16 +141,12 @@ class ModuleDetailState extends State<ModuleDetail> {
                             'Save',
                             textScaleFactor: 1.5,
                           ),
+
                           onPressed: () {
                             setState(() {
-                              debugPrint("Save button clicked");
+                              debugPrint("Le module a été bien ajouté");
                               _save();
                             });
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    Accueil(),),
-                            );
                           },
                         ),
                       ),

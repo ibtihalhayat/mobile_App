@@ -18,7 +18,7 @@ class Profil extends StatelessWidget{
 
     return new Scaffold(
         appBar: new AppBar(
-        backgroundColor: Color(0xFFd7e8ef).withOpacity(1),
+        backgroundColor: Color.fromRGBO(220, 234, 232, 1),
         elevation: 0.0,),
       body: Stack(
         children:<Widget>[

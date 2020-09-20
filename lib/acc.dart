@@ -16,8 +16,7 @@ class _AccState extends State<Acc> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: new AppBar(
-        title: Text('Mes Cours'),
-        backgroundColor: Color(0xFFd7e8ef).withOpacity(1),
+        backgroundColor: Color.fromRGBO(220, 234, 232, 1),
         elevation: 0.0,),
       body: ModuleListUser(),
     );

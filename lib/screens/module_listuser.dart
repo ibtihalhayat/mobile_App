@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:mobile_app/models/module.dart';
-import 'package:mobile_app/sommaire.dart';
+import 'package:mobile_app/chapitres.dart';
 import 'package:mobile_app/utils/database_helper.dart';
 import 'package:mobile_app/screens/module_detail.dart';
 import 'package:sqflite/sqflite.dart';
@@ -21,6 +21,8 @@ class ModuleListUserState extends State<ModuleListUser> {
   DatabaseHelper databaseHelper = DatabaseHelper();
   List<Module> moduleList;
   int countm = 0;
+  String nomChoisi;
+  int nbChoisi;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +39,35 @@ class ModuleListUserState extends State<ModuleListUser> {
             new Container(
               decoration: new BoxDecoration(image: new DecorationImage(image: new AssetImage("images/background.png"), fit: BoxFit.fill)),
             ),
-          Container(child: getModuleListView())
+            SingleChildScrollView(
+              child: Container(
+                padding: EdgeInsets.only(top: 0, left: 30, right: 30),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text("Bienvenue", style: TextStyle(
+                            fontSize: 20,
+                            color: Colors.black
+                        ),),
+                      ],
+                    ),
+                    SizedBox(height: 10,),
+                    Text('Qu\'est ce que \nvous voulez \napprendre aujourd\'hui?', style: TextStyle(
+                        fontSize: 35,
+                        height: 1.3,
+                        fontWeight: FontWeight.w700
+                    ),),
+                    SizedBox(height: 5,),
+                  ],
+                ),
+              ),
+            ),
+          Container(
+              padding: EdgeInsets.only(top: 245, left: 30, right: 30),
+              child: getModuleListView())
     ]
     ),
     );
@@ -51,7 +81,7 @@ class ModuleListUserState extends State<ModuleListUser> {
       itemCount: countm,
       itemBuilder: (BuildContext context, int position) {
         return Container(
-          height: 70,
+          height: 80,
           child: Card(
             color: Colors.blueGrey,
             shape: RoundedRectangleBorder(
@@ -65,13 +95,17 @@ class ModuleListUserState extends State<ModuleListUser> {
                 child: getPriorityIcon(this.moduleList[position].prioritym),
               ),
 
-              title: Text(this.moduleList[position].nomm, style: TextStyle(fontSize: 26,color: Colors.black),),
+              title: Text(this.moduleList[position].nomm, style: TextStyle(fontSize: 30,color: Colors.black),),
 
               onTap: () {
+                setState(() {
+                  nomChoisi = this.moduleList[position].nomm;
+                  nbChoisi = int.parse(this.moduleList[position].nbchapitres);
+                });
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) =>
-                        Sommaire(),),
+                        Chapitres(nomCours: nomChoisi,nbChapitres: nbChoisi),),
                 );
               },
 
