@@ -1,11 +1,21 @@
+import 'dart:io';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:mobile_app/Pdfviewerpage.dart';
 
 import 'package:mobile_app/models/module.dart';
 import 'package:mobile_app/screens/module_listuser.dart';
+import 'package:mobile_app/pdf_page.dart';
+import 'package:path_provider/path_provider.dart';
+
+import 'package:flutter_plugin_pdf_viewer/flutter_plugin_pdf_viewer.dart';
 
 class Chapitres extends StatefulWidget {
+
+ // String _documentPath = 'assets/seance1.pdf';
+
   String nomCours;
   int nbChapitres;
   Chapitres({this.nomCours, this.nbChapitres});
@@ -15,10 +25,14 @@ class Chapitres extends StatefulWidget {
 }
 
 class _ChapitresState extends State<Chapitres> {
+
+
   String nomCours;
   int nbChapitres;
   _ChapitresState(this.nomCours, this.nbChapitres);
-  @override
+
+
+    @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Color.fromRGBO(220, 234, 232, 1),
@@ -97,14 +111,14 @@ class _ChapitresState extends State<Chapitres> {
                   ),
                   Column(
                     children:<Widget> [
-                      for(int i=0; i<=nbChapitres; i++) CustomTile(
-                        title: "chapitre $i"
+                      for(int i=1; i<=nbChapitres; i++) CustomTile(
+                        title: "chapitre $i",num: i, nomCoursChoisi: nomCours,
                       )
                     ],
                   ),
                   SizedBox(
                   height: 110,
-                  )
+                  ),
                   ],
                   ),
                   ),
@@ -120,21 +134,32 @@ class _ChapitresState extends State<Chapitres> {
 
 
 class CustomTile extends StatelessWidget {
+
+  final nomCoursChoisi;
   final bool selected;
   final String title;
+  final int num;
   //final String duration;
   const CustomTile({
     this.selected = false,
     this.title,
+    this.num,
+    this.nomCoursChoisi,
    // this.duration,
     Key key,
   }) : super(key: key);
+
+  //static String get nomCours => nomCours;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         ListTile(
+          onTap:(){
+            Navigator.push(context, MaterialPageRoute(builder:
+                (context) =>Pdfviewerpage(nomCourss: nomCoursChoisi,numChapitre: num,)));
+          } ,
           leading: Container(
             margin: EdgeInsets.only(right: 15),
             width: 50,
@@ -161,10 +186,6 @@ class CustomTile extends StatelessWidget {
               color: Color(0xff000000),
             ),
           ),
-          /*onTap: (){
-            Navigator.push(context, MaterialPageRoute(builder:
-                (context) =>Pdfviewerpage()));
-          },*/
           contentPadding: EdgeInsets.zero,
         ),
         Divider(
@@ -176,4 +197,6 @@ class CustomTile extends StatelessWidget {
       ],
     );
   }
+
+
 }

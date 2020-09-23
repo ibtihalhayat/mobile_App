@@ -40,9 +40,10 @@ dependencies:
   path_provider: any
   intl: ^0.15.7
   path: ^1.6.4
-  flutter_bloc: ^3.2.0
+  #flutter_bloc: ^3.2.0
   flutter_recaptcha_v2: ^0.1.0
-  flutter_plugin_pdf_viewer: any
+  flutter_full_pdf_viewer: ^1.0.4
+  flutter_plugin_pdf_viewer: ^1.0.7
 
 dev_dependencies:
   flutter_test:
@@ -64,7 +65,11 @@ flutter:
     - images/background.png
     - images/logo.png
     - images/start.png
-    - assets/
+    - assets/seance1.pdf
+    - assets/seance2.pdf
+    - assets/oracle1.pdf
+    - assets/oracle2.pdf
+    - assets/seance3.pdf
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 
