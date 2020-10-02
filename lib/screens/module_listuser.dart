@@ -41,7 +41,7 @@ class ModuleListUserState extends State<ModuleListUser> {
             ),
             SingleChildScrollView(
               child: Container(
-                padding: EdgeInsets.only(top: 0, left: 30, right: 30),
+                padding: EdgeInsets.only(top: 90, left: 30, right: 30),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
@@ -65,11 +65,11 @@ class ModuleListUserState extends State<ModuleListUser> {
                 ),
               ),
             ),
-          Container(
-              padding: EdgeInsets.only(top: 245, left: 30, right: 30),
-              child: getModuleListView())
-    ]
-    ),
+            Container(
+                padding: EdgeInsets.only(top: 325, left: 10, right: 10),
+                child: getModuleListView())
+          ]
+      ),
     );
   }
 
@@ -81,7 +81,7 @@ class ModuleListUserState extends State<ModuleListUser> {
       itemCount: countm,
       itemBuilder: (BuildContext context, int position) {
         return Container(
-          height: 80,
+          height: 75,
           child: Card(
             color: Colors.blueGrey,
             shape: RoundedRectangleBorder(
@@ -89,13 +89,25 @@ class ModuleListUserState extends State<ModuleListUser> {
             ),
             //elevation: 2.0,
             child: ListTile(
-
-              leading: CircleAvatar(
-                backgroundColor: getPriorityColor(this.moduleList[position].prioritym),
-                child: getPriorityIcon(this.moduleList[position].prioritym),
+              leading: Container(
+                margin: EdgeInsets.only(right: 0, top: 10),
+                width: 50,
+                height: 50,
+                decoration: BoxDecoration(
+                    color: Colors.blueGrey,),
+                child: Center(
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 4.0),
+                    child: Image.asset(
+                      "images/start.png",
+                      //color: selected ? Colors.white : Color.fromRGBO(220, 234, 232, 1),
+                    ),
+                  ),
+                ),
               ),
-
-              title: Text(this.moduleList[position].nomm, style: TextStyle(fontSize: 30,color: Colors.black),),
+              title: Container(
+                padding: EdgeInsets.only(top: 7),
+                  child: Text(this.moduleList[position].nomm, style: TextStyle(fontSize: 37,color: Colors.black),)),
 
               onTap: () {
                 setState(() {
@@ -117,34 +129,10 @@ class ModuleListUserState extends State<ModuleListUser> {
   }
 
   // Returns the priority color
-  Color getPriorityColor(int prioritym) {
-    switch (prioritym) {
-      case 1:
-        return Colors.red;
-        break;
-      case 2:
-        return Colors.yellow;
-        break;
 
-      default:
-        return Colors.yellow;
-    }
-  }
 
   // Returns the priority icon
-  Icon getPriorityIcon(int prioritym) {
-    switch (prioritym) {
-      case 1:
-        return Icon(Icons.play_arrow);
-        break;
-      case 2:
-        return Icon(Icons.keyboard_arrow_right);
-        break;
 
-      default:
-        return Icon(Icons.keyboard_arrow_right);
-    }
-  }
 
 
   void updateListView() {

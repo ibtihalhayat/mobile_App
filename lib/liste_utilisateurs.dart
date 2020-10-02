@@ -46,14 +46,13 @@ class UserListState extends State<UserList> {
           color: Colors.white,
           elevation: 2.0,
           child: ListTile(
-
-            leading: CircleAvatar(
-              backgroundColor: getPriorityColor(this.userList[position].priority),
-              child: getPriorityIcon(this.userList[position].priority),
+            title: Text(this.userList[position].nom, style: titleStyle,),
+            subtitle: Column(
+              children: [
+                Text(this.userList[position].email, style: titleStyle,),
+                Text(this.userList[position].password, style: titleStyle,),
+              ],
             ),
-
-            title: Text(this.userList[position].email, style: titleStyle,),
-            subtitle: Text(this.userList[position].password, style: titleStyle,),
 
 
             trailing: GestureDetector(

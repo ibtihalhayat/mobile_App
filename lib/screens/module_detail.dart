@@ -21,7 +21,6 @@ class ModuleDetail extends StatefulWidget {
 
 class ModuleDetailState extends State<ModuleDetail> {
 
-  static var _priorities = ['High', 'Low'];
 
   DatabaseHelper helper = DatabaseHelper();
 
@@ -65,28 +64,7 @@ class ModuleDetailState extends State<ModuleDetail> {
             child: ListView(
               children: <Widget>[
 
-                // First element
-                ListTile(
-                  title: DropdownButton(
-                      items: _priorities.map((String dropDownStringItem) {
-                        return DropdownMenuItem<String> (
-                          value: dropDownStringItem,
-                          child: Text(dropDownStringItem),
-                        );
-                      }).toList(),
 
-                      style: textStyle,
-
-                      value: getPriorityAsString(module.prioritym),
-
-                      onChanged: (valueSelectedByUser) {
-                        setState(() {
-                          debugPrint('Module selected $valueSelectedByUser');
-                          updatePriorityAsInt(valueSelectedByUser);
-                        });
-                      }
-                  ),
-                ),
 
                 // Second Element
                 Padding(
@@ -186,30 +164,10 @@ class ModuleDetailState extends State<ModuleDetail> {
   }
 
   // Convert the String priority in the form of integer before saving it to Database
-  void updatePriorityAsInt(String value) {
-    switch (value) {
-      case 'High':
-        module.prioritym = 1;
-        break;
-      case 'Low':
-        module.prioritym = 2;
-        break;
-    }
-  }
+
 
   // Convert int priority to String priority and display it to user in DropDown
-  String getPriorityAsString(int value) {
-    String prioritym;
-    switch (value) {
-      case 1:
-        prioritym = _priorities[0];  // 'High'
-        break;
-      case 2:
-        prioritym = _priorities[1];  // 'Low'
-        break;
-    }
-    return prioritym;
-  }
+
 
   // Update the title of Note object
   void updateNomm(){
@@ -225,7 +183,6 @@ class ModuleDetailState extends State<ModuleDetail> {
 
     //moveToLastScreen();
 
-    module.datem = DateFormat.yMMMd().format(DateTime.now());
     int result;
     if (module.idm != null) {  // Case 1: Update operation
       result = await helper.updateModule(module);

@@ -3,19 +3,21 @@ import 'package:flutter/material.dart';
 
 class Pdfviewerpage extends StatefulWidget {
 
+  bool done;
   String nomCourss;
   int numChapitre;
-  Pdfviewerpage({this.nomCourss, this.numChapitre});
+  Pdfviewerpage({this.nomCourss, this.numChapitre, this.done});
 
   @override
-  _PdfviewerpageState createState() => _PdfviewerpageState(nomCourss, numChapitre);
+  _PdfviewerpageState createState() => _PdfviewerpageState(nomCourss, numChapitre, done);
 }
 
 class _PdfviewerpageState extends State<Pdfviewerpage> {
 
+  bool done;
   String nomCourss;
   int numChapitre;
-  _PdfviewerpageState(this.nomCourss, this.numChapitre);
+  _PdfviewerpageState(this.nomCourss, this.numChapitre, this.done);
 
   @override
   void initState() {

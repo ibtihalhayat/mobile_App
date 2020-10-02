@@ -25,7 +25,6 @@ class UserDetailState extends State<UserDetail> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   FirebaseAuth auth = FirebaseAuth.instance;
 
-  static var _priorities = ['High', 'Low'];
 
   DatabaseHelper helper = DatabaseHelper();
 
@@ -43,7 +42,7 @@ class UserDetailState extends State<UserDetail> {
   @override
   Widget build(BuildContext context) {
 
-   // TextStyle textStyle = Theme.of(context).textTheme.title;
+    // TextStyle textStyle = Theme.of(context).textTheme.title;
 
     nomController.text = user.nom;
     prenomController.text = user.prenom;
@@ -65,252 +64,232 @@ class UserDetailState extends State<UserDetail> {
           ),
 
           body: Stack(
-            children: <Widget>[
-              new Container(
-                decoration: new BoxDecoration(image: new DecorationImage(
-                    image: new AssetImage("images/background.png"),
-                    fit: BoxFit.fill)),
-              ),
-            Padding(
-              padding: EdgeInsets.only(top: 15.0, left: 10.0, right: 10.0),
-              child: Form(
-                key: _formKey,
-                child: ListView(
-                  children: <Widget>[
-
-                    // First element
-                    ListTile(
-                      title: DropdownButton(
-                          items: _priorities.map((String dropDownStringItem) {
-                            return DropdownMenuItem<String> (
-                              value: dropDownStringItem,
-                              child: Text(dropDownStringItem),
-                            );
-                          }).toList(),
-
-                          style: Theme.of(context).textTheme.title,
-
-                          value: getPriorityAsString(user.priority),
-
-                          onChanged: (valueSelectedByUser) {
-                            setState(() {
-                              debugPrint('User selected $valueSelectedByUser');
-                              updatePriorityAsInt(valueSelectedByUser);
-                            });
-                          }
-                      ),
-                    ),
-
-                    // Second Element
-                    Container(
-                      padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10.0),
-                          color: Colors.transparent
-                      ),
-                      child: Column(
-                        children:<Widget> [
-                          Container(
-                            margin: EdgeInsets.only(left: 20.0,right: 20.0),
-                            child: TextFormField(
-                              decoration: InputDecoration(
-                                labelText: 'Nom',
-                                hintStyle: TextStyle(color: Colors.black),
-                              ),
-                              style: TextStyle(fontSize: 15),
-                              controller: nomController,
-                              keyboardType: TextInputType.name,
-                              onChanged: (value) {
-                                debugPrint('Something changed in Nom Text Field');
-                                updateNom();
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    Container(
-                      padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 0.0),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10.0),
-                          color: Colors.transparent
-                      ),
-                      child: Column(
-                        children:<Widget> [
-                          Container(
-                            margin: EdgeInsets.only(left: 20.0,right: 20.0),
-                            child: TextFormField(
-                              decoration: InputDecoration(
-                                labelText: 'Prenom',
-                                hintStyle: TextStyle(color: Colors.black),
-                              ),
-                              controller: prenomController,
-                              keyboardType: TextInputType.name,
-                              onChanged: (value) {
-                                debugPrint('Something changed in Prenom Text Field');
-                                updatePrenom();
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    // Third Element
-                    Container(
-                      padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 0.0),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10.0),
-                          color: Colors.transparent
-                      ),
-                      child: Column(
-                        children: [
-                          Container(
-                            margin: EdgeInsets.only(left: 20.0,right: 20.0),
-                            child: TextFormField(
-                              decoration: InputDecoration(
-                                labelText: 'Adresse mail',
-                                hintStyle: TextStyle(color: Colors.black),
-                              ),
-                              controller: emailController,
-                             // style: textStyle,
-                              keyboardType: TextInputType.emailAddress,
-                              onChanged: (value) {
-                                debugPrint('Something changed in Email Text Field');
-                                updateEmail();
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 0.0),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10.0),
-                          color: Colors.transparent
-                      ),
-                      child: Column(
-                        children: [
-                          Container(
-                            margin: EdgeInsets.only(left: 20.0,right: 20.0),
-                            child: TextFormField(
-                              decoration: InputDecoration(
-                                labelText: 'Mot de passe',
-                                hintStyle: TextStyle(color: Colors.black),
-                              ),
-                              maxLength: 15,
-                              controller: passwordController,
-                          //    style: textStyle,
-                              keyboardType: TextInputType.visiblePassword,
-                              onChanged: (value) {
-                                debugPrint('Something changed in Password Text Field');
-                                updatePassword();
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10.0),
-                          color: Colors.transparent
-                      ),
-                      child: Column(
-                        children: [
-                          Container(
-                            margin: EdgeInsets.only(left: 20.0,right: 20.0),
-                            child: TextFormField(
-                              decoration: InputDecoration(
-                                labelText: 'Téléphone',
-                                hintStyle: TextStyle(color: Colors.black),
-                              ),
-                              controller: telController,
-                           //   style: textStyle,
-                              keyboardType: TextInputType.phone,
-                              onChanged: (value) {
-                                debugPrint('Something changed in Tel Text Field');
-                                updateTel();
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    // Fourth Element
-                    Container(
-                      padding: EdgeInsets.fromLTRB(10.0, 55.0, 20.0, 10.0),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10.0),
-                          color: Colors.transparent
-                      ),
-                      child: Row(
-                        children: <Widget>[
-                          Expanded(
-                            child: RaisedButton(
-                              color: Colors.red,
-                              textColor: Colors.black,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(18.0),
-                              ),
-                              child: Text(
-                                'S\'inscrire',
-                                textScaleFactor: 1.5,
-                              ),
-                              onPressed: () {
-                                setState(() {
-                                  debugPrint("Vous etes bien inscrit");
-                                  _save();
-                                });
-                                nomController.text='';
-                                prenomController.text='';
-                                emailController.text='';
-                                passwordController.text='';
-                                telController.text='';
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        Accueil(),),
-                                );
-                              },
-                            ),
-                          ),
-
-                          Container(width: 5.0,),
-
-                          Expanded(
-                            child: RaisedButton(
-                              color: Colors.red,
-                              textColor: Colors.black,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(18.0),
-                              ),
-                              child: Text(
-                                'Supprimer',
-                                textScaleFactor: 1.5,
-                              ),
-                              onPressed: () {
-                                setState(() {
-                                  debugPrint("Cet utilisateur va etre supprimé");
-                                  _delete();
-                                });
-                              },
-                            ),
-                          ),
-
-                        ],
-                      ),
-                    ),
-
-                  ],
+              children: <Widget>[
+                new Container(
+                  decoration: new BoxDecoration(image: new DecorationImage(
+                      image: new AssetImage("images/background.png"),
+                      fit: BoxFit.fill)),
                 ),
-              ),
-            ),
-      ]
+                Padding(
+                  padding: EdgeInsets.only(top: 15.0, left: 10.0, right: 10.0),
+                  child: Form(
+                    key: _formKey,
+                    child: ListView(
+                      children: <Widget>[
+
+                        // First element
+
+
+                        // Second Element
+                        Container(
+                          padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10.0),
+                              color: Colors.transparent
+                          ),
+                          child: Column(
+                            children:<Widget> [
+                              Container(
+                                margin: EdgeInsets.only(left: 20.0,right: 20.0),
+                                child: TextFormField(
+                                  decoration: InputDecoration(
+                                    labelText: 'Nom',
+                                    hintStyle: TextStyle(color: Colors.black),
+                                  ),
+                                  style: TextStyle(fontSize: 15),
+                                  controller: nomController,
+                                  keyboardType: TextInputType.name,
+                                  onChanged: (value) {
+                                    debugPrint('Something changed in Nom Text Field');
+                                    updateNom();
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        Container(
+                          padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 0.0),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10.0),
+                              color: Colors.transparent
+                          ),
+                          child: Column(
+                            children:<Widget> [
+                              Container(
+                                margin: EdgeInsets.only(left: 20.0,right: 20.0),
+                                child: TextFormField(
+                                  decoration: InputDecoration(
+                                    labelText: 'Prenom',
+                                    hintStyle: TextStyle(color: Colors.black),
+                                  ),
+                                  controller: prenomController,
+                                  keyboardType: TextInputType.name,
+                                  onChanged: (value) {
+                                    debugPrint('Something changed in Prenom Text Field');
+                                    updatePrenom();
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        // Third Element
+                        Container(
+                          padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 0.0),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10.0),
+                              color: Colors.transparent
+                          ),
+                          child: Column(
+                            children: [
+                              Container(
+                                margin: EdgeInsets.only(left: 20.0,right: 20.0),
+                                child: TextFormField(
+                                  decoration: InputDecoration(
+                                    labelText: 'Adresse mail',
+                                    hintStyle: TextStyle(color: Colors.black),
+                                  ),
+                                  controller: emailController,
+                                  // style: textStyle,
+                                  keyboardType: TextInputType.emailAddress,
+                                  onChanged: (value) {
+                                    debugPrint('Something changed in Email Text Field');
+                                    updateEmail();
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 0.0),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10.0),
+                              color: Colors.transparent
+                          ),
+                          child: Column(
+                            children: [
+                              Container(
+                                margin: EdgeInsets.only(left: 20.0,right: 20.0),
+                                child: TextFormField(
+                                  decoration: InputDecoration(
+                                    labelText: 'Mot de passe',
+                                    hintStyle: TextStyle(color: Colors.black),
+                                  ),
+                                  maxLength: 15,
+                                  controller: passwordController,
+                                  //    style: textStyle,
+                                  keyboardType: TextInputType.visiblePassword,
+                                  onChanged: (value) {
+                                    debugPrint('Something changed in Password Text Field');
+                                    updatePassword();
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10.0),
+                              color: Colors.transparent
+                          ),
+                          child: Column(
+                            children: [
+                              Container(
+                                margin: EdgeInsets.only(left: 20.0,right: 20.0),
+                                child: TextFormField(
+                                  decoration: InputDecoration(
+                                    labelText: 'Téléphone',
+                                    hintStyle: TextStyle(color: Colors.black),
+                                  ),
+                                  controller: telController,
+                                  //   style: textStyle,
+                                  keyboardType: TextInputType.phone,
+                                  onChanged: (value) {
+                                    debugPrint('Something changed in Tel Text Field');
+                                    updateTel();
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        // Fourth Element
+                        Container(
+                          padding: EdgeInsets.fromLTRB(10.0, 55.0, 20.0, 10.0),
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10.0),
+                              color: Colors.transparent
+                          ),
+                          child: Row(
+                            children: <Widget>[
+                              Expanded(
+                                child: RaisedButton(
+                                  color: Colors.red,
+                                  textColor: Colors.black,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(18.0),
+                                  ),
+                                  child: Text(
+                                    'S\'inscrire',
+                                    textScaleFactor: 1.5,
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      debugPrint("Vous etes bien inscrit");
+                                      _save();
+                                    });
+                                    nomController.text='';
+                                    prenomController.text='';
+                                    emailController.text='';
+                                    passwordController.text='';
+                                    telController.text='';
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            Accueil(),),
+                                    );
+                                  },
+                                ),
+                              ),
+
+                              Container(width: 5.0,),
+
+                              Expanded(
+                                child: RaisedButton(
+                                  color: Colors.red,
+                                  textColor: Colors.black,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(18.0),
+                                  ),
+                                  child: Text(
+                                    'Supprimer',
+                                    textScaleFactor: 1.5,
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      debugPrint("Cet utilisateur va etre supprimé");
+                                      _delete();
+                                    });
+                                  },
+                                ),
+                              ),
+
+                            ],
+                          ),
+                        ),
+
+                      ],
+                    ),
+                  ),
+                ),
+              ]
           ),
 
         ));
@@ -320,31 +299,8 @@ class UserDetailState extends State<UserDetail> {
     Navigator.pop(context, true);
   }
 
-  // Convert the String priority in the form of integer before saving it to Database
-  void updatePriorityAsInt(String value) {
-    switch (value) {
-      case 'High':
-        user.priority = 1;
-        break;
-      case 'Low':
-        user.priority = 2;
-        break;
-    }
-  }
 
-  // Convert int priority to String priority and display it to user in DropDown
-  String getPriorityAsString(int value) {
-    String priority;
-    switch (value) {
-      case 1:
-        priority = _priorities[0];  // 'High'
-        break;
-      case 2:
-        priority = _priorities[1];  // 'Low'
-        break;
-    }
-    return priority;
-  }
+
 
   // Update the title of Note object
   void updateNom(){
@@ -373,7 +329,6 @@ class UserDetailState extends State<UserDetail> {
 
     //moveToLastScreen();
 
-    user.date = DateFormat.yMMMd().format(DateTime.now());
     int result;
     if (user.id != null) {  // Case 1: Update operation
       result = await helper.updateUser(user);

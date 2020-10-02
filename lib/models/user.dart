@@ -6,13 +6,11 @@ class User {
   String _email;
   String _password;
   String _tel;
-  String _date;
-  int _priority;
 
 
-  User(this._nom, this._prenom, this._email, this._password,this._tel,  this._date, this._priority);
+  User(this._nom, this._prenom, this._email, this._password,this._tel);
 
-  User.withId(this._id, this._nom, this._prenom, this._email, this._password,this._tel,  this._date, this._priority);
+  User.withId(this._id, this._nom, this._prenom, this._email, this._password,this._tel);
 
   int get id => _id;
 
@@ -26,9 +24,6 @@ class User {
 
   String get tel => _tel;
 
-  int get priority => _priority;
-
-  String get date => _date;
 
 
   set nom(String newNom) {
@@ -61,15 +56,7 @@ class User {
     }
   }
 
-  set priority(int newPriority) {
-    if (newPriority >= 1 && newPriority <= 2) {
-      this._priority = newPriority;
-    }
-  }
 
-  set date(String newDate) {
-    this._date = newDate;
-  }
 
 
   // Convert a Note object into a Map object
@@ -84,8 +71,6 @@ class User {
     map['email'] = _email;
     map['password'] = _password;
     map['tel'] = _tel;
-    map['priority'] = _priority;
-    map['date'] = _date;
 
     return map;
   }
@@ -98,7 +83,5 @@ class User {
     this._email = map['email'];
     this._password = map['password'];
     this._tel = map['tel'];
-    this._priority = map['priority'];
-    this._date = map['date'];
   }
 }

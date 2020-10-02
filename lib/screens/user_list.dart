@@ -41,7 +41,7 @@ class UserListState extends State<UserList> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           debugPrint('FAB clicked');
-          navigateToDetail(User('', '', '','', '', '', 2), 'Add User');
+          navigateToDetail(User('', '', '','', ''), 'Add User');
         },
 
         tooltip: 'Add User',
@@ -64,10 +64,10 @@ class UserListState extends State<UserList> {
           elevation: 2.0,
           child: ListTile(
 
-            leading: CircleAvatar(
+            /*leading: CircleAvatar(
               backgroundColor: getPriorityColor(this.userList[position].priority),
               child: getPriorityIcon(this.userList[position].priority),
-            ),
+            ),*/
 
             title: Text(this.userList[position].email, style: titleStyle,),
             subtitle: Text(this.userList[position].password, style: titleStyle,),
@@ -93,34 +93,10 @@ class UserListState extends State<UserList> {
   }
 
   // Returns the priority color
-  Color getPriorityColor(int priority) {
-    switch (priority) {
-      case 1:
-        return Colors.red;
-        break;
-      case 2:
-        return Colors.yellow;
-        break;
 
-      default:
-        return Colors.yellow;
-    }
-  }
 
   // Returns the priority icon
-  Icon getPriorityIcon(int priority) {
-    switch (priority) {
-      case 1:
-        return Icon(Icons.play_arrow);
-        break;
-      case 2:
-        return Icon(Icons.keyboard_arrow_right);
-        break;
 
-      default:
-        return Icon(Icons.keyboard_arrow_right);
-    }
-  }
 
   void _delete(BuildContext context, User user) async {
 

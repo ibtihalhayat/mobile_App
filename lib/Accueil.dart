@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_app/liste_utilisateurs.dart';
+//import 'package:mobile_app/liste_utilisateurs.dart';
 import 'package:mobile_app/profil.dart';
 import 'package:mobile_app/acc.dart';
 import 'package:mobile_app/screens/module_list.dart';
-import 'package:mobile_app/user_list.dart';
+import 'package:mobile_app/screens/user_list.dart';
 
 class Accueil extends StatefulWidget{
 

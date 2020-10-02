@@ -15,9 +15,6 @@ class _AccState extends State<Acc> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: new AppBar(
-        backgroundColor: Color.fromRGBO(220, 234, 232, 1),
-        elevation: 0.0,),
       body: ModuleListUser(),
     );
   }

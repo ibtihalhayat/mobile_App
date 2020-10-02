@@ -4,7 +4,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mobile_app/Accueil.dart';
+import 'package:mobile_app/auth_choix.dart';
 import 'auth.dart';
 
 
@@ -78,7 +78,7 @@ class MainScreen extends StatelessWidget {
                             );*/
                            Navigator.of(context).pushReplacement(
                               MaterialPageRoute(
-                                  builder: (context) => Auth(),
+                                  builder: (context) => AuthChoix(),
                               ),
                             );
                           },

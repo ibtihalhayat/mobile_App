@@ -3,13 +3,11 @@ class Module {
   int _idm;
   String _nomm;
   String _nbchapitres;
-  String _datem;
-  int _prioritym;
 
 
-  Module(this._nomm, this._nbchapitres, this._datem, this._prioritym);
+  Module(this._nomm, this._nbchapitres);
 
-  Module.withId(this._idm, this._nomm, this._nbchapitres, this._datem, this._prioritym);
+  Module.withId(this._idm, this._nomm, this._nbchapitres);
 
   int get idm => _idm;
 
@@ -17,9 +15,6 @@ class Module {
 
   String get nbchapitres => _nbchapitres;
 
-  int get prioritym => _prioritym;
-
-  String get datem => _datem;
 
 
   set nomm(String newNomm) {
@@ -35,15 +30,6 @@ class Module {
   }
 
 
-  set prioritym(int newPrioritym) {
-    if (newPrioritym >= 1 && newPrioritym <= 2) {
-      this._prioritym = newPrioritym;
-    }
-  }
-
-  set datem(String newDatem) {
-    this._datem = newDatem;
-  }
 
 
   // Convert a Note object into a Map object
@@ -55,8 +41,6 @@ class Module {
     }
     map['nomm'] = _nomm;
     map['nbchapitres'] = _nbchapitres;
-    map['prioritym'] = _prioritym;
-    map['datem'] = _datem;
 
     return map;
   }
@@ -66,7 +50,5 @@ class Module {
     this._idm = map['idm'];
     this._nomm = map['nomm'];
     this._nbchapitres = map['nbchapitres'];
-    this._prioritym = map['prioritym'];
-    this._datem = map['datem'];
   }
 }

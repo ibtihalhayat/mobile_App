@@ -26,8 +26,6 @@ class DatabaseHelper {
   String colIdm = 'idm';
   String colNomm = 'nomm';
   String colNbchapitres = 'nbchapitres';
-  String colPrioritym = 'prioritym';
-  String colDatem = 'datem';
 
   DatabaseHelper._createInstance(); // Named constructor to create instance of DatabaseHelper
 
@@ -61,7 +59,7 @@ class DatabaseHelper {
 
     await db.execute('CREATE TABLE $userTable($colId INTEGER PRIMARY KEY AUTOINCREMENT, $colNom TEXT, $colPrenom TEXT, '
         '$colEmail TEXT, $colPassword TEXT, $colTel TEXT, $colPriority INTEGER, $colDate TEXT)');
-    await db.execute('CREATE TABLE $moduleTable($colIdm INTEGER PRIMARY KEY AUTOINCREMENT, $colNomm TEXT, $colNbchapitres TEXT, $colPrioritym INTEGER, $colDatem TEXT)');
+    await db.execute('CREATE TABLE $moduleTable($colIdm INTEGER PRIMARY KEY AUTOINCREMENT, $colNomm TEXT, $colNbchapitres TEXT)');
   }
 
   // Fetch Operation: Get all note objects from database
@@ -77,7 +75,7 @@ class DatabaseHelper {
     Database db = await this.database;
 
 //		var result = await db.rawQuery('SELECT * FROM $noteTable order by $colPriority ASC');
-    var result = await db.query(moduleTable, orderBy: '$colPrioritym ASC');
+    var result = await db.query(moduleTable, orderBy: '$colNomm ASC');
     return result;
   }
 

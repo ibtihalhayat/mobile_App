@@ -50,10 +50,7 @@ class ModuleListState extends State<ModuleList> {
           elevation: 2.0,
           child: ListTile(
 
-            leading: CircleAvatar(
-              backgroundColor: getPriorityColor(this.moduleList[position].prioritym),
-              child: getPriorityIcon(this.moduleList[position].prioritym),
-            ),
+
 
             title: Text(this.moduleList[position].nomm, style: titleStyle,),
             subtitle: Text(this.moduleList[position].nbchapitres, style: titleStyle,),
@@ -79,34 +76,10 @@ class ModuleListState extends State<ModuleList> {
   }
 
   // Returns the priority color
-  Color getPriorityColor(int prioritym) {
-    switch (prioritym) {
-      case 1:
-        return Colors.red;
-        break;
-      case 2:
-        return Colors.yellow;
-        break;
 
-      default:
-        return Colors.yellow;
-    }
-  }
 
   // Returns the priority icon
-  Icon getPriorityIcon(int prioritym) {
-    switch (prioritym) {
-      case 1:
-        return Icon(Icons.play_arrow);
-        break;
-      case 2:
-        return Icon(Icons.keyboard_arrow_right);
-        break;
 
-      default:
-        return Icon(Icons.keyboard_arrow_right);
-    }
-  }
 
   void _delete(BuildContext context, Module module) async {
 

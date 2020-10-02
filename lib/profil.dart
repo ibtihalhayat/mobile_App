@@ -9,6 +9,7 @@ import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 
 class Profil extends StatelessWidget{
 
+  FirebaseAuth auth = FirebaseAuth.instance;
   final GoogleSignIn googleSignIn = GoogleSignIn();
   final FacebookLogin facebookLogIn = FacebookLogin();
 
@@ -17,16 +18,13 @@ class Profil extends StatelessWidget{
   Widget build(BuildContext context) {
 
     return new Scaffold(
-        appBar: new AppBar(
-        backgroundColor: Color.fromRGBO(220, 234, 232, 1),
-        elevation: 0.0,),
       body: Stack(
         children:<Widget>[
           new Container(
             decoration: new BoxDecoration(image: new DecorationImage(image: new AssetImage("images/background.png"), fit: BoxFit.fill)),
           ),
           new Container(
-            padding: EdgeInsets.fromLTRB(20.0, 110.0, 20.0, 10.0),
+            padding: EdgeInsets.fromLTRB(20.0, 250.0, 20.0, 10.0),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10.0),
                 color: Colors.transparent
@@ -52,7 +50,7 @@ class Profil extends StatelessWidget{
               )
           ),
           new Container(
-              padding: EdgeInsets.fromLTRB(20.0, 180.0, 20.0, 10.0),
+              padding: EdgeInsets.fromLTRB(20.0, 315.0, 20.0, 10.0),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10.0),
                   color: Colors.transparent
@@ -78,7 +76,7 @@ class Profil extends StatelessWidget{
               )
           ),
           Container(
-            padding: EdgeInsets.fromLTRB(200.0, 350.0, 20.0, 10.0),
+            padding: EdgeInsets.fromLTRB(200.0, 400.0, 20.0, 10.0),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10.0),
                 color: Colors.transparent
@@ -95,9 +93,9 @@ class Profil extends StatelessWidget{
                     googleSignOut().whenComplete(() =>
                         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>Auth()))
                     );
-                    facebookSignOut().whenComplete(() =>
+                    /*facebookSignOut().whenComplete(() =>
                         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>Auth()))
-                    );
+                    );*/
 
                   },
                child: Text('Se Deconnecter',
@@ -116,12 +114,13 @@ class Profil extends StatelessWidget{
 
   Future<void> googleSignOut() async {
     //FirebaseUser user = await auth.currentUser();
-    try {
+  //  try {
       await auth.signOut();
-      await googleSignIn.signOut();
-    }catch(e){
+      await googleSignIn.disconnect();
+     // await googleSignIn.signOut();
+  /*  }catch(e){
       print(e.message);
-    }
+    }*/
 
 /*    FirebaseUser user = await auth.currentUser();
     if(user.providerData[1].providerId == 'google.com'){
