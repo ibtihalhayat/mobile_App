@@ -7,12 +7,27 @@ import 'MainScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 
-class Profil extends StatelessWidget{
+class Profil extends StatefulWidget{
+
+  String nomUser;
+  String emailUser;
+  Profil({this.nomUser, this.emailUser});
+
+  @override
+  _ProfilState createState() => _ProfilState(nomUser,emailUser);
+}
+
+class _ProfilState extends State<Profil> {
+
+  String nomUser;
+  String emailUser;
+  _ProfilState(this.nomUser, this.emailUser);
 
   FirebaseAuth auth = FirebaseAuth.instance;
-  final GoogleSignIn googleSignIn = GoogleSignIn();
-  final FacebookLogin facebookLogIn = FacebookLogin();
 
+  final GoogleSignIn googleSignIn = GoogleSignIn();
+
+  final FacebookLogin facebookLogIn = FacebookLogin();
 
   @override
   Widget build(BuildContext context) {
@@ -111,7 +126,6 @@ class Profil extends StatelessWidget{
     );
   }
 
-
   Future<void> googleSignOut() async {
     //FirebaseUser user = await auth.currentUser();
   //  try {
@@ -142,16 +156,4 @@ class Profil extends StatelessWidget{
     await facebookLogin.logOut();
 
   }
-
-
-/*  Future<void> signOut() async{
-    try{
-      await FirebaseAuth.instance.signOut();
-    }catch(e){
-      print(e);
-    }
-  }
-*/
-
-
 }

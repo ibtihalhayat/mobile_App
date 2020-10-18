@@ -1,3 +1,4 @@
+import 'package:mobile_app/models/chapitre.dart';
 import 'package:mobile_app/models/user.dart';
 import 'package:mobile_app/models/module.dart';
 import 'package:sqflite/sqflite.dart';
@@ -26,6 +27,14 @@ class DatabaseHelper {
   String colIdm = 'idm';
   String colNomm = 'nomm';
   String colNbchapitres = 'nbchapitres';
+
+  String chapitreTable = 'chapitre';
+  String colIdc = 'idc';
+  String colNomcours = 'nomcours';
+  String colNumchapitre = 'numchapitre';
+  String colDone = 'done';
+
+
 
   DatabaseHelper._createInstance(); // Named constructor to create instance of DatabaseHelper
 
@@ -60,6 +69,7 @@ class DatabaseHelper {
     await db.execute('CREATE TABLE $userTable($colId INTEGER PRIMARY KEY AUTOINCREMENT, $colNom TEXT, $colPrenom TEXT, '
         '$colEmail TEXT, $colPassword TEXT, $colTel TEXT, $colPriority INTEGER, $colDate TEXT)');
     await db.execute('CREATE TABLE $moduleTable($colIdm INTEGER PRIMARY KEY AUTOINCREMENT, $colNomm TEXT, $colNbchapitres TEXT)');
+    await db.execute('CREATE TABLE $chapitreTable($colIdc INTEGER PRIMARY KEY AUTOINCREMENT, $colNomcours TEXT, $colNumchapitre TEXT, $colDone TEXT)');
   }
 
   // Fetch Operation: Get all note objects from database
@@ -79,6 +89,25 @@ class DatabaseHelper {
     return result;
   }
 
+  Future<List<Map<String, dynamic>>> getChapitreMapList(String nomchoisi) async {
+    Database db = await this.database;
+
+//		var result = await db.rawQuery('SELECT * FROM $chapitreTable order by $colPriority ASC');
+    var result = await db.rawQuery('SELECT * FROM $chapitreTable WHERE $colNomcours = ?',[nomchoisi]);
+    print(result);
+    return result;
+  }
+
+  /*Future<void> getChapitreDone(String nomcourschoisi, String numchapitrechoisi) async {
+    Database db = await this.database;
+
+    var chapitreMapList = await getChapitreMapList(nomcourschoisi);
+//		var result = await db.rawQuery('SELECT * FROM $chapitreTable order by $colPriority ASC');
+    var result = await db.rawQuery('SELECT $colDone FROM $chapitreTable WHERE $colNomcours = ? AND $colNumchapitre = ?',[nomcourschoisi, numchapitrechoisi]);
+    print(result);
+  }*/
+
+
   // Insert Operation: Insert a Note object to database
   Future<int> insertUser(User user) async {
     Database db = await this.database;
@@ -90,6 +119,12 @@ class DatabaseHelper {
     var result = await db.insert(moduleTable, module.toMap());
     return result;
   }
+  Future<int> insertChapitre(Chapitre chapitre) async {
+    Database db = await this.database;
+    var result = await db.insert(chapitreTable, chapitre.toMap());
+    return result;
+  }
+
 
   // Update Operation: Update a Note object and save it to database
   Future<int> updateUser(User user) async {
@@ -102,6 +137,13 @@ class DatabaseHelper {
     var result = await db.update(moduleTable, module.toMap(), where: '$colIdm = ?', whereArgs: [module.idm]);
     return result;
   }
+  Future<int> updateChapitre(String nomcourschoisi, String numchapitrechoisi) async {
+    var db = await this.database;
+  //  var result = await db.update(moduleTable, module.toMap(), where: '$colIdm = ?', whereArgs: [module.idm]);
+    var result = await db.rawUpdate('UPDATE $chapitreTable SET $colDone = ? WHERE $colNomcours = ? AND $colNumchapitre = ?',['1',nomcourschoisi,numchapitrechoisi]);
+    return result;
+  }
+
 
   // Delete Operation: Delete a Note object from database
   Future<int> deleteUser(int id) async {
@@ -155,6 +197,20 @@ class DatabaseHelper {
     }
 
     return moduleList;
+  }
+
+  Future<List<Chapitre>> getChapitreList(String nomchoisi) async {
+
+    var chapitreMapList = await getChapitreMapList(nomchoisi); // Get 'Map List' from database
+    int count = chapitreMapList.length;         // Count the number of map entries in db table
+
+    List<Chapitre> chapitreList = List<Chapitre>();
+    // For loop to create a 'Note List' from a 'Map List'
+    for (int i = 0; i < count; i++) {
+      chapitreList.add(Chapitre.fromMapObject(chapitreMapList[i]));
+    }
+
+    return chapitreList;
   }
 
 }

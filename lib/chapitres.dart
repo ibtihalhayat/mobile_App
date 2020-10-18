@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:mobile_app/models/module.dart';
 import 'package:mobile_app/screens/module_listuser.dart';
 import 'package:mobile_app/pdf_page.dart';
+import 'package:mobile_app/utils/database_helper.dart';
 import 'package:path_provider/path_provider.dart';
 
 import 'package:flutter_plugin_pdf_viewer/flutter_plugin_pdf_viewer.dart';
@@ -27,6 +28,7 @@ class Chapitres extends StatefulWidget {
 
 class _ChapitresState extends State<Chapitres> {
 
+  DatabaseHelper helper = DatabaseHelper();
 
   String nomCours;
   int nbChapitres;
@@ -113,9 +115,13 @@ class _ChapitresState extends State<Chapitres> {
                     ),
                     Column(
                       children:<Widget> [
-                        for(int i=1; i<=nbChapitres; i++) CustomTile(
-                          title: "chapitre $i",num: i, nomCoursChoisi: nomCours, avancmc: avancm,
-                        )
+                        for(int i=1; i<=nbChapitres; i++)
+                       CustomTile(
+                              title: "chapitre $i",
+                              num: i,
+                              nomCoursChoisi: nomCours,
+                              fait: false),
+
                       ],
                     ),
                     SizedBox(
@@ -141,36 +147,37 @@ class CustomTile extends StatefulWidget {
 //   bool selected;
    String title;
    int num;
-   int avancmc;
- // final bool fait;
+   bool fait;
   //final String duration;
    CustomTile({
   //  this.selected = false,
     this.title,
     this.num,
     this.nomCoursChoisi,
-    this.avancmc,
- //   this.fait,
+    this.fait,
     // this.duration,
     Key key,
   }) : super(key: key);
 
   @override
-  _CustomTileState createState() => _CustomTileState(nomCoursChoisi, num, title, avancmc);
+  _CustomTileState createState() => _CustomTileState(nomCoursChoisi, num, title, fait);
 }
 
 class _CustomTileState extends State<CustomTile> {
 
+  DatabaseHelper helper = DatabaseHelper();
+  bool iconecliquable = false;
+
   MaterialColor couleur=Colors.red;
   IconData icone = Icons.done;
-  bool fait=false;
+  bool fait;
 
   String nomCoursChoisi;
   int num;
-  int avancmc;
+  int avanc=1;
   String title;
 
-  _CustomTileState(this.nomCoursChoisi, this.num, this.title, this.avancmc);
+  _CustomTileState(this.nomCoursChoisi, this.num, this.title, this.fait);
 
   @override
   Widget build(BuildContext context) {
@@ -180,12 +187,26 @@ class _CustomTileState extends State<CustomTile> {
         children: [
           Expanded(
               child: SizedBox(
-              child: ListTile(
+                child: ListTile(
                     onTap:(){
-                      if(fait==true){
-                      Navigator.push(context, MaterialPageRoute(builder:
-                          (context) =>Pdfviewerpage(nomCourss: widget.nomCoursChoisi,numChapitre: widget.num,)));
-                    }} ,
+                      if(num == 1){
+                       // helper.getChapitreDone(nomCoursChoisi, num.toString());
+                       // iconecliquable=true;
+                      }
+                      if(iconecliquable == true){
+                        avanc = num + 1 ;
+                        print(avanc);
+                          Navigator.push(context, MaterialPageRoute(builder:
+                              (context) =>
+                              Pdfviewerpage(nomCourss: widget.nomCoursChoisi,
+                                numChapitre: widget.num,)));
+
+
+                    }
+                   /*   if(num == num+1 && couleur == Colors.green){
+
+                      }*/
+                      } ,
                     leading: Container(
                       margin: EdgeInsets.only(right: 15),
                       width: 50,
@@ -217,14 +238,16 @@ class _CustomTileState extends State<CustomTile> {
             ),
           ),
           IconButton(
-              icon: Icon(icone),
-              color: couleur,
+              icon: Icon(Icons.done),
+              color: fait == false ? couleur : Colors.green,
               onPressed:(){
-                setState(() {
-                  icone = Icons.done_all;
+                if(iconecliquable == true)
+               { setState(() {
                   couleur = Colors.green;
-                  fait=true;
+                  helper.updateChapitre(nomCoursChoisi, num.toString());
+                  helper.getChapitreMapList(nomCoursChoisi);
                 });
+                }
    /*           for(int j=num; j>0; j--)
                {setState(() {
                  {icone = Icons.done_all;

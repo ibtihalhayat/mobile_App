@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:mobile_app/Accueil.dart';
+import 'package:mobile_app/models/chapitre.dart';
 import 'package:mobile_app/models/module.dart';
 import 'package:mobile_app/utils/database_helper.dart';
 import 'package:intl/intl.dart';
@@ -26,6 +27,7 @@ class ModuleDetailState extends State<ModuleDetail> {
 
   String appBarTitle;
   Module module;
+  Chapitre chapitre;
 
   TextEditingController nommController = TextEditingController();
   TextEditingController nbchapitresController = TextEditingController();
@@ -183,11 +185,18 @@ class ModuleDetailState extends State<ModuleDetail> {
 
     //moveToLastScreen();
 
+   // await helper.updateChapitre('Java', '1');
+  //  await helper.getChapitreMapList('Java');
     int result;
     if (module.idm != null) {  // Case 1: Update operation
       result = await helper.updateModule(module);
     } else { // Case 2: Insert Operation
       result = await helper.insertModule(module);
+      for(int j=1 ; j <= int.parse(module.nbchapitres) ; j++)
+        {
+          await helper.insertChapitre(Chapitre(module.nomm , j.toString() , '0'));
+          print('chapppppppppppppppppppppp ${j} est ajoutéééééééééééééééé');
+          }
     }
 
     if (result != 0) {  // Success

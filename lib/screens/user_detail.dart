@@ -1,7 +1,10 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_app/Accueil.dart';
+import 'package:mobile_app/acc.dart';
+import 'package:mobile_app/liste_utilisateurs.dart';
 import 'package:mobile_app/models/user.dart';
 import 'package:mobile_app/utils/database_helper.dart';
 import 'package:intl/intl.dart';
@@ -59,8 +62,19 @@ class UserDetailState extends State<UserDetail> {
 
         child: Scaffold(
           appBar: new AppBar(
-            backgroundColor: Color(0xFFd7e8ef).withOpacity(1),
+            backgroundColor: Color.fromRGBO(220, 234, 232, 1),
             elevation: 0.0,
+            leading: Builder(
+              builder: (BuildContext context){
+                return IconButton(
+                  icon: const Icon(Icons.arrow_back_ios),
+                  onPressed: (){
+                    Navigator.push(context, MaterialPageRoute(builder:
+                        (context) =>Accueil()));
+                  },
+                );
+              },
+            ),
           ),
 
           body: Stack(
@@ -82,7 +96,7 @@ class UserDetailState extends State<UserDetail> {
 
                         // Second Element
                         Container(
-                          padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
+                          padding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 0.0),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10.0),
                               color: Colors.transparent
@@ -110,7 +124,7 @@ class UserDetailState extends State<UserDetail> {
                         ),
 
                         Container(
-                          padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 0.0),
+                          padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 0.0),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10.0),
                               color: Colors.transparent
@@ -138,7 +152,7 @@ class UserDetailState extends State<UserDetail> {
 
                         // Third Element
                         Container(
-                          padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 0.0),
+                          padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 0.0),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10.0),
                               color: Colors.transparent
@@ -165,7 +179,7 @@ class UserDetailState extends State<UserDetail> {
                           ),
                         ),
                         Container(
-                          padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 0.0),
+                          padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 0.0),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10.0),
                               color: Colors.transparent
@@ -193,7 +207,7 @@ class UserDetailState extends State<UserDetail> {
                           ),
                         ),
                         Container(
-                          padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
+                          padding: EdgeInsets.fromLTRB(20.0, 5.0, 20.0, 0.0),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10.0),
                               color: Colors.transparent
@@ -227,62 +241,36 @@ class UserDetailState extends State<UserDetail> {
                               borderRadius: BorderRadius.circular(10.0),
                               color: Colors.transparent
                           ),
-                          child: Row(
-                            children: <Widget>[
-                              Expanded(
-                                child: RaisedButton(
-                                  color: Colors.red,
-                                  textColor: Colors.black,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(18.0),
+                          child:Container(
+                                  padding: EdgeInsets.only(left: 150),
+                                  child: RaisedButton(
+                                    color: Colors.red,
+                                    textColor: Colors.black,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(18.0),
+                                    ),
+                                    child: Text(
+                                      'S\'inscrire',
+                                      textScaleFactor: 1.5,
+                                    ),
+                                    onPressed: () {
+                                      setState(() {
+                                        debugPrint("Vous etes bien inscrit");
+                                        _save();
+                                      });
+                                      nomController.text='';
+                                      prenomController.text='';
+                                      emailController.text='';
+                                      passwordController.text='';
+                                      telController.text='';
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              Accueil(),),
+                                      );
+                                    },
                                   ),
-                                  child: Text(
-                                    'S\'inscrire',
-                                    textScaleFactor: 1.5,
-                                  ),
-                                  onPressed: () {
-                                    setState(() {
-                                      debugPrint("Vous etes bien inscrit");
-                                      _save();
-                                    });
-                                    nomController.text='';
-                                    prenomController.text='';
-                                    emailController.text='';
-                                    passwordController.text='';
-                                    telController.text='';
-                                    Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            Accueil(),),
-                                    );
-                                  },
                                 ),
-                              ),
-
-                              Container(width: 5.0,),
-
-                              Expanded(
-                                child: RaisedButton(
-                                  color: Colors.red,
-                                  textColor: Colors.black,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(18.0),
-                                  ),
-                                  child: Text(
-                                    'Supprimer',
-                                    textScaleFactor: 1.5,
-                                  ),
-                                  onPressed: () {
-                                    setState(() {
-                                      debugPrint("Cet utilisateur va etre supprimé");
-                                      _delete();
-                                    });
-                                  },
-                                ),
-                              ),
-
-                            ],
-                          ),
                         ),
 
                       ],

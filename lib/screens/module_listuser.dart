@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:mobile_app/models/module.dart';
 import 'package:mobile_app/chapitres.dart';
+import 'package:mobile_app/screens/chapitre_list.dart';
 import 'package:mobile_app/utils/database_helper.dart';
 import 'package:mobile_app/screens/module_detail.dart';
 import 'package:sqflite/sqflite.dart';
@@ -117,7 +118,7 @@ class ModuleListUserState extends State<ModuleListUser> {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) =>
-                        Chapitres(nomCours: nomChoisi,nbChapitres: nbChoisi),),
+                        ChapitreListUser(nomCours: nomChoisi),),
                 );
               },
 

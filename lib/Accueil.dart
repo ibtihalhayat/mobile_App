@@ -6,14 +6,21 @@ import 'package:mobile_app/screens/module_list.dart';
 import 'package:mobile_app/screens/user_list.dart';
 
 class Accueil extends StatefulWidget{
+  String nomUser;
+  String emailUser;
+  Accueil({this.nomUser, this.emailUser});
 
  // final FirebaseUser user;
 
   @override
-  _AccueilState createState() => _AccueilState();
+  _AccueilState createState() => _AccueilState(nomUser,emailUser);
 }
 
 class _AccueilState extends State<Accueil> {
+
+  String nomUser;
+  String emailUser;
+  _AccueilState(this.nomUser, this.emailUser);
 
   int selectedIndex = 0;
   PageController _pageController = PageController();

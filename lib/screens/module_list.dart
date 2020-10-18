@@ -35,6 +35,18 @@ class ModuleListState extends State<ModuleList> {
         backgroundColor: Color(0xFFd7e8ef).withOpacity(1),
         elevation: 0.0,),
       body: getModuleListView(),
+
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          debugPrint('FAB clicked');
+          navigateToDetailm(Module('', ''), 'Add Module');
+        },
+
+        tooltip: 'Add Module',
+
+        child: Icon(Icons.add),
+
+      ),
     );
   }
 

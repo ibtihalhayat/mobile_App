@@ -10,6 +10,7 @@ import 'package:flutter/gestures.dart';
 import 'package:mobile_app/acc.dart';
 import 'package:mobile_app/auth_choix.dart';
 import 'package:mobile_app/inscription.dart';
+import 'package:mobile_app/models/chapitre.dart';
 import 'package:mobile_app/models/module.dart';
 import 'package:mobile_app/models/user.dart';
 import 'package:mobile_app/screens/module_detail.dart';
@@ -39,7 +40,7 @@ class _AuthState extends State<Auth> {
   FirebaseAuth _auth = FirebaseAuth.instance;
   StreamSubscription<FirebaseUser> _listener;
   FirebaseUser _currentUser;
-  String email , password ;
+  String name, email , password ;
   bool isSignIn = false;
   var _formKey = GlobalKey<FormState>();
 
@@ -249,7 +250,7 @@ class _AuthState extends State<Auth> {
                                       recognizer: TapGestureRecognizer()..onTap = () {
                                         debugPrint('FAB clicked');
                                         navigateToDetailm(Module('', ''), 'Add Module');
-                                      }
+                                        }
                                       ,
 
                                       style: TextStyle(
@@ -261,6 +262,8 @@ class _AuthState extends State<Auth> {
                                   )
                                 ]
                             ),
+
+
                           )
                         /*    text: TextSpan(
                             text: "Vous n'avez pas de compte ?",
@@ -318,25 +321,6 @@ class _AuthState extends State<Auth> {
 
 
 
-  Future<bool> signInGoogle() async {
-    GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
-    if(googleSignInAccount != null){
-      GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount.authentication;
-      AuthCredential credential = GoogleAuthProvider.getCredential(idToken : googleSignInAuthentication.idToken , accessToken: googleSignInAuthentication.accessToken);
-      AuthResult result = await auth.signInWithCredential(credential); // to add user to firebase
-      FirebaseUser user = await auth.currentUser();
-      print(user.uid);
-      Future.value(true);
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) =>
-              Accueil(),),
-      );
-    }
-
-
-  }
-
 
   Future<bool> signInMail(String email, String password)async {
     final formState = _formKey.currentState;
@@ -345,6 +329,9 @@ class _AuthState extends State<Auth> {
       try{
         AuthResult result = await auth.signInWithEmailAndPassword(email: email, password: password); // FirebaseUser
         FirebaseUser user = result.user;
+        name = user.displayName;
+        //email = user.email;
+        print('connecté en temps queeeeee ${name} et email ${email}');
         Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>Accueil(),),);
         // return Future.value(true);
       }catch(e){print(e.message);}
@@ -372,46 +359,6 @@ class _AuthState extends State<Auth> {
   }
 
 
-  Future<void> signInFacebook() async{
-    try{
-      FacebookLogin facebookLogin = new FacebookLogin();
-      final result = await facebookLogin.logIn(['email','public_profile']);
-      final token = result.accessToken.token;
-      final graphResponse = await http.get('https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name,email&access_token=${token}');
-      print(graphResponse.body);
-
-      if(result.status == FacebookLoginStatus.loggedIn){
-        final AuthCredential credential = FacebookAuthProvider.getCredential(accessToken: result.accessToken.token,);
-        _auth.signInWithCredential(credential);
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (context) =>
-                Accueil(),),
-        );
-      }
-    }catch(e){print(e.message);}
-    /* return showDialog(
-          context: context,
-          barrierDismissible: false,
-          builder: (BuildContext context) {
-            return new SimpleDialog(
-              title: Text('Erreur'),
-              children:<Widget> [
-                new Text(e.message),
-                new FlatButton(
-                    onPressed: (){
-                      Navigator.pop(context);
-                    },
-                    child: Text('Ok')
-                )
-              ],
-            );
-          }
-      );
-    }*/
-
-
-  }
 
   @override
   void dispose() {
