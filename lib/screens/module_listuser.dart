@@ -118,7 +118,7 @@ class ModuleListUserState extends State<ModuleListUser> {
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) =>
-                        ChapitreListUser(nomCours: nomChoisi),),
+                  ChapitreListUser(nomCours: nomChoisi, )),
                 );
               },
 

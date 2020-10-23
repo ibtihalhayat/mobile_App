@@ -1,21 +1,19 @@
 import 'dart:async';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mobile_app/Accueil.dart';
 import 'package:mobile_app/models/chapitre.dart';
-import 'package:mobile_app/models/module.dart';
 import 'package:mobile_app/chapitres.dart';
+import 'package:mobile_app/screens/chapitre_list.dart';
 import 'package:mobile_app/utils/database_helper.dart';
 import 'package:mobile_app/screens/module_detail.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:flutter/cupertino.dart';
 
 
 class ChapitreListUser extends StatefulWidget {
 
   String nomCours;
-
   ChapitreListUser({this.nomCours});
-
-
   @override
   ChapitreListUserState createState() => ChapitreListUserState(nomCours);
 }
@@ -23,7 +21,6 @@ class ChapitreListUser extends StatefulWidget {
 class ChapitreListUserState extends State<ChapitreListUser> {
 
   String nomCours;
-
   ChapitreListUserState(this.nomCours);
 
   DatabaseHelper databaseHelper = DatabaseHelper();
@@ -42,107 +39,76 @@ class ChapitreListUserState extends State<ChapitreListUser> {
 
     return Scaffold(
       backgroundColor: Color.fromRGBO(220, 234, 232, 1),
-
+      extendBodyBehindAppBar: true,
+      appBar:AppBar(
+        backgroundColor: Color.fromRGBO(220, 234, 232, 1),
+        elevation: 0,
+        leading: Container(
+          margin: EdgeInsets.only(left: 10, top: 9),
+          height: 50,
+          width: 50,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(15),
+          ),
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              borderRadius: BorderRadius.circular(15),
+              onTap: () => Navigator.push(context, MaterialPageRoute(builder:
+                  (context) =>Accueil())),
+              child: Icon(
+                CupertinoIcons.back,
+                size: 30,
+                color: Colors.red,
+              ),
+            ),
+          ),
+        ),
+      ),
       body: Stack(
-        children: [
-          NestedScrollView(
-            headerSliverBuilder:
-                (BuildContext context, bool innerBoxIsScrolled) {
-              return <Widget>[
-                SliverAppBar(
-                  pinned: false,
-                  elevation: 0,
-                  backgroundColor: Color.fromRGBO(220, 234, 232, 1),
-                  expandedHeight: 175,
-                  automaticallyImplyLeading: false,
-                  title: Container(
-                    height: 50,
-                    width: 50,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: Material(
-                      color: Colors.transparent,
-                      child: InkWell(
-                        borderRadius: BorderRadius.circular(15),
-                        onTap: () => Navigator.pop(context),
-                        child: Icon(
-                          CupertinoIcons.back,
-                          size: 30,
-                          color: Colors.red,
-                        ),
-                      ),
-                    ),
-                  ),
-                  floating: true,
-                  flexibleSpace: FlexibleSpaceBar(
-                    collapseMode: CollapseMode.parallax,
-                    background: Padding(
-                      padding: EdgeInsets.only(top: 30),
-                      child: Image.asset("images/logo.png",
-                        alignment: Alignment.topCenter,
-                        fit: BoxFit.fitWidth,
-                      ),
-                    ),
-                  ),
-                )
-              ];
-            },
-            body: SingleChildScrollView(
+          children:<Widget> [
+            new Container(
+              margin: EdgeInsets.fromLTRB(0, 90, 0, 450),
+              //color: Colors.green,
+              decoration: new BoxDecoration(
+                  image: new DecorationImage(
+                      //colorFilter: new ColorFilter.mode(Colors.blueGrey.withOpacity(1), BlendMode.dstATop),
+                      image: new AssetImage("images/logo.png"),
+                      fit: BoxFit.fill)),
+            ),
+            SingleChildScrollView(
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 23),
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(54)),
+                padding: EdgeInsets.only(top: 100, left: 30, right: 30),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      height: 25,
-                    ),
+                  children: <Widget>[
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
+                      children: <Widget>[
                         Text(nomCours,
                           style: TextStyle(
                               fontFamily: "Gilroy",
                               fontWeight: FontWeight.bold,
-                              fontSize: 33,
+                              fontSize: 37,
                               color: Color(0xff121212)),
                         ),
                       ],
-                    ),
-                    SizedBox(
-                      height: 25,
-                    ),
-                    Container(
-                      child: getChapitreListView(),
-                       /* for(int i=1; i<=nbChapitres; i++)
-                          CustomTile(
-                              title: "chapitre $i",
-                              num: i,
-                              nomCoursChoisi: nomCours,
-                              fait: false),
-*/
-                    ),
-                    SizedBox(
-                      height: 110,
                     ),
                   ],
                 ),
               ),
             ),
-          ),
-        ],
-      ),
-
-      );
-/*            Container(
-                padding: EdgeInsets.only(top: 325, left: 10, right: 10),
+            Container(
+                padding: EdgeInsets.only(top: 0, left: 10, right: 10),
+                margin: EdgeInsets.fromLTRB(5, 182, 5, 0),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(54)),
                 child: getChapitreListView())
- */
-
+          ]
+      ),
+    );
   }
 
   ListView getChapitreListView() {
@@ -150,10 +116,10 @@ class ChapitreListUserState extends State<ChapitreListUser> {
     //TextStyle titleStyle = Theme.of(context).textTheme.subhead;
 
     return ListView.builder(
-     // itemCount: countc,
+      itemCount: countc,
       itemBuilder: (BuildContext context, int position) {
         return Container(
-          //height: 75,
+          height: 75,
           child: Card(
             color: Colors.blueGrey,
             shape: RoundedRectangleBorder(
@@ -164,7 +130,7 @@ class ChapitreListUserState extends State<ChapitreListUser> {
               leading: Container(
                 margin: EdgeInsets.only(right: 0, top: 10),
                 width: 50,
-                //height: 50,
+                height: 50,
                 decoration: BoxDecoration(
                   color: Colors.blueGrey,),
                 child: Center(
@@ -178,21 +144,19 @@ class ChapitreListUserState extends State<ChapitreListUser> {
                 ),
               ),
               title: Container(
-                  padding: EdgeInsets.only(top: 7),
-                  child: Text('chapitre ${this.chapitreList[position].numchapitre} ', style: TextStyle(fontSize: 37,color: Colors.black),)
-
-              ),
-
+                  padding: EdgeInsets.only(top: 7
+                  ),
+                  child: Text('chapitre ${this.chapitreList[position].numchapitre}', style: TextStyle(fontSize: 37,color: Colors.black),)),
 
               onTap: () {
                 setState(() {
                   nomChoisi = this.chapitreList[position].nomcours;
                   nbChoisi = int.parse(this.chapitreList[position].numchapitre);
                 });
-               /* Navigator.of(context).push(
+                /*Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (context) =>
-                        Chapitres(nomCours: nomChoisi,nbChapitres: nbChoisi),),
+                        ChapitreListUser(nomCours: nomChoisi),),
                 );*/
               },
 

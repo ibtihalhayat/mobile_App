@@ -116,11 +116,14 @@ class _ChapitresState extends State<Chapitres> {
                     Column(
                       children:<Widget> [
                         for(int i=1; i<=nbChapitres; i++)
-                       CustomTile(
-                              title: "chapitre $i",
-                              num: i,
-                              nomCoursChoisi: nomCours,
-                              fait: false),
+                       Container(
+                         padding: EdgeInsets.only(top: 7),
+                         child: CustomTile(
+                                title: "chapitre $i",
+                                num: i,
+                                nomCoursChoisi: nomCours,
+                                fait: false),
+                       ),
 
                       ],
                     ),
