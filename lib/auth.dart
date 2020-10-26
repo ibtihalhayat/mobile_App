@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
+import 'package:mobile_app/AccueilProf.dart';
 import 'package:mobile_app/acc.dart';
 import 'package:mobile_app/auth_choix.dart';
 import 'package:mobile_app/inscription.dart';
@@ -332,7 +333,13 @@ class _AuthState extends State<Auth> {
         name = user.displayName;
         //email = user.email;
         print('connecté en temps queeeeee ${name} et email ${email}');
-        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>Accueil(),),);
+        if(email =='ibtihal@gmail.com') {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => AccueilProf(),),);
+        }else{
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => Accueil(),),);
+        }
         // return Future.value(true);
       }catch(e){print(e.message);}
       /* return showDialog(

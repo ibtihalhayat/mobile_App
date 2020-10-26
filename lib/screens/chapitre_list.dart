@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:mobile_app/Accueil.dart';
 import 'package:mobile_app/models/chapitre.dart';
 import 'package:mobile_app/chapitres.dart';
+import 'package:mobile_app/pdf_page.dart';
 import 'package:mobile_app/screens/chapitre_list.dart';
 import 'package:mobile_app/utils/database_helper.dart';
 import 'package:mobile_app/screens/module_detail.dart';
@@ -28,6 +29,10 @@ class ChapitreListUserState extends State<ChapitreListUser> {
   int countc = 0;
   String nomChoisi;
   int nbChoisi;
+  int donee;
+  int avancement=0;
+  MaterialColor couleur=Colors.red;
+  DatabaseHelper helper = DatabaseHelper();
 
   @override
   Widget build(BuildContext context) {
@@ -115,13 +120,16 @@ class ChapitreListUserState extends State<ChapitreListUser> {
 
     //TextStyle titleStyle = Theme.of(context).textTheme.subhead;
 
+
     return ListView.builder(
       itemCount: countc,
       itemBuilder: (BuildContext context, int position) {
+        donee = int.parse(this.chapitreList[position].done);
         return Container(
+          margin: EdgeInsets.only(bottom: 10),
           height: 75,
           child: Card(
-            color: Colors.blueGrey,
+            color: Colors.white,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(18.0),
             ),
@@ -132,7 +140,8 @@ class ChapitreListUserState extends State<ChapitreListUser> {
                 width: 50,
                 height: 50,
                 decoration: BoxDecoration(
-                  color: Colors.blueGrey,),
+                  color: Colors.blueGrey,
+                    borderRadius: BorderRadius.circular(54)),
                 child: Center(
                   child: Padding(
                     padding: EdgeInsets.only(left: 4.0),
@@ -143,6 +152,17 @@ class ChapitreListUserState extends State<ChapitreListUser> {
                   ),
                 ),
               ),
+              trailing: IconButton(
+                icon: Icon(Icons.done),
+                color: donee ==0 ? couleur : Colors.green,
+                onPressed: (){
+                  helper.updateChapitre(nomCours, this.chapitreList[position].numchapitre);
+                  helper.getChapitreMapList(nomCours);
+                  donee = int.parse(this.chapitreList[position].done);
+                  avancement = int.parse(this.chapitreList[position].numchapitre);
+                  print('etat est ${donee}');
+                },
+              ),
               title: Container(
                   padding: EdgeInsets.only(top: 7
                   ),
@@ -152,12 +172,24 @@ class ChapitreListUserState extends State<ChapitreListUser> {
                 setState(() {
                   nomChoisi = this.chapitreList[position].nomcours;
                   nbChoisi = int.parse(this.chapitreList[position].numchapitre);
+                  donee = int.parse(this.chapitreList[position].done);
                 });
-                /*Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        ChapitreListUser(nomCours: nomChoisi),),
-                );*/
+                if(nbChoisi == 1) {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            Pdfviewerpage(nomCourss: nomChoisi,
+                              numChapitre: nbChoisi,)),
+                  );
+                }
+                if(nbChoisi == avancement + 1 ){
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            Pdfviewerpage(nomCourss: nomChoisi,
+                              numChapitre: nbChoisi,)),
+                  );
+                }
               },
 
             ),
