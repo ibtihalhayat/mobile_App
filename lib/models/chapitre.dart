@@ -5,11 +5,12 @@ class Chapitre {
   String _numchapitre;
   String _done;
 
-
+//Les Constructeurs
   Chapitre(this._nomcours, this._numchapitre, this._done);
 
   Chapitre.withId(this._idc, this._nomcours, this._numchapitre, this._done);
 
+  //Les GETTERS
   int get idc => _idc;
 
   String get nomcours => _nomcours;
@@ -19,7 +20,7 @@ class Chapitre {
   String get done => _done;
 
 
-
+//Les Setters
   set nomcours(String newNomcours) {
       this._nomcours = newNomcours;
   }
@@ -35,7 +36,7 @@ class Chapitre {
 
 
 
-  // Convert a Note object into a Map object
+  // Convertir un object chapitre en Map objet
   Map<String, dynamic> toMap() {
 
     var map = Map<String, dynamic>();
@@ -49,7 +50,7 @@ class Chapitre {
     return map;
   }
 
-  // Extract a Note object from a Map object
+  // Extraire un objet chapitre depuis Map objet
   Chapitre.fromMapObject(Map<String, dynamic> map) {
     this._idc = map['idc'];
     this._nomcours = map['nomcours'];

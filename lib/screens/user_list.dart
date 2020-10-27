@@ -55,11 +55,6 @@ class UserListState extends State<UserList> {
           elevation: 2.0,
           child: ListTile(
 
-            /*leading: CircleAvatar(
-              backgroundColor: getPriorityColor(this.userList[position].priority),
-              child: getPriorityIcon(this.userList[position].priority),
-            ),*/
-
             title: Text(this.userList[position].email, style: titleStyle,),
             subtitle: Text(this.userList[position].password, style: titleStyle,),
 
@@ -72,8 +67,7 @@ class UserListState extends State<UserList> {
             ),
 
 
-            onTap: () {
-              debugPrint("ListTile Tapped");
+            onTap: () { // Si on clique sur la liste les infos concernant ce user choisi seront affichés
               navigateToDetail(this.userList[position],'Edit User');
             },
 
@@ -83,17 +77,13 @@ class UserListState extends State<UserList> {
     );
   }
 
-  // Returns the priority color
 
-
-  // Returns the priority icon
-
-
+// Fait appel à la fonction de suppression dans database_helper
   void _delete(BuildContext context, User user) async {
 
     int result = await databaseHelper.deleteUser(user.id);
     if (result != 0) {
-      _showSnackBar(context, 'User Deleted Successfully');
+      _showSnackBar(context, 'Etudiant supprimé avec succès');
       updateListView();
     }
   }
@@ -114,6 +104,7 @@ class UserListState extends State<UserList> {
     }
   }
 
+  // Mettre à jour la liste des étudiants
   void updateListView() {
 
     final Future<Database> dbFuture = databaseHelper.initializeDatabase();

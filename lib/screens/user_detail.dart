@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:mobile_app/Accueil.dart';
 import 'package:mobile_app/AccueilProf.dart';
 import 'package:mobile_app/acc.dart';
-import 'package:mobile_app/liste_utilisateurs.dart';
 import 'package:mobile_app/models/user.dart';
 import 'package:mobile_app/utils/database_helper.dart';
 import 'package:intl/intl.dart';
@@ -35,6 +34,7 @@ class UserDetailState extends State<UserDetail> {
   String appBarTitle;
   User user;
 
+  // Controlleurs qui vont contenir les informations saisies
   TextEditingController nomController = TextEditingController();
   TextEditingController prenomController = TextEditingController();
   TextEditingController emailController = TextEditingController();
@@ -48,6 +48,7 @@ class UserDetailState extends State<UserDetail> {
 
     // TextStyle textStyle = Theme.of(context).textTheme.title;
 
+    // Affecter les informations saisies au user créé
     nomController.text = user.nom;
     prenomController.text = user.prenom;
     emailController.text = user.email;

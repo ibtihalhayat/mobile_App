@@ -4,11 +4,12 @@ class Module {
   String _nomm;
   String _nbchapitres;
 
-
+//Les Constructeurs
   Module(this._nomm, this._nbchapitres);
 
   Module.withId(this._idm, this._nomm, this._nbchapitres);
 
+  //Les Getters
   int get idm => _idm;
 
   String get nomm => _nomm;
@@ -16,7 +17,7 @@ class Module {
   String get nbchapitres => _nbchapitres;
 
 
-
+//Les Setters
   set nomm(String newNomm) {
     if (newNomm.length <= 255) {
       this._nomm = newNomm;
@@ -32,7 +33,7 @@ class Module {
 
 
 
-  // Convert a Note object into a Map object
+  // Convertir un objet module en Map objet
   Map<String, dynamic> toMap() {
 
     var map = Map<String, dynamic>();
@@ -45,7 +46,7 @@ class Module {
     return map;
   }
 
-  // Extract a Note object from a Map object
+  // Extraire un objet module depuis Map objet
   Module.fromMapObject(Map<String, dynamic> map) {
     this._idm = map['idm'];
     this._nomm = map['nomm'];

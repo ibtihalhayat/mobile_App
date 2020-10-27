@@ -15,7 +15,7 @@ class _AccState extends State<Acc> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ModuleListUser(),
+      body: ModuleListUser(), // On fait appel à la classe qui retourne l'ensemble des modules
     );
   }
 

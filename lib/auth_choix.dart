@@ -221,7 +221,7 @@ class _AuthChoixState extends State<AuthChoix> {
     );
   }
 
-
+// Fonctio de connexion par gmail
   Future<bool> signInGoogle() async {
     GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
     if(googleSignInAccount != null){
@@ -243,38 +243,19 @@ class _AuthChoixState extends State<AuthChoix> {
 
   }
 
+  // fait appel à la fonction qui ajoute un étudiant depuis database_helper
   void navigateToDetail(User user, String title) async {
     bool result = await Navigator.push(context, MaterialPageRoute(builder: (context) {
       return UserDetail(user, title);
     }));
 
     if (result == true) {
-      print('user ajoutéééééééééé');
+      print('Etudiant ajouté');
     }
   }
 
- /* void _save() async {
 
-    //moveToLastScreen();
-
-    user.date = DateFormat.yMMMd().format(DateTime.now());
-    int result;
-    if (user.id != null) {  // Case 1: Update operation
-      result = await helper.updateUser(user);
-    } else { // Case 2: Insert Operation
-      result = await helper.insertUser(user);
-      signUpMail();
-    }
-
-    if (result != 0) {  // Success
-      _showAlertDialog('Status', 'Note Saved Successfully');
-    } else {  // Failure
-      _showAlertDialog('Status', 'Problem Saving Note');
-    }
-
-  }*/
-
-
+// fonction de connexion depuis facebook
   Future<void> signInFacebook() async{
     try{
       FacebookLogin facebookLogin = new FacebookLogin();

@@ -91,6 +91,7 @@ class ChapitreListUserState extends State<ChapitreListUser> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
+                        //Affichage du nom de cours
                         Text(nomCours,
                           style: TextStyle(
                               fontFamily: "Gilroy",
@@ -154,18 +155,19 @@ class ChapitreListUserState extends State<ChapitreListUser> {
               ),
               trailing: IconButton(
                 icon: Icon(Icons.done),
-                color: donee ==0 ? couleur : Colors.green,
+                color: donee ==0 ? couleur : Colors.green, // choix de couleur(si chapitre n'est pas fait couleur = rouge, sinon couleur = vert
                 onPressed: (){
                   helper.updateChapitre(nomCours, this.chapitreList[position].numchapitre);
                   helper.getChapitreMapList(nomCours);
                   donee = int.parse(this.chapitreList[position].done);
                   avancement = int.parse(this.chapitreList[position].numchapitre);
-                  print('etat est ${donee}');
+                  print('etat est ${donee}'); // affichage de l'etat du chapitre
                 },
               ),
               title: Container(
                   padding: EdgeInsets.only(top: 7
                   ),
+                  // Affichage de la liste des chapitres
                   child: Text('chapitre ${this.chapitreList[position].numchapitre}', style: TextStyle(fontSize: 37,color: Colors.black),)),
 
               onTap: () {
@@ -174,7 +176,7 @@ class ChapitreListUserState extends State<ChapitreListUser> {
                   nbChoisi = int.parse(this.chapitreList[position].numchapitre);
                   donee = int.parse(this.chapitreList[position].done);
                 });
-                if(nbChoisi == 1) {
+                if(nbChoisi == 1) { // toujours user a la possibilité de lire le premier chapitre
                   Navigator.of(context).push(
                     MaterialPageRoute(
                         builder: (context) =>
@@ -182,7 +184,7 @@ class ChapitreListUserState extends State<ChapitreListUser> {
                               numChapitre: nbChoisi,)),
                   );
                 }
-                if(nbChoisi == avancement + 1 ){
+                if(nbChoisi == avancement + 1 ){ // c possible de lire juste le chapitre qui suit l'avancement
                   Navigator.of(context).push(
                     MaterialPageRoute(
                         builder: (context) =>
@@ -199,13 +201,8 @@ class ChapitreListUserState extends State<ChapitreListUser> {
     );
   }
 
-  // Returns the priority color
 
-
-  // Returns the priority icon
-
-
-
+  // mise a jour de la liste affichée des chapitres
   void updateListView() {
 
     final Future<Database> dbFuture = databaseHelper.initializeDatabase();
@@ -214,8 +211,8 @@ class ChapitreListUserState extends State<ChapitreListUser> {
       Future<List<Chapitre>> chapitreListFuture = databaseHelper.getChapitreList(nomCours);
       chapitreListFuture.then((chapitreList) {
         setState(() {
-          this.chapitreList = chapitreList;
-          this.countc = chapitreList.length;
+          this.chapitreList = chapitreList; // liste des chapitres
+          this.countc = chapitreList.length; // le nombre de chapitres
         });
       });
     });

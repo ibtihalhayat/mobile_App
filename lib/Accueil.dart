@@ -24,7 +24,7 @@ class _AccueilState extends State<Accueil> {
 
   int selectedIndex = 0;
   PageController _pageController = PageController();
-  List<Widget> _screens = [
+  List<Widget> _screens = [  // La Barre qui s'affiche en bas de la page
     Acc(),
     Profil()
   ];
@@ -64,10 +64,12 @@ class _AccueilState extends State<Accueil> {
 
   }
 
+  // fonction qui sert à se déplacer entre les pages qui sont dans la barre en bas de la page
   void _onTappedItem(int selectedIndex){
     _pageController.jumpToPage(selectedIndex);
   }
 
+  // fonction qui change l'index courant selon la pagenchoisie
   void _onPageChanged(int index){
     setState(() {
       selectedIndex = index;

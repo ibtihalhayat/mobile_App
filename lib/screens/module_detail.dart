@@ -30,8 +30,9 @@ class ModuleDetailState extends State<ModuleDetail> {
   Module module;
   Chapitre chapitre;
 
-  TextEditingController nommController = TextEditingController();
-  TextEditingController nbchapitresController = TextEditingController();
+  // Controlleur des informations saisies
+  TextEditingController nommController = TextEditingController(); // contient le nom saisi
+  TextEditingController nbchapitresController = TextEditingController(); // contient le nombre de chapitres saisies
 
   ModuleDetailState(this.module, this.appBarTitle);
 
@@ -40,6 +41,7 @@ class ModuleDetailState extends State<ModuleDetail> {
 
     TextStyle textStyle = Theme.of(context).textTheme.title;
 
+    // affecter les informations saisies au module créé
     nommController.text = module.nomm;
     nbchapitresController.text = module.nbchapitres;
 

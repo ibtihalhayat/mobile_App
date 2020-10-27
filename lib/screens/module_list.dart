@@ -53,11 +53,8 @@ class ModuleListState extends State<ModuleList> {
           elevation: 2.0,
           child: ListTile(
 
-
-
             title: Text(this.moduleList[position].nomm, style: titleStyle,),
             subtitle: Text(this.moduleList[position].nbchapitres, style: titleStyle,),
-
 
             trailing: GestureDetector(
               child: Icon(Icons.delete, color: Colors.grey,),
@@ -68,7 +65,6 @@ class ModuleListState extends State<ModuleList> {
 
 
             onTap: () {
-              debugPrint("ListTile Tapped");
               navigateToDetailm(this.moduleList[position],'Edit Module');
             },
 
@@ -78,17 +74,12 @@ class ModuleListState extends State<ModuleList> {
     );
   }
 
-  // Returns the priority color
-
-
-  // Returns the priority icon
-
-
+// fait appel à la fonction de suppression de module de database_helper
   void _delete(BuildContext context, Module module) async {
 
     int result = await databaseHelper.deleteModule(module.idm);
     if (result != 0) {
-      _showSnackBar(context, 'Module Deleted Successfully');
+      _showSnackBar(context, 'Le Module est supprimé avec succès');
       updateListView();
     }
   }
@@ -99,6 +90,7 @@ class ModuleListState extends State<ModuleList> {
     Scaffold.of(context).showSnackBar(snackBar);
   }
 
+  // Fait appel à la fonction qui ajoute le module de database_helper
   void navigateToDetailm(Module module, String title) async {
     bool result = await Navigator.push(context, MaterialPageRoute(builder: (context) {
       return ModuleDetail(module, title);
@@ -109,6 +101,7 @@ class ModuleListState extends State<ModuleList> {
     }
   }
 
+  // Met à jour la liste des modules
   void updateListView() {
 
     final Future<Database> dbFuture = databaseHelper.initializeDatabase();

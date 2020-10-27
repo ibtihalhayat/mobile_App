@@ -129,13 +129,8 @@ class ModuleListUserState extends State<ModuleListUser> {
     );
   }
 
-  // Returns the priority color
 
-
-  // Returns the priority icon
-
-
-
+// Mettre à jour la liste des modules
   void updateListView() {
 
     final Future<Database> dbFuture = databaseHelper.initializeDatabase();

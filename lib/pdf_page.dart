@@ -27,6 +27,7 @@ class _PdfviewerpageState extends State<Pdfviewerpage> {
 
   PDFDocument document;
 
+  // on affiche les pdf selon le nom du cours choisi et le numéro de chapitre
   loadfile() async {
     if (nomCourss == "Oracle" ) {
       switch (numChapitre){

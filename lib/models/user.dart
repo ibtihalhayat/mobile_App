@@ -7,11 +7,12 @@ class User {
   String _password;
   String _tel;
 
-
+//Les Constructeurs
   User(this._nom, this._prenom, this._email, this._password,this._tel);
 
   User.withId(this._id, this._nom, this._prenom, this._email, this._password,this._tel);
 
+  //Les Getters
   int get id => _id;
 
   String get nom => _nom;
@@ -25,7 +26,7 @@ class User {
   String get tel => _tel;
 
 
-
+//Les Setters
   set nom(String newNom) {
     if (newNom.length <= 255) {
       this._nom = newNom;
@@ -59,7 +60,7 @@ class User {
 
 
 
-  // Convert a Note object into a Map object
+  // Convertir un objet user en Map objet
   Map<String, dynamic> toMap() {
 
     var map = Map<String, dynamic>();
@@ -75,7 +76,7 @@ class User {
     return map;
   }
 
-  // Extract a Note object from a Map object
+  // Extraire un objet user depuis Map objet
   User.fromMapObject(Map<String, dynamic> map) {
     this._id = map['id'];
     this._nom = map['nom'];
