@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_app/Accueil.dart';
+import 'package:mobile_app/AccueilProf.dart';
 import 'package:mobile_app/acc.dart';
 import 'package:mobile_app/liste_utilisateurs.dart';
 import 'package:mobile_app/models/user.dart';
@@ -69,8 +70,12 @@ class UserDetailState extends State<UserDetail> {
                 return IconButton(
                   icon: const Icon(Icons.arrow_back_ios),
                   onPressed: (){
-                    Navigator.push(context, MaterialPageRoute(builder:
-                        (context) =>Accueil()));
+                    if(appBarTitle == 'Edit User'){
+                      Navigator.pop(context);
+                    }else {
+                      Navigator.push(context, MaterialPageRoute(builder:
+                          (context) => Accueil()));
+                    }
                   },
                 );
               },
@@ -91,10 +96,8 @@ class UserDetailState extends State<UserDetail> {
                     child: ListView(
                       children: <Widget>[
 
-                        // First element
+                        //LES CHAMPS DU FORMULAIRE D'INSCRIPTION
 
-
-                        // Second Element
                         Container(
                           padding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 0.0),
                           decoration: BoxDecoration(
@@ -103,6 +106,9 @@ class UserDetailState extends State<UserDetail> {
                           ),
                           child: Column(
                             children:<Widget> [
+
+                              //LE CHAMP " NOM "
+
                               Container(
                                 margin: EdgeInsets.only(left: 20.0,right: 20.0),
                                 child: TextFormField(
@@ -114,7 +120,6 @@ class UserDetailState extends State<UserDetail> {
                                   controller: nomController,
                                   keyboardType: TextInputType.name,
                                   onChanged: (value) {
-                                    debugPrint('Something changed in Nom Text Field');
                                     updateNom();
                                   },
                                 ),
@@ -122,6 +127,8 @@ class UserDetailState extends State<UserDetail> {
                             ],
                           ),
                         ),
+
+                        //LE CHAMP " PRENOM "
 
                         Container(
                           padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 0.0),
@@ -141,7 +148,6 @@ class UserDetailState extends State<UserDetail> {
                                   controller: prenomController,
                                   keyboardType: TextInputType.name,
                                   onChanged: (value) {
-                                    debugPrint('Something changed in Prenom Text Field');
                                     updatePrenom();
                                   },
                                 ),
@@ -150,7 +156,8 @@ class UserDetailState extends State<UserDetail> {
                           ),
                         ),
 
-                        // Third Element
+                        //LE CHAMP " ADRESSE MAIL "
+
                         Container(
                           padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 0.0),
                           decoration: BoxDecoration(
@@ -170,7 +177,6 @@ class UserDetailState extends State<UserDetail> {
                                   // style: textStyle,
                                   keyboardType: TextInputType.emailAddress,
                                   onChanged: (value) {
-                                    debugPrint('Something changed in Email Text Field');
                                     updateEmail();
                                   },
                                 ),
@@ -178,6 +184,9 @@ class UserDetailState extends State<UserDetail> {
                             ],
                           ),
                         ),
+
+                        //LE CHAMP " MDP " QUI NE DOIT PAS DEPASSER 15 CARACTERES
+
                         Container(
                           padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 0.0),
                           decoration: BoxDecoration(
@@ -193,12 +202,13 @@ class UserDetailState extends State<UserDetail> {
                                     labelText: 'Mot de passe',
                                     hintStyle: TextStyle(color: Colors.black),
                                   ),
+                                  validator: (value){
+                                    return value.length < 6 ? 'Le mot de passe doit etre compris entre 6 et 15 caractères' : null;
+                                  },
                                   maxLength: 15,
                                   controller: passwordController,
-                                  //    style: textStyle,
                                   keyboardType: TextInputType.visiblePassword,
                                   onChanged: (value) {
-                                    debugPrint('Something changed in Password Text Field');
                                     updatePassword();
                                   },
                                 ),
@@ -206,6 +216,9 @@ class UserDetailState extends State<UserDetail> {
                             ],
                           ),
                         ),
+
+                        //LE CHAMP " NUM DE TELEPHONE "
+
                         Container(
                           padding: EdgeInsets.fromLTRB(20.0, 5.0, 20.0, 0.0),
                           decoration: BoxDecoration(
@@ -222,10 +235,8 @@ class UserDetailState extends State<UserDetail> {
                                     hintStyle: TextStyle(color: Colors.black),
                                   ),
                                   controller: telController,
-                                  //   style: textStyle,
                                   keyboardType: TextInputType.phone,
                                   onChanged: (value) {
-                                    debugPrint('Something changed in Tel Text Field');
                                     updateTel();
                                   },
                                 ),
@@ -234,7 +245,8 @@ class UserDetailState extends State<UserDetail> {
                           ),
                         ),
 
-                        // Fourth Element
+                        //LE BOUTTON " S'INSCRIRE "
+
                         Container(
                           padding: EdgeInsets.fromLTRB(10.0, 55.0, 20.0, 10.0),
                           decoration: BoxDecoration(
@@ -255,7 +267,6 @@ class UserDetailState extends State<UserDetail> {
                                     ),
                                     onPressed: () {
                                       setState(() {
-                                        debugPrint("Vous etes bien inscrit");
                                         _save();
                                       });
                                       nomController.text='';
@@ -266,7 +277,7 @@ class UserDetailState extends State<UserDetail> {
                                       Navigator.of(context).push(
                                         MaterialPageRoute(
                                           builder: (context) =>
-                                              Accueil(),),
+                                              AccueilProf(),),
                                       );
                                     },
                                   ),
@@ -283,52 +294,52 @@ class UserDetailState extends State<UserDetail> {
         ));
   }
 
+  // FONCTION DE RETOUR A L INTERFACE PRECEDENTE
   void moveToLastScreen() {
     Navigator.pop(context, true);
   }
 
 
-
-
-  // Update the title of Note object
+  // FONCTION DE MISE A JOUR DU NOM
   void updateNom(){
     user.nom = nomController.text;
   }
 
+  // FONCTION DE MISE A JOUR DU PRENOM
   void updatePrenom(){
     user.prenom = prenomController.text;
   }
 
-  // Update the description of Note object
+  // FONCTION DE MISE A JOUR DE L'ADRESSE MAIL
   void updateEmail() {
     user.email = emailController.text;
   }
 
+  // FONCTION DE MISE A JOUR DU MDP
   void updatePassword() {
     user.password = passwordController.text;
   }
 
+  // FONCTION DE MISE A JOUR DU NUM DE TELEPHONE
   void updateTel() {
     user.tel = telController.text;
   }
 
-  // Save data to database
+  // // FONCTION D'ENREGISTREMENT DE L'ETUDIANT
   void _save() async {
 
-    //moveToLastScreen();
-
     int result;
-    if (user.id != null) {  // Case 1: Update operation
+    if (user.id != null) {  // Case 1: MAJ DE L'ETUDIANT
       result = await helper.updateUser(user);
-    } else { // Case 2: Insert Operation
+    } else { // Case 2: INSERTION DE L'ETUDIANT
       result = await helper.insertUser(user);
       signUpMail();
     }
 
-    if (result != 0) {  // Success
-      _showAlertDialog('Status', 'Note Saved Successfully');
-    } else {  // Failure
-      _showAlertDialog('Status', 'Problem Saving Note');
+    if (result != 0) {  // Succes
+      _showAlertDialog('Status', 'vous etes inscrit avec succès');
+    } else {  // ERREUR
+      _showAlertDialog('Status', 'Erreur d\'inscription');
     }
 
   }
@@ -337,22 +348,22 @@ class UserDetailState extends State<UserDetail> {
 
     moveToLastScreen();
 
-    // Case 1: If user is trying to delete the NEW NOTE i.e. he has come to
-    // the detail page by pressing the FAB of NoteList page.
+    // Case 2: ESSAI DE SUPPRESION DE L'EUDIANT RECEMMENT AJOUTE
     if (user.id == null) {
-      _showAlertDialog('Status', 'No Note was deleted');
+      _showAlertDialog('Status', 'Aucun étudiant supprimé');
       return;
     }
 
-    // Case 2: User is trying to delete the old note that already has a valid ID.
+    // Case 2: ESSAI DE SUPPRESION D'UN ETUDIANT EXISTANT
     int result = await helper.deleteUser(user.id);
     if (result != 0) {
-      _showAlertDialog('Status', 'Note Deleted Successfully');
+      _showAlertDialog('Status', 'Etudiant supprimé avec succès');
     } else {
-      _showAlertDialog('Status', 'Error Occured while Deleting Note');
+      _showAlertDialog('Status', 'Erreur de suppression de l\'étudiant');
     }
   }
 
+  //FONCTION QUI AFFICHE LES MESSAGES D'ERREUR
   void _showAlertDialog(String title, String message) {
 
     AlertDialog alertDialog = AlertDialog(
@@ -365,16 +376,18 @@ class UserDetailState extends State<UserDetail> {
     );
   }
 
+  //FONCTION QUI AJOUTE L'ETUDIANT INSCRIT DANS LA BASE DE DONNEES DE L'APPLIVATION
   Future<void> signUpMail() async {
 
     final formState = _formKey.currentState;
     if (formState.validate()) {
       formState.save();
-      try {
+      try { // AJOUT DE L 'ETUDIANT PAR SON ADRESSE MAIL ET MOT DE PASSE INSERES
         await FirebaseAuth.instance.createUserWithEmailAndPassword(
             email: user.email, password: user.password);
-        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>Accueil(),),);// FirebaseUser
-      } catch (e) {
+          Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (context) => Accueil(),),); // FirebaseUser
+        } catch (e) { // AU CAS D'ERREUR
         return showDialog(
             context: context,
             barrierDismissible: false,

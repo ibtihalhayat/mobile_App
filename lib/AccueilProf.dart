@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_app/accProf.dart';
 //import 'package:mobile_app/liste_utilisateurs.dart';
 import 'package:mobile_app/profil.dart';
 import 'package:mobile_app/acc.dart';
@@ -27,7 +28,7 @@ class _AccueilProfState extends State<AccueilProf> {
   List<Widget> _screens = [
     AccProf(),
     UserList(),
-    ModuleList(),
+    ModuleList()
   ];
 
 
@@ -47,14 +48,14 @@ class _AccueilProfState extends State<AccueilProf> {
           ),
           BottomNavigationBarItem(
               icon: Icon(Icons.list),
-              title: Text('Utilisateurs'),
+              title: Text('Etudiants'),
               backgroundColor : Colors.blueGrey
           ),
           BottomNavigationBarItem(
               icon: Icon(Icons.list),
               title: Text('Modules'),
               backgroundColor : Colors.blueGrey
-          ),
+          )
         ],
       ),
 

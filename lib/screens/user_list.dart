@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:mobile_app/AccueilProf.dart';
 import 'package:mobile_app/models/user.dart';
 import 'package:mobile_app/utils/database_helper.dart';
 import 'package:mobile_app/screens/user_detail.dart';
@@ -32,23 +33,13 @@ class UserListState extends State<UserList> {
     return Scaffold(
 
       appBar: new AppBar(
-        title: Text('Utilisateurs'),
-        backgroundColor: Color(0xFFd7e8ef).withOpacity(1),
-        elevation: 0.0,),
+        title: Text('Etudiants'),
+        backgroundColor: Colors.blueGrey,
+        elevation: 0.0,
+      ),
 
       body: getUserListView(),
 
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          debugPrint('FAB clicked');
-          navigateToDetail(User('', '', '','', ''), 'Add User');
-        },
-
-        tooltip: 'Add User',
-
-        child: Icon(Icons.add),
-
-      ),
     );
   }
 

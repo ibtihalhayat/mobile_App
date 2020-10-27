@@ -85,6 +85,9 @@ class _AuthState extends State<Auth> {
           SingleChildScrollView(
             child: new Container(
               color: Colors.transparent,
+
+              // FORMULAIRE D'AUTHENTIFICATION
+
               child : Form(
                 key: _formKey,
                 child: new Column(
@@ -108,6 +111,9 @@ class _AuthState extends State<Auth> {
                                     email = item;
                                   });
                                 },
+
+                                //VERIFICATION DU CHAMP D'ADRESSE MAIL
+
                                 validator: (item){
                                   return item.contains("@") ? null : "Entrez une adresse mail valide";
                                 },
@@ -154,10 +160,12 @@ class _AuthState extends State<Auth> {
                                     password = item;
                                   });
                                 },
+
+                                //VERIFICATION DU CHAMP DE MDP QUI DOIT ETRE   6 <= MDP <= 15
+
                                 validator: (item){
-                                  return item.length>5 ? null : "Le mot de passe doit contenir au moins 6 caractères";
+                                  return item.length>5 && item.length<=15 ? null : "Le mot de passe doit etre compris entre 6 et 15 caractères";
                                 },
-                                //onSubmitted: (String string){},
                                 decoration: new InputDecoration(
                                     hintText: "mot de passe",
                                     border: InputBorder.none,
@@ -175,6 +183,9 @@ class _AuthState extends State<Auth> {
                           ],
                         ),
                       ),
+
+                      //Le BOUTTON DE CONNEXION
+
                       new Container(
                           padding: EdgeInsets.fromLTRB(35.0, 60.0, 20.0, 10.0),
                           decoration: BoxDecoration(
@@ -188,13 +199,6 @@ class _AuthState extends State<Auth> {
                                 onPressed: () {
                                   signInMail(email,password) ;
                                 },
-                                /*onPressed: (){
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      Accueil(),),
-                              );
-                            },*/
                                 color: Colors.red,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(18.0),
@@ -209,12 +213,13 @@ class _AuthState extends State<Auth> {
                             ),
                           )
                       ),
+
+                      //INSCRIPTION DE L'ETUDIANT
+
                       new Container(
                           padding: EdgeInsets.fromLTRB(25.0, 155.0, 20.0, 0.0),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10.0),
-
-
                               color: Colors.transparent
                           ),
                           child: RichText(
@@ -226,19 +231,11 @@ class _AuthState extends State<Auth> {
                                         fontSize: 15
                                     ),),
                                   TextSpan(text: 'Inscrivez-vous.',
-                                      //  recognizer: TapGestureRecognizer()..onTap = handleSignIn,
                                       recognizer: TapGestureRecognizer()..onTap = () {
-                                        /*       Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      NoteList(),),
-                              );*/
-
                                         debugPrint('FAB clicked');
                                         navigateToDetail(User('', '', '','', ''), 'Add Note');
                                       }
                                       ,
-
                                       style: TextStyle(
                                           color: Colors.red,
                                           fontSize: 18,
@@ -246,59 +243,14 @@ class _AuthState extends State<Auth> {
                                           fontWeight: FontWeight.bold
                                       )
                                   ),
-                                  TextSpan(text: 'Ajouter module.',
-                                      //  recognizer: TapGestureRecognizer()..onTap = handleSignIn,
-                                      recognizer: TapGestureRecognizer()..onTap = () {
-                                        debugPrint('FAB clicked');
-                                        navigateToDetailm(Module('', ''), 'Add Module');
-                                        }
-                                      ,
-
-                                      style: TextStyle(
-                                          color: Colors.red,
-                                          fontSize: 15,
-                                          fontStyle: FontStyle.italic,
-                                          fontWeight: FontWeight.bold
-                                      )
-                                  )
                                 ]
                             ),
-
-
                           )
-                        /*    text: TextSpan(
-                            text: "Vous n'avez pas de compte ?",
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 16
-                            ),
-                            children:<TextSpan> [
-                              TextSpan(
-                                  text: 'Inscrivez-vous.',
-                                  recognizer: new TapGestureRecognizer()..onTap = () {
-                                    print('TTTTTTTTTTTT');
-                                  /*  Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            Inscription(),),
-                                    );*/
-                                  },
-                                  style: TextStyle(
-                                      color: Colors.red,
-                                      fontSize: 17,
-                                      fontWeight: FontWeight.bold
-                                  )
-                              )
-                            ]
-                        ),
-                      )*/
                       )
                     ]
                 ),
               ),
             ),
-
-
           )
         ],
       ),
@@ -306,61 +258,53 @@ class _AuthState extends State<Auth> {
     );
   }
 
-
+// FONCTION QUI FAIT APPEL A LA FONCTION D'AJOUT D'UN ETUDIANT DANS LE DATABASE_HELPER
   void navigateToDetail(User user, String title) async {
     bool result = await Navigator.push(context, MaterialPageRoute(builder: (context) {
       return UserDetail(user, title);
     }));
 
   }
-  void navigateToDetailm(Module module, String title) async {
-    bool result = await Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return ModuleDetail(module, title);
-    }));
 
-  }
-
-
-
-
+//FONCTION D'INSCRIPTION PAR ADRESSE MAIL
   Future<bool> signInMail(String email, String password)async {
     final formState = _formKey.currentState;
     if(formState.validate()) {
       formState.save();
-      try{
-        AuthResult result = await auth.signInWithEmailAndPassword(email: email, password: password); // FirebaseUser
+      try {
+        AuthResult result = await auth.signInWithEmailAndPassword(
+            email: email, password: password); // FirebaseUser
         FirebaseUser user = result.user;
         name = user.displayName;
-        //email = user.email;
         print('connecté en temps queeeeee ${name} et email ${email}');
-        if(email =='ibtihal@gmail.com') {
+        if (email == 'ibtihal@gmail.com') {
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(builder: (context) => AccueilProf(),),);
-        }else{
+        } else {
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(builder: (context) => Accueil(),),);
         }
         // return Future.value(true);
-      }catch(e){print(e.message);}
-      /* return showDialog(
-          context: context,
-          barrierDismissible: false,
-          builder: (BuildContext context) {
-            return new SimpleDialog(
-              title: Text('Erreur'),
-              children:<Widget> [
-                new Text(e.message!=null?e.message:''),
-                new FlatButton(
-                    onPressed: (){
-                      Navigator.pop(context);
-                    },
-                    child: Text('Ok')
-                )
-              ],
-            );
-          }
+      } catch (e) {
+        return showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (BuildContext context) {
+              return new SimpleDialog(
+                title: Text('Erreur'),
+                children: <Widget>[
+                  new Text(e.message != null ? e.message : ''),
+                  new FlatButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text('Ok')
+                  )
+                ],
+              );
+            }
         );
-      }*/
+      }
     }
 
   }
@@ -373,6 +317,7 @@ class _AuthState extends State<Auth> {
     super.dispose();
   }
 
+//FONCTION DE VERIFICATION DE L'UTILISATEUR ACTUEL
   void checkCurrentUser() async{
     _currentUser = await _auth.currentUser();
     _currentUser?.getIdToken(refresh: true);

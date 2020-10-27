@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:mobile_app/AccueilProf.dart';
 import 'package:mobile_app/models/module.dart';
 import 'package:mobile_app/utils/database_helper.dart';
 import 'package:mobile_app/screens/module_detail.dart';
@@ -32,21 +33,11 @@ class ModuleListState extends State<ModuleList> {
     return Scaffold(
       appBar: new AppBar(
         title: Text('Modules'),
-        backgroundColor: Color(0xFFd7e8ef).withOpacity(1),
-        elevation: 0.0,),
+        backgroundColor: Colors.blueGrey,
+        elevation: 0.0,
+      ),
       body: getModuleListView(),
 
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          debugPrint('FAB clicked');
-          navigateToDetailm(Module('', ''), 'Add Module');
-        },
-
-        tooltip: 'Add Module',
-
-        child: Icon(Icons.add),
-
-      ),
     );
   }
 

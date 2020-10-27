@@ -1,21 +1,18 @@
-
-
-
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_app/auth_choix.dart';
-import 'auth.dart';
 
 
 
 class MainScreen extends StatelessWidget {
 
-  String email , password ;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
+      // LE CONTENU DE LA PAGE D'ACCUEIL DE L'APPLICATION
+
         body:new Stack(
           children:<Widget> [
             new Container(
@@ -36,7 +33,7 @@ class MainScreen extends StatelessWidget {
                   Container(
                     padding: EdgeInsets.all(5.0),
                     child:Text(
-                      '     Cette application met à votre disposition l’ensemble des cours magistraux, ainsi que des Travaux dirigés et des Travaux Pratiques consacrés aux étudiants du 2ème année du cycle d’ingénierie en informatique.',
+                      '     Cette application met à votre disposition l’ensemble des cours magistraux, ainsi que des Travaux dirigés et des Travaux Pratiques consacrés aux étudiants du 2ème année du cycle d’ingénierie en informatique.\n',
                       style: new TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold
@@ -64,18 +61,6 @@ class MainScreen extends StatelessWidget {
                       height:45,
                       child: RaisedButton(
                           onPressed: (){
-      /*                      return FutureBuilder<FirebaseUser>(
-                              future: FirebaseAuth.instance.currentUser(),
-                              builder: (context, snapshot){
-                                if(snapshot.hasData){
-                                  FirebaseUser user = snapshot.data;
-                                  return Accueil();
-                                }else{
-
-                                  return Auth();
-                                }
-                              },
-                            );*/
                            Navigator.of(context).pushReplacement(
                               MaterialPageRoute(
                                   builder: (context) => AuthChoix(),

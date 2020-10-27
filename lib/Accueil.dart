@@ -26,8 +26,6 @@ class _AccueilState extends State<Accueil> {
   PageController _pageController = PageController();
   List<Widget> _screens = [
     Acc(),
-    UserList(),
-    ModuleList(),
     Profil()
   ];
 
@@ -44,16 +42,6 @@ class _AccueilState extends State<Accueil> {
           BottomNavigationBarItem(
               icon: Icon(Icons.home),
               title: Text('Accueil'),
-              backgroundColor : Colors.blueGrey
-          ),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.list),
-              title: Text('Utilisateurs'),
-              backgroundColor : Colors.blueGrey
-          ),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.list),
-              title: Text('Modules'),
               backgroundColor : Colors.blueGrey
           ),
           BottomNavigationBarItem(
